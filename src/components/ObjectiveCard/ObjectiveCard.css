@@ -1,0 +1,71 @@
+.objective-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  display: grid;
+  gap: 0.65rem;
+  box-shadow: var(--color-shadow-soft);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.objective-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--color-shadow);
+}
+
+.objective-card h3,
+.objective-card p {
+  margin: 0;
+}
+
+.objective-card h3 {
+  letter-spacing: -0.01em;
+}
+
+.status {
+  margin: 0;
+  width: fit-content;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  background: #f3f6f9;
+}
+
+.status-todo {
+  color: var(--color-warning);
+  background: rgba(242, 153, 74, 0.12);
+}
+
+.status-in_progress {
+  color: var(--color-primary);
+  background: rgba(47, 128, 237, 0.12);
+}
+
+.status-done {
+  color: var(--color-success);
+  background: rgba(39, 174, 96, 0.12);
+}
+
+.objective-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--color-muted-text);
+  font-size: 0.87rem;
+}
+
+.objective-link {
+  width: fit-content;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.objective-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}

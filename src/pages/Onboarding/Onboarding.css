@@ -1,0 +1,103 @@
+.onboarding {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.pill {
+  margin: 0;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  background: var(--color-ai-soft);
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.onboarding h1,
+.subtitle {
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--color-muted-text);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), #5da9a0);
+}
+
+.question-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.85rem;
+  box-shadow: var(--color-shadow);
+}
+
+.step-count {
+  margin: 0;
+  color: var(--color-muted-text);
+  font-size: 0.9rem;
+}
+
+.question-card label {
+  font-weight: 600;
+}
+
+.question-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font: inherit;
+  resize: vertical;
+  min-height: 130px;
+}
+
+.question-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+
+.question-actions button {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.58rem 0.9rem;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.question-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.question-actions button:last-child {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.question-actions button:last-child:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.question-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

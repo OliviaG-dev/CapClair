@@ -1,0 +1,15 @@
+.objectifs {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.objectifs h1,
+.objectifs p {
+  margin: 0;
+}
+
+.objective-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.9rem;
+}

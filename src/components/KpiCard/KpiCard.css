@@ -1,0 +1,24 @@
+.kpi-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.05rem;
+  display: grid;
+  gap: 0.4rem;
+  box-shadow: var(--color-shadow-soft);
+  transition: transform 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+}
+
+.kpi-card p {
+  margin: 0;
+  color: var(--color-muted-text);
+}
+
+.kpi-card strong {
+  font-size: 1.55rem;
+  letter-spacing: -0.02em;
+}
