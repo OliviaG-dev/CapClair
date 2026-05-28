@@ -1,0 +1,8 @@
+[
+  { "to": "/onboarding", "label": "Onboarding" },
+  { "to": "/synthese", "label": "Synthese" },
+  { "to": "/dashboard", "label": "Dashboard" },
+  { "to": "/objectifs", "label": "Objectifs" },
+  { "to": "/journal", "label": "Journal" },
+  { "to": "/stats", "label": "Stats" }
+]

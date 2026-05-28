@@ -1,0 +1,31 @@
+{
+  "synthesis": {
+    "extraTheme": "Besoin de clarté progressive",
+    "goalPrefixes": [
+      "Clarifier",
+      "Agir sur",
+      "Renforcer"
+    ],
+    "goalFallbacks": [
+      "ma priorite",
+      "mon obstacle principal",
+      "ma source d energie"
+    ],
+    "firstAction": "Bloquer 15 minutes aujourd hui pour definir une seule action simple"
+  },
+  "objectives": {
+    "descriptionPrefix": "Objectif prioritaire pour avancer sans surcharge mentale:",
+    "motivationPrefix": "Je veux avancer vers:",
+    "nextSteps": [
+      "Definir la version la plus simple de cet objectif",
+      "Planifier la prochaine action de moins de 20 minutes",
+      "Faire un point rapide en fin de semaine"
+    ]
+  },
+  "weeklyInsights": {
+    "empty": "Commence par une action tres simple pour transformer ton flou en elan concret.",
+    "doneSuffix": "objectif(s). Continue avec des actions petites et concretes.",
+    "multiInProgress": "Tu avances sur plusieurs fronts. Cette semaine, concentre-toi sur un seul objectif prioritaire.",
+    "default": "Ton principal levier est la regularite. Garde une action quotidienne courte et realiste."
+  }
+}

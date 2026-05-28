@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import objectifDetailData from '../../data/objectifDetailData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
 import type { ObjectiveStatus } from '../../types/capclair.types'
 import './ObjectifDetail.css'
@@ -65,27 +66,26 @@ function ObjectifDetail() {
       <article className="quick-actions">
         <h2>Aide IA rapide</h2>
         <div>
-          <button type="button">Clarifier cet objectif</button>
-          <button type="button">Decouper en etapes</button>
-          <button type="button">Trouver mon obstacle principal</button>
-          <button type="button">Me remotiver</button>
-          <button type="button">Proposer une action simple</button>
-          <button type="button">Voir autrement</button>
+          {objectifDetailData.quickActions.map((action) => (
+            <button key={action} type="button">
+              {action}
+            </button>
+          ))}
         </div>
       </article>
 
       <article className="progress-card">
         <h2>Historique des progres</h2>
         <div className="status-buttons">
-          <button type="button" onClick={() => handleStatusChange('todo')}>
-            Todo
-          </button>
-          <button type="button" onClick={() => handleStatusChange('in_progress')}>
-            In progress
-          </button>
-          <button type="button" onClick={() => handleStatusChange('done')}>
-            Done
-          </button>
+          {objectifDetailData.statusButtons.map((statusButton) => (
+            <button
+              key={statusButton.status}
+              type="button"
+              onClick={() => handleStatusChange(statusButton.status as ObjectiveStatus)}
+            >
+              {statusButton.label}
+            </button>
+          ))}
         </div>
 
         <textarea

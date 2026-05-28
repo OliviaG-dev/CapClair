@@ -1,0 +1,42 @@
+{
+  "questions": [
+    {
+      "key": "changeWish",
+      "label": "Qu’est-ce que tu aimerais changer en ce moment ?"
+    },
+    {
+      "key": "heaviestWeight",
+      "label": "Qu’est-ce qui te pèse le plus ?"
+    },
+    {
+      "key": "improvementFocus",
+      "label": "Qu’est-ce que tu veux améliorer dans ta vie ?"
+    },
+    {
+      "key": "blockingFactor",
+      "label": "Qu’est-ce qui t’empêche d’avancer ?"
+    },
+    {
+      "key": "energySource",
+      "label": "Qu’est-ce qui te donne encore un peu d’énergie ?"
+    },
+    {
+      "key": "progressVision",
+      "label": "Dans 3 mois, qu’est-ce qui te ferait dire “j’ai avancé” ?"
+    }
+  ],
+  "categories": [
+    {
+      "key": "sante",
+      "label": "Santé"
+    },
+    {
+      "key": "travail",
+      "label": "Travail"
+    },
+    {
+      "key": "amour",
+      "label": "Amour"
+    }
+  ]
+}

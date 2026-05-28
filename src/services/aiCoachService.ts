@@ -1,4 +1,5 @@
 import type { AppState, Objective, QuestionnaireAnswers, Synthesis } from '../types/capclair.types'
+import aiCoachData from '../data/aiCoachData.json'
 
 const nextQuarterDeadline = () => {
   const date = new Date()
@@ -16,14 +17,14 @@ export function generateSynthesis(answers: QuestionnaireAnswers): Synthesis {
     importantThemes: [
       answers.improvementFocus,
       answers.energySource,
-      'Besoin de clarté progressive',
+      aiCoachData.synthesis.extraTheme,
     ],
     suggestedGoals: [
-      `Clarifier ${buildGoalTitle(answers.changeWish, 'ma priorite')}`,
-      `Agir sur ${buildGoalTitle(answers.blockingFactor, 'mon obstacle principal')}`,
-      `Renforcer ${buildGoalTitle(answers.energySource, 'ma source d energie')}`,
+      `${aiCoachData.synthesis.goalPrefixes[0]} ${buildGoalTitle(answers.changeWish, aiCoachData.synthesis.goalFallbacks[0])}`,
+      `${aiCoachData.synthesis.goalPrefixes[1]} ${buildGoalTitle(answers.blockingFactor, aiCoachData.synthesis.goalFallbacks[1])}`,
+      `${aiCoachData.synthesis.goalPrefixes[2]} ${buildGoalTitle(answers.energySource, aiCoachData.synthesis.goalFallbacks[2])}`,
     ],
-    firstAction: 'Bloquer 15 minutes aujourd hui pour definir une seule action simple',
+    firstAction: aiCoachData.synthesis.firstAction,
   }
 }
 
@@ -31,15 +32,11 @@ export function generateObjectives(synthesis: Synthesis): Objective[] {
   return synthesis.suggestedGoals.slice(0, 3).map((goal, index) => ({
     id: `obj-${index + 1}-${Date.now()}`,
     title: goal,
-    description: `Objectif prioritaire pour avancer sans surcharge mentale: ${goal}`,
+    description: `${aiCoachData.objectives.descriptionPrefix} ${goal}`,
     deepReason: synthesis.wantsToChange,
     obstacles: [synthesis.blockers],
-    motivation: `Je veux avancer vers: ${synthesis.importantThemes[0]}`,
-    nextSteps: [
-      'Definir la version la plus simple de cet objectif',
-      'Planifier la prochaine action de moins de 20 minutes',
-      'Faire un point rapide en fin de semaine',
-    ],
+    motivation: `${aiCoachData.objectives.motivationPrefix} ${synthesis.importantThemes[0]}`,
+    nextSteps: [...aiCoachData.objectives.nextSteps],
     status: index === 0 ? 'in_progress' : 'todo',
     difficulty: index === 0 ? 'medium' : 'easy',
     deadline: nextQuarterDeadline(),
@@ -54,16 +51,16 @@ export function buildWeeklyInsight(state: AppState): string {
   ).length
 
   if (state.objectives.length === 0) {
-    return 'Commence par une action tres simple pour transformer ton flou en elan concret.'
+    return aiCoachData.weeklyInsights.empty
   }
 
   if (doneCount > 0) {
-    return `Tu as deja valide ${doneCount} objectif(s). Continue avec des actions petites et concretes.`
+    return `Tu as deja valide ${doneCount} ${aiCoachData.weeklyInsights.doneSuffix}`
   }
 
   if (inProgress > 1) {
-    return 'Tu avances sur plusieurs fronts. Cette semaine, concentre-toi sur un seul objectif prioritaire.'
+    return aiCoachData.weeklyInsights.multiInProgress
   }
 
-  return 'Ton principal levier est la regularite. Garde une action quotidienne courte et realiste.'
+  return aiCoachData.weeklyInsights.default
 }

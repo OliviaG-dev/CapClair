@@ -1,0 +1,15 @@
+{
+  "quickActions": [
+    "Clarifier cet objectif",
+    "Decouper en etapes",
+    "Trouver mon obstacle principal",
+    "Me remotiver",
+    "Proposer une action simple",
+    "Voir autrement"
+  ],
+  "statusButtons": [
+    { "label": "Todo", "status": "todo" },
+    { "label": "In progress", "status": "in_progress" },
+    { "label": "Done", "status": "done" }
+  ]
+}

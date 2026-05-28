@@ -1,0 +1,206 @@
+{
+  "changeWish": {
+    "sante": [
+      "Je veux arrêter une dépendance.",
+      "Je veux retrouver un sommeil régulier.",
+      "Je veux reprendre une activité physique douce.",
+      "Je veux apaiser mon anxiété au quotidien.",
+      "Je veux mieux gérer mes crises de stress.",
+      "Je veux retrouver une alimentation plus équilibrée.",
+      "Je veux arrêter de négliger ma santé.",
+      "Je veux me sentir mieux dans mon corps.",
+      "Je veux perdre du poids de façon durable.",
+      "Je veux retrouver un poids qui me convient."
+    ],
+    "travail": [
+      "Je veux trouver un travail qui me correspond.",
+      "Je veux changer de poste rapidement.",
+      "Je veux retrouver de la motivation au travail.",
+      "Je veux lancer un projet pro plus aligné.",
+      "Je veux oser postuler à des postes plus ambitieux.",
+      "Je veux améliorer mon organisation professionnelle.",
+      "Je veux mieux équilibrer travail et vie perso.",
+      "Je veux retrouver du sens dans ce que je fais."
+    ],
+    "amour": [
+      "Je veux construire une relation saine.",
+      "Je veux réparer une relation importante.",
+      "Je veux guérir d’une rupture.",
+      "Je veux mieux communiquer avec mon/ma partenaire.",
+      "Je veux arrêter les relations toxiques.",
+      "Je veux retrouver confiance en amour.",
+      "Je veux apprendre à poser mes limites affectives.",
+      "Je veux me sentir aimé(e) sans m’oublier."
+    ]
+  },
+  "heaviestWeight": {
+    "sante": [
+      "Je me sens épuisé(e) mentalement.",
+      "Je me sens stressé(e) presque tous les jours.",
+      "Je suis envahi(e) par des pensées négatives.",
+      "Mon hygiène de vie est instable.",
+      "Je me sens souvent dépassé(e) émotionnellement.",
+      "Je n’arrive pas à me reposer vraiment.",
+      "Je culpabilise quand je n’avance pas.",
+      "Je me sens perdu(e) dans mon quotidien.",
+      "Je me sens mal dans mon corps.",
+      "Je prends du poids et ça me pèse."
+    ],
+    "travail": [
+      "Je subis une pression constante.",
+      "Je me sens bloqué(e) dans ma carrière.",
+      "Je n’ai plus d’énergie pour mon travail.",
+      "Je vis une grande peur de l’échec.",
+      "Je me sens sous-estimé(e) dans mon poste.",
+      "Je n’arrive pas à prioriser les bonnes tâches.",
+      "Je me compare trop à mes collègues.",
+      "Je me sens coincé(e) sans vraie perspective."
+    ],
+    "amour": [
+      "Je me sens seul(e) dans ma relation.",
+      "J’ai peur d’être rejeté(e).",
+      "La relation est devenue source de stress.",
+      "Je n’arrive pas à faire confiance.",
+      "Je me sens incompris(e) par mon/ma partenaire.",
+      "Je vis des conflits répétés sans solution.",
+      "Je donne beaucoup mais je me sens vide.",
+      "Je crains de revivre les mêmes blessures."
+    ]
+  },
+  "improvementFocus": {
+    "sante": [
+      "Je veux améliorer ma santé mentale.",
+      "Je veux créer une routine de soin réaliste.",
+      "Je veux réduire mon niveau de stress.",
+      "Je veux être plus stable émotionnellement.",
+      "Je veux retrouver une meilleure qualité de sommeil.",
+      "Je veux réduire mon anxiété sociale.",
+      "Je veux prendre soin de moi avec régularité.",
+      "Je veux avoir plus d’énergie la journée.",
+      "Je veux perdre du poids progressivement.",
+      "Je veux améliorer mon alimentation sans frustration."
+    ],
+    "travail": [
+      "Je veux clarifier mon projet professionnel.",
+      "Je veux mieux organiser mes priorités.",
+      "Je veux améliorer mes compétences clés.",
+      "Je veux retrouver un rythme de travail sain.",
+      "Je veux développer ma confiance professionnelle.",
+      "Je veux améliorer ma communication au travail.",
+      "Je veux préparer une reconversion réaliste.",
+      "Je veux devenir plus régulier(ère) dans mes actions."
+    ],
+    "amour": [
+      "Je veux aimer et être aimé(e) sainement.",
+      "Je veux poser des limites claires.",
+      "Je veux améliorer ma communication affective.",
+      "Je veux construire une relation plus équilibrée.",
+      "Je veux mieux comprendre mes besoins affectifs.",
+      "Je veux sortir de la dépendance affective.",
+      "Je veux guérir mes blessures relationnelles.",
+      "Je veux développer une relation plus sécurisante."
+    ]
+  },
+  "blockingFactor": {
+    "sante": [
+      "Je manque d’énergie pour agir.",
+      "Je retombe vite dans mes anciennes habitudes.",
+      "Je me décourage après un écart.",
+      "Je n’ai pas de cadre clair.",
+      "Je veux trop en faire d’un coup.",
+      "Je m’isole quand ça ne va pas.",
+      "Je manque de discipline douce mais constante.",
+      "Je remets toujours au lendemain.",
+      "Je grignote quand je suis stressé(e).",
+      "Je n’arrive pas à tenir mes objectifs de perte de poids."
+    ],
+    "travail": [
+      "Je procrastine quand la tâche est floue.",
+      "Je manque de méthode concrète.",
+      "Je doute de mes capacités.",
+      "Je me disperse sur trop de choses.",
+      "Je n’ai pas de plan d’action structuré.",
+      "Je commence beaucoup mais je termine peu.",
+      "Je bloque face aux tâches importantes.",
+      "Je n’arrive pas à tenir mes engagements pro."
+    ],
+    "amour": [
+      "Je garde tout pour moi.",
+      "J’ai peur de dire ce que je ressens.",
+      "Je répète les mêmes schémas relationnels.",
+      "Je manque de clarté sur mes besoins.",
+      "Je n’ose pas poser mes limites.",
+      "Je fuis les conversations difficiles.",
+      "Je confonds attachement et dépendance.",
+      "Je laisse mes peurs décider pour moi."
+    ]
+  },
+  "energySource": {
+    "sante": [
+      "Marcher me fait du bien.",
+      "Respirer et me poser 10 minutes m’aide.",
+      "Dormir correctement me redonne de la force.",
+      "Manger plus sain me motive.",
+      "Prendre l’air me recentre rapidement.",
+      "Faire une petite routine matinale me lance bien.",
+      "Écrire ce que je ressens m’apaise.",
+      "Réduire les écrans le soir m’aide à récupérer.",
+      "Préparer mes repas à l’avance me motive.",
+      "Suivre mes progrès de poids me donne de l’élan."
+    ],
+    "travail": [
+      "Avancer sur une petite tâche concrète me motive.",
+      "Voir des progrès mesurables me booste.",
+      "Apprendre quelque chose de nouveau m’énergise.",
+      "Échanger avec des personnes inspirantes me relance.",
+      "Préparer ma journée la veille me rassure.",
+      "Célébrer mes petites victoires me fait avancer.",
+      "Travailler par blocs courts me donne de l’élan.",
+      "Avoir un objectif clair pour la semaine me stimule."
+    ],
+    "amour": [
+      "Les moments de qualité me ressourcent.",
+      "Me sentir écouté(e) me redonne confiance.",
+      "Donner et recevoir de l’affection me porte.",
+      "Partager des projets à deux me motive.",
+      "Les discussions sincères me font du bien.",
+      "Passer du temps avec des proches bienveillants me renforce.",
+      "Exprimer mes émotions me soulage.",
+      "Recevoir du soutien me redonne de l’espoir."
+    ]
+  },
+  "progressVision": {
+    "sante": [
+      "Avoir une routine santé stable.",
+      "Me sentir plus calme et plus léger(ère).",
+      "Avoir diminué un comportement nocif.",
+      "Retrouver une énergie régulière.",
+      "Avoir retrouvé un meilleur sommeil.",
+      "Me sentir plus aligné(e) avec moi-même.",
+      "Avoir réduit mes pics de stress.",
+      "Me sentir fier(ère) de mes efforts.",
+      "Avoir perdu du poids de manière saine.",
+      "Me sentir mieux dans mon corps et dans mes vêtements."
+    ],
+    "travail": [
+      "Avoir un plan de carrière clair.",
+      "Avoir avancé sur ma recherche d’emploi.",
+      "Avoir atteint un objectif pro concret.",
+      "Me sentir plus confiant(e) dans mon travail.",
+      "Avoir mis en place une routine de travail efficace.",
+      "Avoir terminé un projet important.",
+      "Avoir obtenu des retours positifs sur mon évolution.",
+      "Avoir plus de sérénité dans mes journées pro."
+    ],
+    "amour": [
+      "Avoir une relation plus sereine.",
+      "Mieux exprimer mes besoins et limites.",
+      "Me sentir respecté(e) et aligné(e).",
+      "Avoir tourné une page importante.",
+      "Avoir une communication plus apaisée.",
+      "Me sentir en sécurité émotionnelle.",
+      "Avoir construit un lien plus authentique.",
+      "Avoir fait la paix avec une ancienne relation."
+    ]
+  }
+}
