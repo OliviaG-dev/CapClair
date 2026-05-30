@@ -1,9 +1,18 @@
 import { createContext } from 'react'
-import type { AppState, JournalEntry, Objective, QuestionnaireAnswers } from '../types/capclair.types'
+import type {
+  AppState,
+  JournalEntry,
+  Objective,
+  OnboardingGeneration,
+  QuestionnaireAnswers,
+} from '../types/capclair.types'
 
 export type CapClairContextValue = {
   state: AppState
-  completeOnboarding: (answers: QuestionnaireAnswers) => void
+  completeOnboarding: (
+    answers: QuestionnaireAnswers,
+    generationOverride?: OnboardingGeneration,
+  ) => void
   updateObjective: (objective: Objective) => void
   addProgressNote: (objectiveId: string, note: string, delta: number) => void
   addJournalEntry: (entry: Omit<JournalEntry, 'id' | 'createdAt'>) => void

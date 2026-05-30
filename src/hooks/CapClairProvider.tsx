@@ -14,8 +14,8 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CapClairContextValue>(
     () => ({
       state,
-      completeOnboarding: (answers) => {
-        const synthesis = generateSynthesis(answers)
+      completeOnboarding: (answers, generationOverride) => {
+        const synthesis = generationOverride?.synthesis ?? generateSynthesis(answers)
         setState({
           answers,
           synthesis,
