@@ -1,0 +1,56 @@
+import type { OnboardingGeneration, QuestionnaireAnswers, Synthesis } from '../types/capclair.types'
+
+type ApiSynthesisResponse = {
+  synthesis?: Partial<Synthesis>
+}
+
+const isNonEmptyString = (value: unknown): value is string =>
+  typeof value === 'string' && value.trim().length > 0
+
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((entry) => typeof entry === 'string' && entry.trim().length > 0)
+
+const isValidSynthesis = (value: unknown): value is Synthesis => {
+  if (!value || typeof value !== 'object') {
+    return false
+  }
+
+  const candidate = value as Synthesis
+  return (
+    isNonEmptyString(candidate.wantsToChange) &&
+    isNonEmptyString(candidate.blockers) &&
+    isStringArray(candidate.importantThemes) &&
+    isStringArray(candidate.suggestedGoals) &&
+    isNonEmptyString(candidate.firstAction)
+  )
+}
+
+export async function generateOnboardingFromApi(
+  answers: QuestionnaireAnswers,
+): Promise<OnboardingGeneration | null> {
+  try {
+    const response = await fetch('/api/synthesize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ answers }),
+    })
+
+    if (!response.ok) {
+      return null
+    }
+
+    const payload = (await response.json()) as ApiSynthesisResponse
+    if (!isValidSynthesis(payload.synthesis)) {
+      return null
+    }
+
+    return {
+      synthesis: payload.synthesis,
+    }
+  } catch (error) {
+    console.error('Unable to generate onboarding synthesis from API', error)
+    return null
+  }
+}

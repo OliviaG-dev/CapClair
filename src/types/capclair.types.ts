@@ -40,6 +40,10 @@ export type Synthesis = {
   firstAction: string
 }
 
+export type OnboardingGeneration = {
+  synthesis: Synthesis
+}
+
 export type JournalEntry = {
   id: string
   createdAt: string

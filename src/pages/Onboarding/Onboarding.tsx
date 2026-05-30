@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import onboardingConfig from '../../data/onboardingConfig.json'
 import suggestionsData from '../../data/onboardingSuggestions.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
+import { generateOnboardingFromApi } from '../../services/aiApiService'
 import type { QuestionnaireAnswers } from '../../types/capclair.types'
 import './Onboarding.css'
 
@@ -34,6 +35,7 @@ function Onboarding() {
   const { completeOnboarding } = useCapClairState()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<QuestionnaireAnswers>(emptyAnswers)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<
     Record<keyof QuestionnaireAnswers, SuggestionCategory>
   >({
@@ -72,13 +74,19 @@ function Onboarding() {
     }))
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    if (isSubmitting) {
+      return
+    }
+
     if (!canContinue) {
       return
     }
 
     if (isLastStep) {
-      completeOnboarding(answers)
+      setIsSubmitting(true)
+      const generation = await generateOnboardingFromApi(answers)
+      completeOnboarding(answers, generation ?? undefined)
       navigate('/synthese')
       return
     }
@@ -156,12 +164,12 @@ function Onboarding() {
           <button
             type="button"
             onClick={() => setStep((value) => Math.max(0, value - 1))}
-            disabled={step === 0}
+            disabled={step === 0 || isSubmitting}
           >
             Précédent
           </button>
-          <button type="button" onClick={handleNext} disabled={!canContinue}>
-            {isLastStep ? 'Générer ma synthèse' : 'Suivant'}
+          <button type="button" onClick={handleNext} disabled={!canContinue || isSubmitting}>
+            {isLastStep ? (isSubmitting ? 'Génération...' : 'Générer ma synthèse') : 'Suivant'}
           </button>
         </div>
       </article>
