@@ -15,7 +15,13 @@ function Journal() {
 
   return (
     <section className="journal">
-      <h1>Journal de progression</h1>
+      <header className="page-hero">
+        <p className="chip chip-accent">Ancrage quotidien</p>
+        <h1>Journal de progression</h1>
+        <p className="page-subtitle">
+          Note ton état, observe ton énergie et renforce les micro-victoires qui t’aident à avancer.
+        </p>
+      </header>
 
       <article className="journal-form">
         <label htmlFor="journal-note">Note du jour</label>

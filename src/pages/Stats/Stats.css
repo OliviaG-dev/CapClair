@@ -1,25 +1,26 @@
 .stats {
   display: grid;
-  gap: 1.1rem;
-}
-
-.stats h1 {
-  margin: 0;
+  gap: 1.2rem;
 }
 
 .bars,
 .mood-energy {
-  background: var(--color-surface);
+  background: linear-gradient(160deg, #ffffff 0%, #f8fbfc 100%);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 1.05rem;
+  border-radius: var(--radius-xl);
+  padding: 1.12rem;
   box-shadow: var(--color-shadow-soft);
+}
+
+.bars {
+  display: grid;
+  gap: 0.85rem;
 }
 
 .bar-row {
   display: grid;
-  grid-template-columns: 90px 1fr auto;
-  gap: 0.6rem;
+  grid-template-columns: 110px 1fr auto;
+  gap: 0.7rem;
   align-items: center;
 }
 
@@ -44,4 +45,15 @@
 
 .bar-todo {
   background: linear-gradient(90deg, #f7bf84, var(--color-warning));
+}
+
+.mood-energy {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.mood-energy p {
+  margin: 0;
+  color: var(--color-title);
+  font-weight: 600;
 }

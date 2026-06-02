@@ -27,7 +27,13 @@ function Dashboard() {
 
   return (
     <section className="dashboard">
-      <h1>Dashboard</h1>
+      <header className="page-hero">
+        <p className="chip chip-accent">Vue globale</p>
+        <h1>Dashboard</h1>
+        <p className="page-subtitle">
+          Regarde ce qui avance vraiment, puis choisis la prochaine action la plus simple.
+        </p>
+      </header>
       <div className="kpi-grid">
         <KpiCard label="Objectifs en cours" value={`${inProgressCount}`} />
         <KpiCard label="Objectifs termines" value={`${doneCount}`} />

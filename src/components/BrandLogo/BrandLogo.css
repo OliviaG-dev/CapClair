@@ -1,24 +1,29 @@
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 0.72rem;
+  gap: 0.78rem;
 }
 
 .brand-logo-icon {
   width: 44px;
   height: 44px;
   flex-shrink: 0;
-  filter: drop-shadow(0 6px 14px rgba(20, 45, 58, 0.18));
+  filter: drop-shadow(0 8px 18px rgba(20, 45, 58, 0.18));
+  transition: transform 0.22s ease;
+}
+
+.brand-logo:hover .brand-logo-icon {
+  transform: rotate(-3deg) scale(1.02);
 }
 
 .brand-logo-copy {
   display: grid;
-  gap: 0.1rem;
+  gap: 0.08rem;
 }
 
 .brand-logo-title {
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   line-height: 1.05;
   letter-spacing: -0.025em;
   font-weight: 800;
@@ -31,7 +36,7 @@
 .brand-logo-baseline {
   margin: 0;
   color: var(--color-muted-text);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   letter-spacing: 0.01em;
 }
 
