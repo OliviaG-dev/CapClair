@@ -60,6 +60,8 @@ function Onboarding() {
       .map((line) => line.trim())
       .filter(Boolean)
 
+  const selectedSuggestionsCount = getCurrentLines().length
+
   const isSuggestionSelected = (suggestion: string) => getCurrentLines().includes(suggestion)
 
   const toggleSuggestion = (suggestion: string) => {
@@ -98,7 +100,9 @@ function Onboarding() {
     <section className="onboarding">
       <p className="pill">Onboarding</p>
       <h1>Retrouve ton cap en répondant à quelques questions</h1>
-      <p className="subtitle">Progression: {progress}%</p>
+      <p className="subtitle">
+        Progression: {progress}% — plus tu décris ton vécu, plus la synthèse sera pertinente.
+      </p>
       <div className="progress-bar">
         <span style={{ width: `${progress}%` }} />
       </div>
@@ -122,6 +126,7 @@ function Onboarding() {
         />
         <div className="suggestions-block">
           <p>Tu peux sélectionner une catégorie puis une ou plusieurs mini-réponses :</p>
+          <p className="selected-count">{selectedSuggestionsCount} idée(s) sélectionnée(s)</p>
           <div className="category-tabs">
             {categories.map((category) => (
               <button

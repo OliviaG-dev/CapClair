@@ -1,17 +1,18 @@
 .onboarding {
   display: grid;
-  gap: 1.1rem;
+  gap: 1.25rem;
 }
 
 .pill {
   margin: 0;
   width: fit-content;
   border-radius: 999px;
-  padding: 0.3rem 0.7rem;
-  background: var(--color-ai-soft);
+  padding: 0.34rem 0.72rem;
+  background: linear-gradient(135deg, var(--color-primary-soft), #edf6fa);
   color: var(--color-primary);
   font-weight: 700;
   font-size: 0.86rem;
+  border: 1px solid rgba(37, 109, 133, 0.24);
 }
 
 .onboarding h1,
@@ -21,62 +22,81 @@
 
 .subtitle {
   color: var(--color-muted-text);
+  max-width: 75ch;
 }
 
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 12px;
   border-radius: 999px;
-  background: var(--color-border);
+  background: linear-gradient(180deg, #d6e2e8, #d9e5eb);
   overflow: hidden;
 }
 
 .progress-bar span {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), #5da9a0);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+  box-shadow: 0 3px 10px rgba(37, 109, 133, 0.35);
 }
 
 .question-card {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  padding: 1.2rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(165deg, #ffffff 0%, #f8fbfc 100%);
+  padding: 1.3rem;
   display: grid;
-  gap: 0.85rem;
+  gap: 0.95rem;
   box-shadow: var(--color-shadow);
 }
 
 .step-count {
   margin: 0;
   color: var(--color-muted-text);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 
 .question-card label {
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-title);
 }
 
 .question-card textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.9rem;
-  border: 1px solid var(--color-border);
+  padding: 0.95rem;
+  border: 1px solid #c8d9df;
   border-radius: var(--radius-md);
   font: inherit;
+  background: #fff;
   resize: vertical;
-  min-height: 130px;
+  min-height: 138px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.question-card textarea:focus {
+  border-color: rgba(37, 109, 133, 0.5);
+  box-shadow: 0 0 0 4px rgba(37, 109, 133, 0.12);
+  outline: none;
 }
 
 .suggestions-block {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.6rem;
 }
 
 .suggestions-block p {
   margin: 0;
   color: var(--color-muted-text);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+}
+
+.selected-count {
+  font-weight: 600;
+  color: var(--color-primary-dark);
 }
 
 .category-tabs {
@@ -86,11 +106,11 @@
 }
 
 .category-tab {
-  border: 1px solid var(--color-border);
+  border: 1px solid #c9d8de;
   background: #fff;
   color: var(--color-text);
   border-radius: 999px;
-  padding: 0.38rem 0.75rem;
+  padding: 0.42rem 0.8rem;
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
@@ -99,11 +119,11 @@
 
 .category-tab:hover {
   border-color: rgba(37, 109, 133, 0.45);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.01);
 }
 
 .category-tab-selected {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   border-color: var(--color-primary);
   color: #fff;
 }
@@ -115,23 +135,25 @@
 }
 
 .suggestion-chip {
-  border: 1px solid var(--color-border);
+  border: 1px solid #d1dce2;
   background: #fff;
-  border-radius: 999px;
-  padding: 0.42rem 0.7rem;
+  border-radius: 14px;
+  padding: 0.46rem 0.76rem;
   font-size: 0.84rem;
   cursor: pointer;
   color: var(--color-text);
   transition: all 0.2s ease;
+  text-align: left;
 }
 
 .suggestion-chip:hover {
-  border-color: rgba(37, 109, 133, 0.45);
-  transform: translateY(-1px);
+  border-color: rgba(37, 109, 133, 0.38);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: var(--color-shadow-soft);
 }
 
 .suggestion-chip-selected {
-  background: var(--color-ai-soft);
+  background: linear-gradient(145deg, var(--color-ai-soft), #f4f9fb);
   border-color: rgba(37, 109, 133, 0.45);
   color: var(--color-primary-dark);
 }
@@ -143,26 +165,28 @@
 }
 
 .question-actions button {
-  border: 1px solid var(--color-border);
+  border: 1px solid #cfdadf;
   border-radius: var(--radius-md);
-  padding: 0.58rem 0.9rem;
+  padding: 0.6rem 0.98rem;
   cursor: pointer;
   background: #fff;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  transition: all 0.2s ease, box-shadow 0.2s ease;
 }
 
 .question-actions button:hover:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--color-shadow-soft);
 }
 
 .question-actions button:last-child {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   border-color: var(--color-primary);
   color: #fff;
 }
 
 .question-actions button:last-child:hover:not(:disabled) {
-  background: var(--color-primary-dark);
+  filter: brightness(1.02);
 }
 
 .question-actions button:disabled {

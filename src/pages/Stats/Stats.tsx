@@ -27,7 +27,13 @@ function Stats() {
 
   return (
     <section className="stats">
-      <h1>Statistiques et progression</h1>
+      <header className="page-hero">
+        <p className="chip chip-accent">Mesure & impulsion</p>
+        <h1>Statistiques et progression</h1>
+        <p className="page-subtitle">
+          Visualise ta dynamique pour garder le cap sur ce qui fonctionne vraiment.
+        </p>
+      </header>
 
       <article className="bars">
         <h2>Repartition des objectifs</h2>

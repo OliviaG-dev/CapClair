@@ -33,8 +33,11 @@ function ObjectifDetail() {
   return (
     <section className="objectif-detail">
       <Link to="/objectifs">Retour a mes objectifs</Link>
-      <h1>{objective.title}</h1>
-      <p>{objective.description}</p>
+      <header className="page-hero">
+        <p className="chip chip-accent">Objectif en focus</p>
+        <h1>{objective.title}</h1>
+        <p className="page-subtitle">{objective.description}</p>
+      </header>
 
       <div className="detail-grid">
         <article>

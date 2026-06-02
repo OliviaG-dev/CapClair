@@ -11,7 +11,13 @@ function Synthese() {
 
   return (
     <section className="synthese">
-      <h1>Ce que ton parcours met en lumiere</h1>
+      <header className="page-hero">
+        <p className="chip chip-accent">Déclic clarté</p>
+        <h1>Ce que ton parcours met en lumiere</h1>
+        <p className="page-subtitle">
+          Voici une synthèse bienveillante pour t’aider à transformer ton ressenti en plan concret.
+        </p>
+      </header>
       <div className="synthese-grid">
         <article>
           <h2>Ce que tu veux changer</h2>

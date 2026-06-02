@@ -12,8 +12,13 @@ function Objectifs() {
 
   return (
     <section className="objectifs">
-      <h1>Objectifs / Progression</h1>
-      <p>Clarifie, decoupe et fais avancer chaque objectif a ton rythme.</p>
+      <header className="page-hero">
+        <p className="chip chip-accent">Plan d’action</p>
+        <h1>Objectifs / Progression</h1>
+        <p className="page-subtitle">
+          Clarifie, découpe et fais avancer chaque objectif à ton rythme avec des pas mesurables.
+        </p>
+      </header>
       <div className="objective-grid">
         {state.objectives.map((objective) => (
           <ObjectiveCard key={objective.id} objective={objective} />

@@ -2,73 +2,487 @@
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-text);
+  position: relative;
+}
+
+.background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.background-layer::before,
+.background-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.background-layer::before {
+  background:
+    linear-gradient(128deg, rgba(37, 109, 133, 0.08) 0%, rgba(37, 109, 133, 0) 40%),
+    linear-gradient(312deg, rgba(93, 169, 160, 0.08) 0%, rgba(93, 169, 160, 0) 44%);
+  opacity: 0.85;
+}
+
+.background-layer::after {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 52%);
+}
+
+.geo-shape {
+  position: absolute;
+  opacity: 0.36;
+  filter: blur(0.4px);
+  mix-blend-mode: multiply;
+  animation: floatGeo var(--duration, 18s) ease-in-out infinite;
+}
+
+.geo-shape-repeat {
+  width: min(19vw, 220px);
+  height: min(24vw, 270px);
+  clip-path: polygon(18% 8%, 82% 8%, 100% 50%, 82% 92%, 18% 92%, 0% 50%);
+  border-radius: 24% 24% 24% 24% / 18% 18% 18% 18%;
+  background: linear-gradient(160deg, rgba(37, 109, 133, 0.18) 0%, rgba(93, 169, 160, 0.12) 55%, rgba(141, 151, 232, 0.08) 100%);
+}
+
+.geo-shape-pos-1 {
+  top: 6%;
+  left: -6%;
+  --duration: 23s;
+}
+
+.geo-shape-pos-2 {
+  top: 18%;
+  right: -7%;
+  --duration: 20s;
+  animation-delay: -8s;
+}
+
+.geo-shape-pos-3 {
+  top: 42%;
+  left: -4%;
+  --duration: 25s;
+  animation-delay: -13s;
+}
+
+.geo-shape-pos-4 {
+  bottom: 15%;
+  right: -8%;
+  --duration: 19s;
+  animation-delay: -5s;
+}
+
+.geo-shape-pos-5 {
+  bottom: -8%;
+  left: 18%;
+  --duration: 22s;
+  animation-delay: -11s;
+}
+
+.geo-shape-pos-6 {
+  top: 4%;
+  left: 28%;
+  --duration: 24s;
+  animation-delay: -6s;
+}
+
+.geo-shape-pos-7 {
+  top: 26%;
+  left: 40%;
+  --duration: 18s;
+  animation-delay: -10s;
+}
+
+.geo-shape-pos-8 {
+  top: 14%;
+  right: 22%;
+  --duration: 21s;
+  animation-delay: -15s;
+}
+
+.geo-shape-pos-9 {
+  top: 56%;
+  right: 30%;
+  --duration: 19s;
+  animation-delay: -8s;
+}
+
+.geo-shape-pos-10 {
+  bottom: 22%;
+  left: 48%;
+  --duration: 23s;
+  animation-delay: -12s;
+}
+
+.geo-shape-pos-11 {
+  bottom: 4%;
+  right: 36%;
+  --duration: 20s;
+  animation-delay: -17s;
+}
+
+.geo-shape-pos-12 {
+  top: 36%;
+  left: 18%;
+  --duration: 22s;
+  animation-delay: -4s;
+}
+
+.geo-shape-pos-13 {
+  top: -6%;
+  left: 10%;
+  --duration: 20s;
+  animation-delay: -9s;
+}
+
+.geo-shape-pos-14 {
+  top: -5%;
+  right: 8%;
+  --duration: 24s;
+  animation-delay: -14s;
+}
+
+.geo-shape-pos-15 {
+  top: 12%;
+  left: 58%;
+  --duration: 18s;
+  animation-delay: -3s;
+}
+
+.geo-shape-pos-16 {
+  top: 30%;
+  left: 58%;
+  --duration: 22s;
+  animation-delay: -16s;
+}
+
+.geo-shape-pos-17 {
+  top: 46%;
+  left: 34%;
+  --duration: 23s;
+  animation-delay: -7s;
+}
+
+.geo-shape-pos-18 {
+  top: 64%;
+  left: 2%;
+  --duration: 21s;
+  animation-delay: -12s;
+}
+
+.geo-shape-pos-19 {
+  top: 70%;
+  left: 24%;
+  --duration: 19s;
+  animation-delay: -5s;
+}
+
+.geo-shape-pos-20 {
+  top: 68%;
+  right: 10%;
+  --duration: 25s;
+  animation-delay: -18s;
+}
+
+.geo-shape-pos-21 {
+  bottom: -10%;
+  left: -2%;
+  --duration: 22s;
+  animation-delay: -6s;
+}
+
+.geo-shape-pos-22 {
+  bottom: -12%;
+  left: 44%;
+  --duration: 24s;
+  animation-delay: -15s;
+}
+
+.geo-shape-pos-23 {
+  bottom: -10%;
+  right: 26%;
+  --duration: 20s;
+  animation-delay: -11s;
+}
+
+.geo-shape-pos-24 {
+  bottom: -9%;
+  right: -6%;
+  --duration: 23s;
+  animation-delay: -2s;
+}
+
+.geo-shape-pos-25 {
+  top: 8%;
+  left: 12%;
+  --duration: 19s;
+  animation-delay: -7s;
+}
+
+.geo-shape-pos-26 {
+  top: 8%;
+  left: 44%;
+  --duration: 21s;
+  animation-delay: -12s;
+}
+
+.geo-shape-pos-27 {
+  top: 8%;
+  right: 12%;
+  --duration: 24s;
+  animation-delay: -16s;
+}
+
+.geo-shape-pos-28 {
+  top: 30%;
+  left: 8%;
+  --duration: 20s;
+  animation-delay: -5s;
+}
+
+.geo-shape-pos-29 {
+  top: 30%;
+  left: 28%;
+  --duration: 22s;
+  animation-delay: -9s;
+}
+
+.geo-shape-pos-30 {
+  top: 30%;
+  right: 28%;
+  --duration: 18s;
+  animation-delay: -14s;
+}
+
+.geo-shape-pos-31 {
+  top: 30%;
+  right: 8%;
+  --duration: 23s;
+  animation-delay: -3s;
+}
+
+.geo-shape-pos-32 {
+  top: 52%;
+  left: 10%;
+  --duration: 21s;
+  animation-delay: -10s;
+}
+
+.geo-shape-pos-33 {
+  top: 52%;
+  left: 52%;
+  --duration: 24s;
+  animation-delay: -6s;
+}
+
+.geo-shape-pos-34 {
+  bottom: 10%;
+  left: 30%;
+  --duration: 20s;
+  animation-delay: -15s;
+}
+
+.geo-shape-pos-35 {
+  bottom: 10%;
+  right: 30%;
+  --duration: 22s;
+  animation-delay: -8s;
+}
+
+.geo-shape-pos-36 {
+  bottom: 10%;
+  right: 6%;
+  --duration: 25s;
+  animation-delay: -13s;
+}
+
+.geo-shape-pos-37 {
+  top: -8%;
+  left: 26%;
+  --duration: 19s;
+  animation-delay: -4s;
+}
+
+.geo-shape-pos-38 {
+  top: -8%;
+  left: 62%;
+  --duration: 22s;
+  animation-delay: -10s;
+}
+
+.geo-shape-pos-39 {
+  top: 18%;
+  left: 2%;
+  --duration: 24s;
+  animation-delay: -6s;
+}
+
+.geo-shape-pos-40 {
+  top: 18%;
+  left: 22%;
+  --duration: 20s;
+  animation-delay: -15s;
+}
+
+.geo-shape-pos-41 {
+  top: 18%;
+  right: 22%;
+  --duration: 23s;
+  animation-delay: -8s;
+}
+
+.geo-shape-pos-42 {
+  top: 18%;
+  right: 2%;
+  --duration: 18s;
+  animation-delay: -13s;
+}
+
+.geo-shape-pos-43 {
+  top: 44%;
+  left: 22%;
+  --duration: 21s;
+  animation-delay: -5s;
+}
+
+.geo-shape-pos-44 {
+  top: 44%;
+  right: 22%;
+  --duration: 25s;
+  animation-delay: -17s;
+}
+
+.geo-shape-pos-45 {
+  top: 62%;
+  left: 40%;
+  --duration: 20s;
+  animation-delay: -9s;
+}
+
+.geo-shape-pos-46 {
+  bottom: -6%;
+  left: 62%;
+  --duration: 24s;
+  animation-delay: -3s;
+}
+
+.geo-shape-pos-47 {
+  bottom: -6%;
+  right: 44%;
+  --duration: 22s;
+  animation-delay: -12s;
+}
+
+.geo-shape-pos-48 {
+  bottom: -6%;
+  right: 2%;
+  --duration: 19s;
+  animation-delay: -7s;
+}
+
+@keyframes floatGeo {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -12px, 0) scale(1.03);
+  }
 }
 
 .layout-header {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(215, 222, 232, 0.7);
-  box-shadow: 0 4px 20px rgba(20, 45, 58, 0.05);
-  padding: 0.8rem 1.25rem;
+  background: rgba(247, 251, 252, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(211, 222, 227, 0.9);
+  box-shadow: 0 6px 24px rgba(20, 45, 58, 0.06);
+  padding: 0.76rem 1.1rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.layout-header-inner {
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
+  display: flex;
   align-items: center;
-  gap: 1.25rem;
+  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
+}
+
+.layout-helper-text {
+  margin: 0;
+  color: var(--color-muted-text);
+  font-size: 0.86rem;
+  font-style: italic;
 }
 
 .main-nav {
   display: flex;
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
   gap: 0.5rem;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding-bottom: 0.1rem;
+  padding: 0.1rem 0 0.16rem;
   scrollbar-width: thin;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--color-text);
-  padding: 0.45rem 0.78rem;
+  padding: 0.45rem 0.84rem;
   border-radius: 999px;
   border: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
-  transition: all 0.18s ease;
+  transition: all 0.2s ease;
 }
 
 .nav-link:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: var(--color-shadow-soft);
   border-color: rgba(37, 109, 133, 0.35);
+  background: #fff;
 }
 
 .nav-link-active {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   border-color: var(--color-primary);
   color: #fff;
 }
 
 .layout-content {
-  max-width: 1100px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 3.5rem;
+  padding: 1.35rem 1.15rem 3.6rem;
+  position: relative;
+  z-index: 2;
 }
 
 @media (max-width: 720px) {
   .layout-header {
-    padding: 0.9rem 0.9rem;
+    padding: 0.75rem 0.82rem;
+  }
+
+  .layout-header-inner {
     align-items: flex-start;
   }
 
+  .layout-helper-text {
+    font-size: 0.79rem;
+  }
+
   .main-nav {
-    width: 100%;
-    padding-bottom: 0.35rem;
+    padding-bottom: 0.3rem;
   }
 
   .nav-link {
@@ -77,6 +491,255 @@
   }
 
   .layout-content {
-    padding: 1rem 0.9rem 2rem;
+    padding: 1rem 0.86rem 2.2rem;
+  }
+
+  .geo-shape-repeat {
+    width: min(30vw, 150px);
+    height: min(38vw, 190px);
+  }
+
+  .geo-shape-pos-1 {
+    left: -18%;
+  }
+
+  .geo-shape-pos-2 {
+    right: -14%;
+  }
+
+  .geo-shape-pos-3 {
+    left: -8%;
+    top: 46%;
+  }
+
+  .geo-shape-pos-4 {
+    right: -16%;
+    bottom: 20%;
+  }
+
+  .geo-shape-pos-5 {
+    left: 8%;
+    bottom: -10%;
+  }
+
+  .geo-shape-pos-6 {
+    left: 34%;
+    top: 8%;
+  }
+
+  .geo-shape-pos-7 {
+    left: 44%;
+    top: 30%;
+  }
+
+  .geo-shape-pos-8 {
+    right: 18%;
+    top: 18%;
+  }
+
+  .geo-shape-pos-9 {
+    right: 22%;
+    top: 58%;
+  }
+
+  .geo-shape-pos-10 {
+    left: 46%;
+    bottom: 24%;
+  }
+
+  .geo-shape-pos-11 {
+    right: 30%;
+    bottom: 6%;
+  }
+
+  .geo-shape-pos-12 {
+    left: 14%;
+    top: 52%;
+  }
+
+  .geo-shape-pos-13 {
+    top: -2%;
+    left: 22%;
+  }
+
+  .geo-shape-pos-14 {
+    top: -3%;
+    right: 16%;
+  }
+
+  .geo-shape-pos-15 {
+    top: 10%;
+    left: 62%;
+  }
+
+  .geo-shape-pos-16 {
+    top: 36%;
+    left: 60%;
+  }
+
+  .geo-shape-pos-17 {
+    top: 52%;
+    left: 40%;
+  }
+
+  .geo-shape-pos-18 {
+    top: 68%;
+    left: -4%;
+  }
+
+  .geo-shape-pos-19 {
+    top: 74%;
+    left: 18%;
+  }
+
+  .geo-shape-pos-20 {
+    top: 68%;
+    right: 6%;
+  }
+
+  .geo-shape-pos-21 {
+    bottom: -12%;
+    left: -6%;
+  }
+
+  .geo-shape-pos-22 {
+    bottom: -14%;
+    left: 36%;
+  }
+
+  .geo-shape-pos-23 {
+    bottom: -12%;
+    right: 18%;
+  }
+
+  .geo-shape-pos-24 {
+    bottom: -10%;
+    right: -8%;
+  }
+
+  .geo-shape-pos-25 {
+    top: 10%;
+    left: 18%;
+  }
+
+  .geo-shape-pos-26 {
+    top: 10%;
+    left: 46%;
+  }
+
+  .geo-shape-pos-27 {
+    top: 10%;
+    right: 14%;
+  }
+
+  .geo-shape-pos-28 {
+    top: 34%;
+    left: 10%;
+  }
+
+  .geo-shape-pos-29 {
+    top: 34%;
+    left: 32%;
+  }
+
+  .geo-shape-pos-30 {
+    top: 34%;
+    right: 32%;
+  }
+
+  .geo-shape-pos-31 {
+    top: 34%;
+    right: 10%;
+  }
+
+  .geo-shape-pos-32 {
+    top: 58%;
+    left: 12%;
+  }
+
+  .geo-shape-pos-33 {
+    top: 58%;
+    left: 50%;
+  }
+
+  .geo-shape-pos-34 {
+    bottom: 12%;
+    left: 28%;
+  }
+
+  .geo-shape-pos-35 {
+    bottom: 12%;
+    right: 26%;
+  }
+
+  .geo-shape-pos-36 {
+    bottom: 12%;
+    right: 4%;
+  }
+
+  .geo-shape-pos-37 {
+    top: -4%;
+    left: 26%;
+  }
+
+  .geo-shape-pos-38 {
+    top: -4%;
+    left: 62%;
+  }
+
+  .geo-shape-pos-39 {
+    top: 22%;
+    left: 0%;
+  }
+
+  .geo-shape-pos-40 {
+    top: 22%;
+    left: 24%;
+  }
+
+  .geo-shape-pos-41 {
+    top: 22%;
+    right: 24%;
+  }
+
+  .geo-shape-pos-42 {
+    top: 22%;
+    right: 0%;
+  }
+
+  .geo-shape-pos-43 {
+    top: 46%;
+    left: 24%;
+  }
+
+  .geo-shape-pos-44 {
+    top: 46%;
+    right: 24%;
+  }
+
+  .geo-shape-pos-45 {
+    top: 66%;
+    left: 42%;
+  }
+
+  .geo-shape-pos-46 {
+    bottom: -8%;
+    left: 62%;
+  }
+
+  .geo-shape-pos-47 {
+    bottom: -8%;
+    right: 42%;
+  }
+
+  .geo-shape-pos-48 {
+    bottom: -8%;
+    right: 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geo-shape {
+    animation: none;
   }
 }
