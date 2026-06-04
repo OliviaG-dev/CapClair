@@ -10,13 +10,16 @@ CapClair est une application React qui aide a clarifier une situation personnell
 ![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=reactrouter&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
 ![LocalStorage](https://img.shields.io/badge/Storage-localStorage-2F80ED)
+[![CI](https://github.com/OliviaG-dev/CapClair/actions/workflows/ci.yml/badge.svg)](https://github.com/OliviaG-dev/CapClair/actions/workflows/ci.yml)
+[![Vercel Deploy](https://github.com/OliviaG-dev/CapClair/actions/workflows/vercel-deploy.yml/badge.svg)](https://github.com/OliviaG-dev/CapClair/actions/workflows/vercel-deploy.yml)
+![Cloudflare Turnstile](https://img.shields.io/badge/Cloudflare_Turnstile-enabled-F38020?logo=cloudflare&logoColor=white)
 
 ## Apercu du MVP
 
 Le MVP propose un parcours simple et utile:
 
 1. **Onboarding guide**: questions cles pour clarifier la situation.
-2. **Synthese IA simulee**: themes, blocages, motivations et objectifs proposes.
+2. **Synthese IA**: themes, blocages, motivations et objectifs proposes.
 3. **Dashboard**: vision globale des objectifs et progression.
 4. **Objectifs**: detail d un objectif, statut, notes de progression.
 5. **Journal**: humeur, energie et petites victoires.
@@ -56,6 +59,28 @@ Architecture organisee par responsabilite:
 ```bash
 npm install
 ```
+
+## Securite API: Cloudflare Turnstile
+
+CapClair protege la generation de synthese IA avec **Cloudflare Turnstile**.
+
+Turnstile est un mecanisme anti-bot moderne: avant d'appeler l'endpoint `/api/synthesize`,
+l'utilisateur doit valider un challenge. Le token recu cote front est ensuite
+verifie cote serveur via l'API officielle Cloudflare.
+
+Ce que cela apporte concretement au projet:
+
+- **Reduction des abus automatises** sur l'endpoint de synthese.
+- **Protection des couts OpenAI** en limitant les appels malveillants.
+- **Renforcement de la securite** en complement du controle d'origine et du rate limiting.
+- **Meilleure fiabilite produit**: moins de risques de saturation de l'API par des bots.
+
+Le systeme de protection combine:
+
+- verification Turnstile (preuve humaine),
+- validation stricte des payloads,
+- rate limiting par IP (local + mode distribue),
+- controles d'acces sur l'API de synthese.
 
 ## Lancer le projet en local
 

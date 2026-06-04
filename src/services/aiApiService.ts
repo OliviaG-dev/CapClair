@@ -27,14 +27,22 @@ const isValidSynthesis = (value: unknown): value is Synthesis => {
 
 export async function generateOnboardingFromApi(
   answers: QuestionnaireAnswers,
+  turnstileToken?: string,
 ): Promise<OnboardingGeneration | null> {
   try {
+    const apiKey = import.meta.env.VITE_SYNTHESIZE_API_KEY?.trim()
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    }
+
+    if (apiKey) {
+      headers['x-capclair-api-key'] = apiKey
+    }
+
     const response = await fetch('/api/synthesize', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ answers }),
+      headers,
+      body: JSON.stringify({ answers, turnstileToken }),
     })
 
     if (!response.ok) {
