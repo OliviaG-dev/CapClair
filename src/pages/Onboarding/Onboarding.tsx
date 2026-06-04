@@ -111,7 +111,7 @@ function Onboarding() {
             setTurnstileError('Validation anti-bot indisponible, réessaie dans un instant.')
           },
         })
-      } catch (error) {
+      } catch {
         setTurnstileError(
           'Impossible de charger Turnstile. Vérifie ton bloqueur de pub et le domaine autorisé.',
         )
@@ -192,7 +192,7 @@ function Onboarding() {
         completeOnboarding(answers, generation ?? undefined)
         navigate('/synthese')
         hasNavigated = true
-      } catch (error) {
+      } catch {
         setTurnstileError('Une erreur est survenue. Réessaie dans un instant.')
       } finally {
         if (!hasNavigated) {
