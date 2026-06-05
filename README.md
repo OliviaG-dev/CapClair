@@ -95,6 +95,8 @@ Application disponible ensuite sur l URL affichee par Vite (en general `http://l
 ```bash
 npm run dev      # lancement en developpement
 npm run lint     # verification ESLint
+npm run test     # tests unitaires (Vitest)
+npm run test:e2e # tests end-to-end (Playwright)
 npm run build    # build production (TypeScript + Vite)
 npm run preview  # previsualisation du build
 ```

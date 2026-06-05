@@ -212,7 +212,14 @@ function Onboarding() {
       <p className="subtitle">
         Progression: {progress}% — plus tu décris ton vécu, plus la synthèse sera pertinente.
       </p>
-      <div className="progress-bar">
+      <div
+        className="progress-bar"
+        role="progressbar"
+        aria-label="Progression du questionnaire"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={progress}
+      >
         <span style={{ width: `${progress}%` }} />
       </div>
 
@@ -236,11 +243,13 @@ function Onboarding() {
         <div className="suggestions-block">
           <p>Tu peux sélectionner une catégorie puis une ou plusieurs mini-réponses :</p>
           <p className="selected-count">{selectedSuggestionsCount} idée(s) sélectionnée(s)</p>
-          <div className="category-tabs">
+          <div className="category-tabs" role="tablist" aria-label="Catégories de suggestions">
             {categories.map((category) => (
               <button
                 key={category.key}
                 type="button"
+                role="tab"
+                aria-selected={currentCategory === category.key}
                 className={
                   currentCategory === category.key
                     ? 'category-tab category-tab-selected'
