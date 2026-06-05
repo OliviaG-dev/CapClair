@@ -30,16 +30,16 @@ function Synthese() {
         <article>
           <h2>Ce qui semble important pour toi</h2>
           <ul>
-            {state.synthesis.importantThemes.map((theme) => (
-              <li key={theme}>{theme}</li>
+            {state.synthesis.importantThemes.map((theme, index) => (
+              <li key={`${theme}-${index}`}>{theme}</li>
             ))}
           </ul>
         </article>
         <article>
           <h2>Tes premieres pistes d objectifs</h2>
           <ul>
-            {state.synthesis.suggestedGoals.map((goal) => (
-              <li key={goal}>{goal}</li>
+            {state.synthesis.suggestedGoals.map((goal, index) => (
+              <li key={`${goal}-${index}`}>{goal}</li>
             ))}
           </ul>
         </article>

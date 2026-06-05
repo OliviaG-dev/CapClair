@@ -82,6 +82,25 @@ Le systeme de protection combine:
 - rate limiting par IP (local + mode distribue),
 - controles d'acces sur l'API de synthese.
 
+## Tests et garantie qualite
+
+CapClair embarque une strategie de tests orientee produit: l'objectif n'est pas seulement de
+verifier le code, mais de proteger l'experience utilisateur et la fiabilite business a chaque release.
+
+Ce qui est en place:
+
+- **Tests unitaires (Vitest + Testing Library)** pour valider les composants et la logique critique.
+- **Tests E2E (Playwright)** sur le parcours cle `onboarding -> synthese`.
+- **Checks CI/CD automatiques**: lint, tests unitaires, build et tests end-to-end.
+- **Controles d'accessibilite integres** sur les elements interactifs majeurs (progression et navigation des suggestions).
+
+Valeur "commerciale" apportee:
+
+- **Moins de regressions en production**: les bugs visibles par les utilisateurs sont detectes avant livraison.
+- **Experience utilisateur plus stable**: le parcours principal reste fiable meme quand le produit evolue vite.
+- **Confiance produit renforcee**: chaque deploiement est valide par des controles automatiques coherents.
+- **Reduction des couts de maintenance**: moins de correctifs d'urgence et de temps passe a diagnostiquer des incidents evitable.
+
 ## Lancer le projet en local
 
 ```bash
@@ -95,6 +114,8 @@ Application disponible ensuite sur l URL affichee par Vite (en general `http://l
 ```bash
 npm run dev      # lancement en developpement
 npm run lint     # verification ESLint
+npm run test     # tests unitaires (Vitest)
+npm run test:e2e # tests end-to-end (Playwright)
 npm run build    # build production (TypeScript + Vite)
 npm run preview  # previsualisation du build
 ```

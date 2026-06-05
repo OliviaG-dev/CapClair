@@ -31,9 +31,9 @@ describe('Onboarding page', () => {
     expect(
       screen.getByLabelText('Qu’est-ce que tu aimerais changer en ce moment ?'),
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Santé' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Travail' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Amour' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Santé' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Travail' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Amour' })).toBeInTheDocument()
   })
 
   it('toggles suggested phrase in textarea and enables next button', async () => {
@@ -42,7 +42,7 @@ describe('Onboarding page', () => {
 
     const textarea = screen.getByLabelText('Qu’est-ce que tu aimerais changer en ce moment ?')
     const nextButton = screen.getByRole('button', { name: 'Suivant' })
-    const travailCategoryButton = screen.getByRole('button', { name: 'Travail' })
+    const travailCategoryButton = screen.getByRole('tab', { name: 'Travail' })
 
     expect(nextButton).toBeDisabled()
 
