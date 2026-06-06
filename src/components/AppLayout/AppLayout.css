@@ -396,10 +396,10 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(247, 251, 252, 0.9);
+  background: var(--layout-header-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(211, 222, 227, 0.9);
-  box-shadow: 0 6px 24px rgba(20, 45, 58, 0.06);
+  border-bottom: 1px solid var(--layout-header-border);
+  box-shadow: var(--layout-header-shadow);
   padding: 0.76rem 1.1rem;
   display: flex;
   flex-direction: column;
@@ -425,13 +425,40 @@
 
 .main-nav {
   display: flex;
-  width: min(100%, var(--container-max));
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   gap: 0.5rem;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 0.1rem 0 0.16rem;
   scrollbar-width: thin;
+}
+
+.layout-nav-row {
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.theme-toggle-btn {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--color-shadow-soft);
+  border-color: rgba(37, 109, 133, 0.45);
 }
 
 .nav-link {
@@ -440,7 +467,7 @@
   padding: 0.45rem 0.84rem;
   border-radius: 999px;
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--color-surface);
   font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
@@ -451,7 +478,7 @@
   transform: translateY(-2px);
   box-shadow: var(--color-shadow-soft);
   border-color: rgba(37, 109, 133, 0.35);
-  background: #fff;
+  background: var(--color-surface-soft);
 }
 
 .nav-link-active {
@@ -483,6 +510,16 @@
 
   .main-nav {
     padding-bottom: 0.3rem;
+  }
+
+  .layout-nav-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+  }
+
+  .theme-toggle-btn {
+    align-self: flex-end;
   }
 
   .nav-link {

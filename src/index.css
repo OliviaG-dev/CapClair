@@ -14,12 +14,36 @@
   --color-primary-dark: #1f5c70;
   --color-shadow: 0 18px 44px rgba(19, 37, 49, 0.1);
   --color-shadow-soft: 0 8px 22px rgba(19, 37, 49, 0.08);
+  --layout-header-bg: rgba(247, 251, 252, 0.9);
+  --layout-header-border: rgba(211, 222, 227, 0.9);
+  --layout-header-shadow: 0 6px 24px rgba(20, 45, 58, 0.06);
   --radius-xl: 24px;
   --radius-lg: 18px;
   --radius-md: 12px;
   --radius-sm: 10px;
   --container-max: 1160px;
   --font-base: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+[data-theme='dark'] {
+  --color-bg: #111820;
+  --color-surface: #17212c;
+  --color-surface-soft: #1c2733;
+  --color-text: #e3edf6;
+  --color-muted-text: #9eb0c3;
+  --color-title: #f1f6fb;
+  --color-primary: #4f97b4;
+  --color-primary-soft: #1f3542;
+  --color-success: #69b7ac;
+  --color-warning: #e7a462;
+  --color-ai-soft: #1b2c39;
+  --color-border: #2f4555;
+  --color-primary-dark: #347e9d;
+  --color-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
+  --color-shadow-soft: 0 8px 22px rgba(0, 0, 0, 0.25);
+  --layout-header-bg: rgba(18, 28, 38, 0.88);
+  --layout-header-border: rgba(55, 76, 92, 0.85);
+  --layout-header-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
 }
 
 * {
@@ -61,6 +85,14 @@ body {
     var(--color-bg);
   color: var(--color-text);
   line-height: 1.55;
+}
+
+[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 8% 10%, rgba(79, 151, 180, 0.12) 0%, transparent 30%),
+    radial-gradient(circle at 92% 10%, rgba(105, 183, 172, 0.12) 0%, transparent 30%),
+    radial-gradient(circle at 50% 95%, rgba(231, 164, 98, 0.09) 0%, transparent 28%),
+    var(--color-bg);
 }
 
 body::before,
@@ -555,7 +587,7 @@ nav,
 }
 
 .soft-card {
-  background: linear-gradient(150deg, #ffffff 0%, var(--color-surface-soft) 100%);
+  background: linear-gradient(150deg, var(--color-surface) 0%, var(--color-surface-soft) 100%);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--color-shadow-soft);

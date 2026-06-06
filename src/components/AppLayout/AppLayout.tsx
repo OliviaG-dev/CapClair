@@ -1,9 +1,36 @@
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import BrandLogo from '../BrandLogo/BrandLogo'
 import navigationLinks from '../../data/navigationLinks.json'
 import './AppLayout.css'
 
+const THEME_STORAGE_KEY = 'capclair-theme'
+
+const resolveInitialTheme = () => {
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+  if (savedTheme === 'dark' || savedTheme === 'light') {
+    return savedTheme
+  }
+
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark'
+  }
+
+  return 'light'
+}
+
 function AppLayout() {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => resolveInitialTheme())
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem(THEME_STORAGE_KEY, theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
+  }
+
   return (
     <div className="layout">
       <div className="background-layer" aria-hidden="true">
@@ -61,17 +88,28 @@ function AppLayout() {
           <BrandLogo />
           <p className="layout-helper-text">Un pas clair aujourd’hui vaut mieux qu’un grand plan flou.</p>
         </div>
-        <nav className="main-nav" aria-label="Navigation principale">
-          {navigationLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) => (isActive ? 'nav-link nav-link-active' : 'nav-link')}
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="layout-nav-row">
+          <nav className="main-nav" aria-label="Navigation principale">
+            {navigationLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) => (isActive ? 'nav-link nav-link-active' : 'nav-link')}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+            aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+          >
+            {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+          </button>
+        </div>
       </header>
       <main className="layout-content">
         <Outlet />

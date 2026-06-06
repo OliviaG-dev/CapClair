@@ -10,8 +10,8 @@
 }
 
 .ai-summary {
-  background: linear-gradient(140deg, #edf6fb 0%, #e6f1f6 100%);
-  border: 1px solid #cddde5;
+  background: linear-gradient(140deg, var(--color-ai-soft) 0%, var(--color-surface-soft) 100%);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 1.15rem;
   box-shadow: var(--color-shadow);
@@ -27,7 +27,7 @@
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  background: rgba(37, 109, 133, 0.1);
+  background: rgba(37, 109, 133, 0.14);
 }
 
 .ai-summary h2,
