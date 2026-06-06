@@ -5,7 +5,7 @@
 
 .bars,
 .mood-energy {
-  background: linear-gradient(160deg, #ffffff 0%, #f8fbfc 100%);
+  background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-surface-soft) 100%);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 1.12rem;
