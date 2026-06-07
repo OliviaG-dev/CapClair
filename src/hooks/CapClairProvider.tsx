@@ -23,6 +23,15 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           journal: [],
         })
       },
+      refreshSynthesis: (answers, generationOverride) => {
+        const synthesis = generationOverride?.synthesis ?? generateSynthesis(answers)
+        setState((previous) => ({
+          answers,
+          synthesis,
+          objectives: generateObjectives(synthesis),
+          journal: previous.journal,
+        }))
+      },
       updateObjective: (updatedObjective) => {
         setState((previous) => ({
           ...previous,

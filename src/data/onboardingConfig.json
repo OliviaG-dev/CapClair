@@ -25,6 +25,20 @@
       "label": "Dans 3 mois, qu’est-ce qui te ferait dire “j’ai avancé” ?"
     }
   ],
+  "refreshQuestions": [
+    {
+      "key": "changeWish",
+      "label": "Qu’est-ce qui a changé dans ce que tu veux transformer en ce moment ?"
+    },
+    {
+      "key": "blockingFactor",
+      "label": "Qu’est-ce qui te bloque le plus aujourd’hui ?"
+    },
+    {
+      "key": "progressVision",
+      "label": "D’ici 3 mois, qu’est-ce qui te ferait dire que tu as retrouvé ton cap ?"
+    }
+  ],
   "categories": [
     {
       "key": "sante",

@@ -54,3 +54,9 @@
     font-size: 0.79rem;
   }
 }
+
+@media (max-width: 420px) {
+  .brand-logo-baseline {
+    display: none;
+  }
+}

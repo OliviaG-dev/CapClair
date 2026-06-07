@@ -1,0 +1,10 @@
+{
+  "pillLabel": "Mise a jour",
+  "title": "Ta situation a evolue ? Reprenons le fil",
+  "subtitle": "Reponds a 3 questions ciblees pour mettre a jour ta synthese.",
+  "notice": "Tes objectifs seront regeneres a partir de ta nouvelle synthese. Ton journal reste intact.",
+  "submitButton": "Mettre a jour ma synthese",
+  "submittingButton": "Mise a jour...",
+  "synthesisButtonLabel": "Ma situation a change",
+  "synthesisButtonHint": "Relance un questionnaire court pour adapter ta synthese et tes objectifs."
+}
