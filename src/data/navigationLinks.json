@@ -1,5 +1,5 @@
 [
-  { "to": "/onboarding", "label": "Onboarding" },
+  { "to": "/onboarding", "label": "Onboarding", "requiresIncompleteOnboarding": true },
   { "to": "/synthese", "label": "Synthese" },
   { "to": "/dashboard", "label": "Dashboard" },
   { "to": "/objectifs", "label": "Objectifs" },

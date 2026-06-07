@@ -76,7 +76,7 @@ describe('Dashboard page', () => {
     mockContext.weeklyInsight = 'Concentre-toi sur un seul objectif prioritaire.'
   })
 
-  it('renders KPI values and insight summary', () => {
+  it('renders daily action from in-progress objective next step', () => {
     render(
       <MemoryRouter>
         <Dashboard />
@@ -84,12 +84,37 @@ describe('Dashboard page', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Action du jour' })).toBeInTheDocument()
+    expect(screen.getByText('Step A')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Clarifier ma direction' })).toHaveAttribute(
+      'href',
+      '/objectifs/obj-1',
+    )
     expect(screen.getByText('Objectifs en cours')).toBeInTheDocument()
     expect(screen.getByText('Objectifs termines')).toBeInTheDocument()
     expect(screen.getByText('Progression globale')).toBeInTheDocument()
     expect(screen.getByText('50%')).toBeInTheDocument()
     expect(screen.getByText('3.0')).toBeInTheDocument()
     expect(screen.getByText('Concentre-toi sur un seul objectif prioritaire.')).toBeInTheDocument()
+  })
+
+  it('falls back to synthesis firstAction when no objective is in progress', () => {
+    mockContext.state = {
+      ...mockState,
+      objectives: mockState.objectives.map((objective) => ({
+        ...objective,
+        status: objective.id === 'obj-1' ? 'todo' : objective.status,
+      })),
+    }
+
+    render(
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Faire une action simple')).toBeInTheDocument()
+    expect(screen.getByText('Point de depart de ta synthese')).toBeInTheDocument()
   })
 
   it('redirects to onboarding when synthesis is missing', () => {

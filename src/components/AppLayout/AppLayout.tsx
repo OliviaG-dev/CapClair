@@ -1,10 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import BrandLogo from '../BrandLogo/BrandLogo'
 import navigationLinks from '../../data/navigationLinks.json'
+import { useCapClairState } from '../../hooks/useCapClairState'
 import './AppLayout.css'
 
+type NavigationLink = {
+  to: string
+  label: string
+  requiresIncompleteOnboarding?: boolean
+}
+
 const THEME_STORAGE_KEY = 'capclair-theme'
+const MOBILE_MENU_BREAKPOINT = 720
 
 const resolveInitialTheme = () => {
   const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
@@ -19,16 +27,110 @@ const resolveInitialTheme = () => {
   return 'light'
 }
 
+function SunIcon() {
+  return (
+    <svg className="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+      <path
+        d="M12 2.2v2.5M12 19.3v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.2 12h2.5M19.3 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function MoonIcon({ gradientId }: { gradientId: string }) {
+  return (
+    <svg className="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="var(--color-primary)" />
+          <stop offset="100%" stopColor="var(--color-success)" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M18.8 14.9a7.4 7.4 0 0 1-9.7-9.7 7.6 7.6 0 1 0 9.7 9.7Z"
+        fill={`url(#${gradientId})`}
+      />
+    </svg>
+  )
+}
+
+type ThemeToggleButtonProps = {
+  className?: string
+  theme: 'light' | 'dark'
+  onToggle: () => void
+}
+
+function ThemeToggleButton({ className, theme, onToggle }: ThemeToggleButtonProps) {
+  const moonGradientId = `theme-moon-gradient-${useId().replace(/:/g, '')}`
+
+  return (
+    <button
+      type="button"
+      className={['theme-toggle-btn', className].filter(Boolean).join(' ')}
+      onClick={onToggle}
+      aria-pressed={theme === 'dark'}
+      aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+    >
+      {theme === 'dark' ? <SunIcon /> : <MoonIcon gradientId={moonGradientId} />}
+    </button>
+  )
+}
+
 function AppLayout() {
+  const { state } = useCapClairState()
   const [theme, setTheme] = useState<'light' | 'dark'>(() => resolveInitialTheme())
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const visibleNavigationLinks = useMemo(
+    () =>
+      (navigationLinks as NavigationLink[]).filter((link) => {
+        if (link.requiresIncompleteOnboarding && state.synthesis) {
+          return false
+        }
+
+        return true
+      }),
+    [state.synthesis],
+  )
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_MENU_BREAKPOINT}px)`)
+
+    const handleViewportChange = () => {
+      if (!mediaQuery.matches) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleViewportChange)
+    return () => {
+      mediaQuery.removeEventListener('change', handleViewportChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -87,30 +189,58 @@ function AppLayout() {
         <div className="layout-header-inner">
           <BrandLogo />
           <p className="layout-helper-text">Un pas clair aujourd’hui vaut mieux qu’un grand plan flou.</p>
+          <div className="layout-header-actions">
+            <ThemeToggleButton
+              className="theme-toggle-btn-mobile"
+              theme={theme}
+              onToggle={toggleTheme}
+            />
+            <button
+              type="button"
+              className={`mobile-menu-btn ${isMobileMenuOpen ? 'mobile-menu-btn-open' : ''}`}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="main-navigation"
+              aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+            >
+              <span className="burger-bar" />
+              <span className="burger-bar" />
+              <span className="burger-bar" />
+            </button>
+          </div>
         </div>
-        <div className="layout-nav-row">
-          <nav className="main-nav" aria-label="Navigation principale">
-            {navigationLinks.map((link) => (
+        <div className={`layout-nav-row ${isMobileMenuOpen ? 'layout-nav-row-open' : ''}`}>
+          <nav
+            id="main-navigation"
+            className={`main-nav ${isMobileMenuOpen ? 'main-nav-open' : ''}`}
+            aria-label="Navigation principale"
+          >
+            {visibleNavigationLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) => (isActive ? 'nav-link nav-link-active' : 'nav-link')}
+                onClick={closeMobileMenu}
               >
                 {link.label}
               </NavLink>
             ))}
           </nav>
-          <button
-            type="button"
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            aria-pressed={theme === 'dark'}
-            aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
-          >
-            {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
-          </button>
+          <ThemeToggleButton
+            className="theme-toggle-btn-desktop"
+            theme={theme}
+            onToggle={toggleTheme}
+          />
         </div>
       </header>
+      {isMobileMenuOpen ? (
+        <button
+          type="button"
+          className="mobile-menu-backdrop"
+          aria-label="Fermer le menu"
+          onClick={closeMobileMenu}
+        />
+      ) : null}
       <main className="layout-content">
         <Outlet />
       </main>

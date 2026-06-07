@@ -16,6 +16,10 @@ export type CapClairContextValue = {
   updateObjective: (objective: Objective) => void
   addProgressNote: (objectiveId: string, note: string, delta: number) => void
   addJournalEntry: (entry: Omit<JournalEntry, 'id' | 'createdAt'>) => void
+  refreshSynthesis: (
+    answers: QuestionnaireAnswers,
+    generationOverride?: OnboardingGeneration,
+  ) => void
   weeklyInsight: string
 }
 

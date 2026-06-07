@@ -5,7 +5,7 @@ import { CapClairProvider } from './CapClairProvider'
 import { useCapClairState } from './useCapClairState'
 
 function ProviderHarness() {
-  const { state, completeOnboarding, addJournalEntry } = useCapClairState()
+  const { state, completeOnboarding, refreshSynthesis, addJournalEntry } = useCapClairState()
 
   return (
     <div>
@@ -23,6 +23,21 @@ function ProviderHarness() {
         }
       >
         Complete onboarding
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          refreshSynthesis({
+            changeWish: 'Nouveau cap',
+            heaviestWeight: 'Le flou',
+            improvementFocus: 'Mon organisation',
+            blockingFactor: 'Nouveau blocage',
+            energySource: 'Les petites actions',
+            progressVision: 'Avoir avance de facon concrete',
+          })
+        }
+      >
+        Refresh synthesis
       </button>
       <button
         type="button"
@@ -81,6 +96,28 @@ describe('CapClairProvider', () => {
     expect(screen.getByTestId('journal-count')).toHaveTextContent('1')
     const persistedState = localStorage.getItem('capclair-state-v1')
     expect(persistedState).not.toBeNull()
+    expect(persistedState).toContain('Petite victoire du jour')
+  })
+
+  it('keeps journal entries when refreshing synthesis', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CapClairProvider>
+        <ProviderHarness />
+      </CapClairProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
+    await user.click(screen.getByRole('button', { name: 'Add journal entry' }))
+    await user.click(screen.getByRole('button', { name: 'Refresh synthesis' }))
+
+    expect(screen.getByTestId('objectives-count')).toHaveTextContent('3')
+    expect(screen.getByTestId('journal-count')).toHaveTextContent('1')
+
+    const persistedState = localStorage.getItem('capclair-state-v1')
+    expect(persistedState).not.toBeNull()
+    expect(persistedState).toContain('Nouveau cap')
     expect(persistedState).toContain('Petite victoire du jour')
   })
 })

@@ -1,10 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import onboardingConfig from '../../data/onboardingConfig.json'
 import suggestionsData from '../../data/onboardingSuggestions.json'
+import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
 import { generateOnboardingFromApi } from '../../services/aiApiService'
 import type { QuestionnaireAnswers } from '../../types/capclair.types'
+import {
+  buildInitialAnswers,
+  getQuestionsForMode,
+  resolveOnboardingMode,
+  type OnboardingQuestion,
+} from '../../utils/onboardingMode'
 import './Onboarding.css'
 
 type TurnstileRenderOptions = {
@@ -26,10 +33,8 @@ declare global {
   }
 }
 
-const questions = onboardingConfig.questions as Array<{
-  key: keyof QuestionnaireAnswers
-  label: string
-}>
+const questions = onboardingConfig.questions as OnboardingQuestion[]
+const refreshQuestions = onboardingConfig.refreshQuestions as OnboardingQuestion[]
 
 type SuggestionCategory = 'sante' | 'travail' | 'amour'
 
@@ -53,9 +58,15 @@ function Onboarding() {
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim()
   const turnstileEnabled = Boolean(turnstileSiteKey)
   const navigate = useNavigate()
-  const { completeOnboarding } = useCapClairState()
+  const [searchParams] = useSearchParams()
+  const onboardingMode = resolveOnboardingMode(searchParams.get('mode'))
+  const isRefreshMode = onboardingMode === 'refresh'
+  const activeQuestions = getQuestionsForMode(onboardingMode, questions, refreshQuestions)
+  const { state, completeOnboarding, refreshSynthesis } = useCapClairState()
   const [step, setStep] = useState(0)
-  const [answers, setAnswers] = useState<QuestionnaireAnswers>(emptyAnswers)
+  const [answers, setAnswers] = useState<QuestionnaireAnswers>(() =>
+    buildInitialAnswers(onboardingMode, state.answers, emptyAnswers),
+  )
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const [turnstileError, setTurnstileError] = useState('')
@@ -72,12 +83,21 @@ function Onboarding() {
   const turnstileContainerRef = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetIdRef = useRef<string | null>(null)
 
-  const currentQuestion = questions[step]
+  const currentQuestion = activeQuestions[step]
   const currentCategory = selectedCategories[currentQuestion.key]
   const currentSuggestions = suggestionsByQuestion[currentQuestion.key][currentCategory]
-  const isLastStep = step === questions.length - 1
+  const isLastStep = step === activeQuestions.length - 1
   const canContinue = answers[currentQuestion.key].trim().length > 2
-  const progress = useMemo(() => Math.round(((step + 1) / questions.length) * 100), [step])
+  const progress = useMemo(
+    () => Math.round(((step + 1) / activeQuestions.length) * 100),
+    [step, activeQuestions.length],
+  )
+  const submitLabel = isRefreshMode
+    ? synthesisRefreshData.submitButton
+    : 'Générer ma synthèse'
+  const submittingLabel = isRefreshMode
+    ? synthesisRefreshData.submittingButton
+    : 'Génération...'
 
   useEffect(() => {
     if (
@@ -189,7 +209,13 @@ function Onboarding() {
 
       try {
         const generation = await generateOnboardingFromApi(answers, turnstileToken)
-        completeOnboarding(answers, generation ?? undefined)
+
+        if (isRefreshMode) {
+          refreshSynthesis(answers, generation ?? undefined)
+        } else {
+          completeOnboarding(answers, generation ?? undefined)
+        }
+
         navigate('/synthese')
         hasNavigated = true
       } catch {
@@ -205,13 +231,24 @@ function Onboarding() {
     setStep((value) => value + 1)
   }
 
+  if (isRefreshMode && !state.synthesis) {
+    return <Navigate to="/onboarding" replace />
+  }
+
   return (
     <section className="onboarding">
-      <p className="pill">Onboarding</p>
-      <h1>Retrouve ton cap en répondant à quelques questions</h1>
+      <p className="pill">{isRefreshMode ? synthesisRefreshData.pillLabel : 'Onboarding'}</p>
+      <h1>
+        {isRefreshMode
+          ? synthesisRefreshData.title
+          : 'Retrouve ton cap en répondant à quelques questions'}
+      </h1>
       <p className="subtitle">
-        Progression: {progress}% — plus tu décris ton vécu, plus la synthèse sera pertinente.
+        {isRefreshMode
+          ? synthesisRefreshData.subtitle
+          : `Progression: ${progress}% — plus tu décris ton vécu, plus la synthèse sera pertinente.`}
       </p>
+      {isRefreshMode ? <p className="refresh-notice">{synthesisRefreshData.notice}</p> : null}
       <div
         className="progress-bar"
         role="progressbar"
@@ -225,7 +262,7 @@ function Onboarding() {
 
       <article className="question-card">
         <p className="step-count">
-          Question {step + 1}/{questions.length}
+          Question {step + 1}/{activeQuestions.length}
         </p>
         <label htmlFor={currentQuestion.key}>{currentQuestion.label}</label>
         <textarea
@@ -304,7 +341,7 @@ function Onboarding() {
                 onClick={handleNext}
                 disabled={!canContinue || isSubmitting}
               >
-                {isSubmitting ? 'Génération...' : 'Générer ma synthèse'}
+                {isSubmitting ? submittingLabel : submitLabel}
               </button>
             </div>
           </div>

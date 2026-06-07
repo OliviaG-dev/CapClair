@@ -3,6 +3,17 @@
   gap: 1.25rem;
 }
 
+.objectif-detail > a {
+  width: fit-content;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.objectif-detail > a:hover {
+  text-decoration: underline;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -12,7 +23,7 @@
 .detail-grid article,
 .quick-actions,
 .progress-card {
-  background: linear-gradient(160deg, #ffffff 0%, #f8fbfc 100%);
+  background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-surface-soft) 100%);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 1.1rem;
@@ -22,6 +33,18 @@
 .detail-grid article {
   display: grid;
   gap: 0.5rem;
+}
+
+.detail-grid h2,
+.quick-actions h2,
+.progress-card h2 {
+  color: var(--color-title);
+}
+
+.detail-grid p,
+.detail-grid li,
+.progress-card li {
+  color: var(--color-text);
 }
 
 .quick-actions div {
@@ -55,7 +78,7 @@
 }
 
 .status-buttons button:last-child {
-  background: linear-gradient(135deg, var(--color-success), #4a948c);
+  background: linear-gradient(135deg, var(--color-success), color-mix(in srgb, var(--color-success) 80%, #000));
   border-color: var(--color-success);
 }
 
@@ -67,6 +90,12 @@
   padding: 0.7rem;
   font: inherit;
   margin-bottom: 0.6rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.progress-card textarea::placeholder {
+  color: var(--color-muted-text);
 }
 
 .history-list {
@@ -74,4 +103,9 @@
   padding-left: 1rem;
   display: grid;
   gap: 0.4rem;
+  color: var(--color-text);
+}
+
+.history-list strong {
+  color: var(--color-title);
 }

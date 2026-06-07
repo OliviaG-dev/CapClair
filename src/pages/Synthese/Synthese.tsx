@@ -1,6 +1,26 @@
 import { Link, Navigate } from 'react-router-dom'
+import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
+import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './Synthese.css'
+
+type SynthesisCardTextProps = {
+  text: string
+}
+
+function SynthesisCardText({ text }: SynthesisCardTextProps) {
+  const sentences = splitTextIntoSentences(text)
+
+  return (
+    <div className="synthese-card-text">
+      {sentences.map((sentence, index) => (
+        <p key={`${sentence}-${index}`} className="synthese-card-line">
+          {sentence}
+        </p>
+      ))}
+    </div>
+  )
+}
 
 function Synthese() {
   const { state } = useCapClairState()
@@ -19,29 +39,64 @@ function Synthese() {
         </p>
       </header>
       <div className="synthese-grid">
-        <article>
-          <h2>Ce que tu veux changer</h2>
-          <p>{state.synthesis.wantsToChange}</p>
+        <article className="synthese-card synthese-card-change">
+          <header className="synthese-card-header">
+            <span className="synthese-card-badge">Intention</span>
+            <h2>Ce que tu veux changer</h2>
+          </header>
+          <div className="synthese-card-body">
+            <SynthesisCardText text={state.synthesis.wantsToChange} />
+          </div>
         </article>
-        <article>
-          <h2>Ce qui te bloque</h2>
-          <p>{state.synthesis.blockers}</p>
+
+        <article className="synthese-card synthese-card-blockers">
+          <header className="synthese-card-header">
+            <span className="synthese-card-badge">Frein</span>
+            <h2>Ce qui te bloque</h2>
+          </header>
+          <div className="synthese-card-body">
+            <SynthesisCardText text={state.synthesis.blockers} />
+          </div>
         </article>
-        <article>
-          <h2>Ce qui semble important pour toi</h2>
-          <ul>
-            {state.synthesis.importantThemes.map((theme, index) => (
-              <li key={`${theme}-${index}`}>{theme}</li>
-            ))}
-          </ul>
+
+        <article className="synthese-card synthese-card-themes">
+          <header className="synthese-card-header">
+            <span className="synthese-card-badge">Priorites</span>
+            <h2>Ce qui semble important pour toi</h2>
+          </header>
+          <div className="synthese-card-body">
+            <ul className="synthese-list">
+              {state.synthesis.importantThemes.map((theme, index) => (
+                <li key={`${theme}-${index}`} className="synthese-list-item">
+                  <span className="synthese-list-index" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <span className="synthese-list-text">{theme}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </article>
-        <article>
-          <h2>Tes premieres pistes d objectifs</h2>
-          <ul>
-            {state.synthesis.suggestedGoals.map((goal, index) => (
-              <li key={`${goal}-${index}`}>{goal}</li>
-            ))}
-          </ul>
+
+        <article className="synthese-card synthese-card-goals">
+          <header className="synthese-card-header">
+            <span className="synthese-card-badge">Pistes</span>
+            <h2>
+              Tes premières <span className="synthese-card-title-keep">pistes d&apos;objectifs</span>
+            </h2>
+          </header>
+          <div className="synthese-card-body">
+            <ul className="synthese-list">
+              {state.synthesis.suggestedGoals.map((goal, index) => (
+                <li key={`${goal}-${index}`} className="synthese-list-item">
+                  <span className="synthese-list-index" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <span className="synthese-list-text">{goal}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </article>
       </div>
 
@@ -53,6 +108,13 @@ function Synthese() {
       <Link to="/dashboard" className="primary-link">
         Aller au dashboard
       </Link>
+
+      <aside className="synthese-refresh">
+        <p>{synthesisRefreshData.synthesisButtonHint}</p>
+        <Link to="/onboarding?mode=refresh" className="secondary-link">
+          {synthesisRefreshData.synthesisButtonLabel}
+        </Link>
+      </aside>
     </section>
   )
 }
