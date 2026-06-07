@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import BrandLogo from '../BrandLogo/BrandLogo'
 import navigationLinks from '../../data/navigationLinks.json'
@@ -42,20 +42,42 @@ function SunIcon() {
   )
 }
 
-function MoonIcon() {
+function MoonIcon({ gradientId }: { gradientId: string }) {
   return (
     <svg className="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
       <defs>
-        <linearGradient id="theme-moon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="var(--color-primary)" />
           <stop offset="100%" stopColor="var(--color-success)" />
         </linearGradient>
       </defs>
       <path
         d="M18.8 14.9a7.4 7.4 0 0 1-9.7-9.7 7.6 7.6 0 1 0 9.7 9.7Z"
-        fill="url(#theme-moon-gradient)"
+        fill={`url(#${gradientId})`}
       />
     </svg>
+  )
+}
+
+type ThemeToggleButtonProps = {
+  className?: string
+  theme: 'light' | 'dark'
+  onToggle: () => void
+}
+
+function ThemeToggleButton({ className, theme, onToggle }: ThemeToggleButtonProps) {
+  const moonGradientId = `theme-moon-gradient-${useId().replace(/:/g, '')}`
+
+  return (
+    <button
+      type="button"
+      className={['theme-toggle-btn', className].filter(Boolean).join(' ')}
+      onClick={onToggle}
+      aria-pressed={theme === 'dark'}
+      aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+    >
+      {theme === 'dark' ? <SunIcon /> : <MoonIcon gradientId={moonGradientId} />}
+    </button>
   )
 }
 
@@ -168,15 +190,11 @@ function AppLayout() {
           <BrandLogo />
           <p className="layout-helper-text">Un pas clair aujourd’hui vaut mieux qu’un grand plan flou.</p>
           <div className="layout-header-actions">
-            <button
-              type="button"
-              className="theme-toggle-btn"
-              onClick={toggleTheme}
-              aria-pressed={theme === 'dark'}
-              aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
-            >
-              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <ThemeToggleButton
+              className="theme-toggle-btn-mobile"
+              theme={theme}
+              onToggle={toggleTheme}
+            />
             <button
               type="button"
               className={`mobile-menu-btn ${isMobileMenuOpen ? 'mobile-menu-btn-open' : ''}`}
@@ -208,6 +226,11 @@ function AppLayout() {
               </NavLink>
             ))}
           </nav>
+          <ThemeToggleButton
+            className="theme-toggle-btn-desktop"
+            theme={theme}
+            onToggle={toggleTheme}
+          />
         </div>
       </header>
       {isMobileMenuOpen ? (
