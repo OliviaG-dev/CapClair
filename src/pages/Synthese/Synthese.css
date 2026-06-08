@@ -91,38 +91,50 @@
 }
 
 .synthese-card-header h2 {
-  margin: 0 0 0 auto;
-  flex: 1;
+  margin: 0;
   min-width: 0;
-  max-width: 72%;
-  text-align: right;
   font-size: clamp(0.9rem, 1.45vw, 1.02rem);
   font-weight: 500;
   font-style: italic;
   line-height: 1.4;
   letter-spacing: 0.01em;
   color: color-mix(in srgb, var(--synthese-accent, var(--color-primary)) 55%, var(--color-muted-text));
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
 }
 
-@media (max-width: 480px) {
+@media (min-width: 721px) {
+  .synthese-card-header h2 {
+    margin-left: auto;
+    flex: 1;
+    max-width: 72%;
+    text-align: right;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 720px) {
   .synthese-card-header {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    height: 5.35rem;
+    height: auto;
+    min-height: 5.35rem;
   }
 
   .synthese-card-header h2 {
-    margin-left: 0;
+    width: 100%;
     max-width: none;
-    text-align: left;
+    text-align: center;
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
   }
 }
+
 
 .first-action h2 {
   margin: 0;
@@ -169,7 +181,7 @@
 .synthese-list-item {
   display: grid;
   grid-template-columns: auto 1fr;
-  align-items: start;
+  align-items: center;
   gap: 0.65rem;
   padding: 0.62rem 0.7rem;
   border-radius: var(--radius-md);
@@ -199,7 +211,6 @@
   color: var(--color-text);
   font-size: 0.92rem;
   line-height: 1.5;
-  padding-top: 0.08rem;
 }
 
 .first-action {
@@ -222,16 +233,20 @@
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #fff;
   text-decoration: none;
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   padding: 0.68rem 1rem;
   font-weight: 600;
   box-shadow: var(--color-shadow-soft);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .primary-link:hover {
+  color: var(--color-primary-dark);
+  background: var(--color-primary-soft);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+  box-shadow: var(--color-shadow-soft);
   transform: translateY(-2px);
-  box-shadow: var(--color-shadow);
 }
 
 .synthese-refresh {

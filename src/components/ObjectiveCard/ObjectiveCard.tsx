@@ -1,21 +1,40 @@
 import { Link } from 'react-router-dom'
-import type { Objective } from '../../types/capclair.types'
+import aiCoachData from '../../data/aiCoachData.json'
+import type { Objective, ObjectiveStatus } from '../../types/capclair.types'
+import { formatDeadline } from '../../utils/formatDeadline'
 import './ObjectiveCard.css'
 
 type ObjectiveCardProps = {
   objective: Objective
 }
 
+const statusLabels = aiCoachData.objectives.statusLabels as Record<ObjectiveStatus, string>
+
 function ObjectiveCard({ objective }: ObjectiveCardProps) {
   return (
     <article className="objective-card">
-      <p className={`status status-${objective.status}`}>{objective.status}</p>
-      <h3>{objective.title}</h3>
-      <p>{objective.description}</p>
+      <div className="objective-card-top">
+        <p className={`status status-${objective.status}`}>{statusLabels[objective.status]}</p>
+        {objective.actionLabel ? (
+          <span className="objective-card-action">{objective.actionLabel}</span>
+        ) : null}
+      </div>
+
+      <p className="objective-card-focus">{objective.title}</p>
+
+      {objective.description !== objective.title ? (
+        <p className="objective-card-summary">{objective.description}</p>
+      ) : null}
+
+      {objective.nextSteps[0] ? (
+        <p className="objective-card-next-step">{objective.nextSteps[0]}</p>
+      ) : null}
+
       <div className="objective-meta">
         <span>Difficulte: {objective.difficulty}</span>
-        <span>Deadline: {objective.deadline}</span>
+        <span>Echeance: {formatDeadline(objective.deadline)}</span>
       </div>
+
       <Link to={`/objectifs/${objective.id}`} className="objective-link">
         Voir le detail
       </Link>

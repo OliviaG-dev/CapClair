@@ -1,6 +1,6 @@
 [
   { "to": "/onboarding", "label": "Onboarding", "requiresIncompleteOnboarding": true },
-  { "to": "/synthese", "label": "Synthese" },
+  { "to": "/synthese", "label": "Ma situation" },
   { "to": "/dashboard", "label": "Dashboard" },
   { "to": "/objectifs", "label": "Objectifs" },
   { "to": "/journal", "label": "Journal" },

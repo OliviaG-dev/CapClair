@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Dashboard from './Dashboard'
@@ -85,7 +85,8 @@ describe('Dashboard page', () => {
 
     expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Action du jour' })).toBeInTheDocument()
-    expect(screen.getByText('Step A')).toBeInTheDocument()
+    const dailyAction = screen.getByRole('article', { name: /action du jour/i })
+    expect(within(dailyAction).getByText('Step A')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Clarifier ma direction' })).toHaveAttribute(
       'href',
       '/objectifs/obj-1',

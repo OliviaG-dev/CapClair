@@ -303,14 +303,31 @@ const extractContent = (messageContent) => {
   return ''
 }
 
-const buildPrompt = (answers) => `Tu es un coach de clarte personnelle bienveillant.
+const buildPrompt = (answers) => `Tu es un coach de clarte personnelle bienveillant pour CapClair.
 Reponds UNIQUEMENT avec un JSON valide.
 
-Contraintes:
-- francais simple
-- concret
+Contraintes generales:
+- francais simple et humain
+- concret, realiste, bienveillant
 - pas de jugement
-- objectifs realistes et actionnables
+- base-toi uniquement sur les reponses utilisateur
+
+Pour la synthese:
+- wantsToChange: reformule ce que la personne veut faire evoluer (2-3 phrases max)
+- blockers: reformule les freins principaux (2-3 phrases max)
+- importantThemes: 3 priorites courtes
+- suggestedGoals: titres des objectifs generes (memes titres que objectives[].title)
+- firstAction: une seule micro-action faisable aujourd'hui (< 20 min)
+
+Pour objectives (3 a 5 objectifs SMART):
+- title: une phrase actionnable, claire, commence de preference par un verbe
+- description: une phrase qui explique pourquoi cet objectif compte maintenant
+- actionLabel: une valeur parmi "Clarifier", "Agir sur", "Prioriser", "Renforcer"
+- deepReason: lien avec le changement souhaite (changeWish)
+- obstacles: 1 a 3 freins concrets tires des reponses
+- motivation: une phrase de motivation liee aux priorites de la personne
+- nextSteps: 2 ou 3 micro-actions concretes (< 20 min chacune)
+- difficulty: "easy", "medium" ou "hard"
 
 Schema JSON attendu:
 {
@@ -320,7 +337,19 @@ Schema JSON attendu:
     "importantThemes": ["string", "string", "string"],
     "suggestedGoals": ["string", "string", "string"],
     "firstAction": "string"
-  }
+  },
+  "objectives": [
+    {
+      "title": "string",
+      "description": "string",
+      "actionLabel": "Clarifier|Agir sur|Prioriser|Renforcer",
+      "deepReason": "string",
+      "obstacles": ["string"],
+      "motivation": "string",
+      "nextSteps": ["string", "string"],
+      "difficulty": "easy|medium|hard"
+    }
+  ]
 }
 
 Reponses utilisateur:
@@ -331,6 +360,47 @@ Reponses utilisateur:
 - energySource: ${answers.energySource}
 - progressVision: ${answers.progressVision}
 `
+
+const OBJECTIVE_ITEM_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    title: { type: 'string' },
+    description: { type: 'string' },
+    actionLabel: {
+      type: 'string',
+      enum: ['Clarifier', 'Agir sur', 'Prioriser', 'Renforcer'],
+    },
+    deepReason: { type: 'string' },
+    obstacles: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 1,
+      maxItems: 3,
+    },
+    motivation: { type: 'string' },
+    nextSteps: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 3,
+    },
+    difficulty: {
+      type: 'string',
+      enum: ['easy', 'medium', 'hard'],
+    },
+  },
+  required: [
+    'title',
+    'description',
+    'actionLabel',
+    'deepReason',
+    'obstacles',
+    'motivation',
+    'nextSteps',
+    'difficulty',
+  ],
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -405,7 +475,7 @@ export default async function handler(req, res) {
                       type: 'array',
                       items: { type: 'string' },
                       minItems: 3,
-                      maxItems: 3,
+                      maxItems: 5,
                     },
                     firstAction: { type: 'string' },
                   },
@@ -417,8 +487,14 @@ export default async function handler(req, res) {
                     'firstAction',
                   ],
                 },
+                objectives: {
+                  type: 'array',
+                  items: OBJECTIVE_ITEM_SCHEMA,
+                  minItems: 3,
+                  maxItems: 5,
+                },
               },
-              required: ['synthesis'],
+              required: ['synthesis', 'objectives'],
             },
           },
         },

@@ -1,8 +1,14 @@
+import aiCoachData from '../data/aiCoachData.json'
 import type { OnboardingGeneration, QuestionnaireAnswers, Synthesis } from '../types/capclair.types'
+import type { ObjectiveDifficulty, ObjectiveDraft } from '../types/capclair.types'
 
 type ApiSynthesisResponse = {
   synthesis?: Partial<Synthesis>
+  objectives?: Partial<ObjectiveDraft>[]
 }
+
+const allowedActionLabels = new Set(aiCoachData.objectives.actionLabels as string[])
+const allowedDifficulties = new Set<ObjectiveDifficulty>(['easy', 'medium', 'hard'])
 
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === 'string' && value.trim().length > 0
@@ -24,6 +30,33 @@ const isValidSynthesis = (value: unknown): value is Synthesis => {
     isNonEmptyString(candidate.firstAction)
   )
 }
+
+const isValidObjectiveDraft = (value: unknown): value is ObjectiveDraft => {
+  if (!value || typeof value !== 'object') {
+    return false
+  }
+
+  const candidate = value as ObjectiveDraft
+  return (
+    isNonEmptyString(candidate.title) &&
+    isNonEmptyString(candidate.description) &&
+    isNonEmptyString(candidate.actionLabel) &&
+    allowedActionLabels.has(candidate.actionLabel) &&
+    isNonEmptyString(candidate.deepReason) &&
+    isStringArray(candidate.obstacles) &&
+    isNonEmptyString(candidate.motivation) &&
+    isStringArray(candidate.nextSteps) &&
+    candidate.nextSteps.length >= 2 &&
+    isNonEmptyString(candidate.difficulty) &&
+    allowedDifficulties.has(candidate.difficulty)
+  )
+}
+
+const isValidObjectives = (value: unknown): value is ObjectiveDraft[] =>
+  Array.isArray(value) &&
+  value.length >= 3 &&
+  value.length <= 5 &&
+  value.every(isValidObjectiveDraft)
 
 export async function generateOnboardingFromApi(
   answers: QuestionnaireAnswers,
@@ -54,9 +87,15 @@ export async function generateOnboardingFromApi(
       return null
     }
 
-    return {
+    const generation: OnboardingGeneration = {
       synthesis: payload.synthesis,
     }
+
+    if (isValidObjectives(payload.objectives)) {
+      generation.objectives = payload.objectives
+    }
+
+    return generation
   } catch (error) {
     console.error('Unable to generate onboarding synthesis from API', error)
     return null

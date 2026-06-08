@@ -72,8 +72,9 @@ describe('ObjectifDetail page', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Clarifier ma direction' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Clarifier cet objectif' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Done' })).toBeInTheDocument()
+    expect(screen.getByText('Description test')).toBeInTheDocument()
+    expect(screen.getByText('Action prioritaire')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Termine' })).toBeInTheDocument()
   })
 
   it('updates status and adds progress note', async () => {
@@ -87,11 +88,11 @@ describe('ObjectifDetail page', () => {
       </MemoryRouter>,
     )
 
-    await user.click(screen.getByRole('button', { name: 'Done' }))
+    await user.click(screen.getByRole('button', { name: 'Termine' }))
     expect(updateObjectiveMock).toHaveBeenCalledTimes(1)
     expect(updateObjectiveMock.mock.calls[0][0].status).toBe('done')
 
-    const textarea = screen.getByPlaceholderText('Qu est-ce qui a avance aujourd hui ?')
+    const textarea = screen.getByPlaceholderText("Qu'est-ce qui a avance aujourd'hui ?")
     await user.type(textarea, 'J ai avance sur ma priorite')
     await user.click(screen.getByRole('button', { name: 'Ajouter une note' }))
 

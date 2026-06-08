@@ -14,8 +14,21 @@
     "firstAction": "Bloquer 15 minutes aujourd hui pour definir une seule action simple"
   },
   "objectives": {
+    "maxCount": 12,
+    "actionLabels": [
+      "Clarifier",
+      "Agir sur",
+      "Prioriser",
+      "Renforcer"
+    ],
     "descriptionPrefix": "Objectif prioritaire pour avancer sans surcharge mentale:",
     "motivationPrefix": "Je veux avancer vers:",
+    "nextStepLabel": "Prochaine etape",
+    "statusLabels": {
+      "todo": "A faire",
+      "in_progress": "En cours",
+      "done": "Termine"
+    },
     "nextSteps": [
       "Definir la version la plus simple de cet objectif",
       "Planifier la prochaine action de moins de 20 minutes",

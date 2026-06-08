@@ -15,20 +15,32 @@
 
 .background-layer::before,
 .background-layer::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
 }
 
 .background-layer::before {
   background:
-    linear-gradient(128deg, rgba(37, 109, 133, 0.08) 0%, rgba(37, 109, 133, 0) 40%),
-    linear-gradient(312deg, rgba(93, 169, 160, 0.08) 0%, rgba(93, 169, 160, 0) 44%);
+    linear-gradient(
+      128deg,
+      rgba(37, 109, 133, 0.08) 0%,
+      rgba(37, 109, 133, 0) 40%
+    ),
+    linear-gradient(
+      312deg,
+      rgba(93, 169, 160, 0.08) 0%,
+      rgba(93, 169, 160, 0) 44%
+    );
   opacity: 0.85;
 }
 
 .background-layer::after {
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 52%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0) 52%
+  );
 }
 
 .geo-shape {
@@ -44,7 +56,12 @@
   height: min(24vw, 270px);
   clip-path: polygon(18% 8%, 82% 8%, 100% 50%, 82% 92%, 18% 92%, 0% 50%);
   border-radius: 24% 24% 24% 24% / 18% 18% 18% 18%;
-  background: linear-gradient(160deg, rgba(37, 109, 133, 0.18) 0%, rgba(93, 169, 160, 0.12) 55%, rgba(141, 151, 232, 0.08) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(37, 109, 133, 0.18) 0%,
+    rgba(93, 169, 160, 0.12) 55%,
+    rgba(141, 151, 232, 0.08) 100%
+  );
 }
 
 .geo-shape-pos-1 {
@@ -511,7 +528,9 @@
   height: 2px;
   border-radius: 999px;
   background: currentColor;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .mobile-menu-btn-open .burger-bar:nth-child(1) {
@@ -563,7 +582,11 @@
 }
 
 .nav-link-active {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   border-color: var(--color-primary);
   color: #fff;
 }
@@ -588,8 +611,8 @@
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-areas:
-      'logo actions'
-      'helper helper';
+      "logo actions"
+      "helper helper";
     align-items: center;
     gap: 0.55rem;
   }
@@ -606,7 +629,7 @@
     grid-area: helper;
     width: 100%;
     flex: initial;
-    text-align: left;
+    text-align: center;
     white-space: normal;
     overflow: visible;
     text-overflow: clip;
@@ -640,7 +663,9 @@
     pointer-events: none;
     opacity: 0;
     transform: translateY(-0.35rem);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .layout-nav-row-open {

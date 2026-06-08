@@ -18,9 +18,21 @@ export type ProgressEntry = {
   delta: number
 }
 
+export type ObjectiveDraft = {
+  title: string
+  description: string
+  actionLabel: string
+  deepReason: string
+  obstacles: string[]
+  motivation: string
+  nextSteps: string[]
+  difficulty: ObjectiveDifficulty
+}
+
 export type Objective = {
   id: string
   title: string
+  actionLabel?: string
   description: string
   deepReason: string
   obstacles: string[]
@@ -42,6 +54,7 @@ export type Synthesis = {
 
 export type OnboardingGeneration = {
   synthesis: Synthesis
+  objectives?: ObjectiveDraft[]
 }
 
 export type JournalEntry = {
