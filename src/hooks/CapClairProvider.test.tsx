@@ -76,7 +76,7 @@ describe('CapClairProvider', () => {
 
     await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
 
-    expect(screen.getByTestId('objectives-count')).toHaveTextContent('3')
+    expect(screen.getByTestId('objectives-count')).toHaveTextContent('4')
     const persistedAfterOnboarding = localStorage.getItem('capclair-state-v1')
     expect(persistedAfterOnboarding).not.toBeNull()
     expect(persistedAfterOnboarding).toContain('Retrouver mon cap')
@@ -112,7 +112,7 @@ describe('CapClairProvider', () => {
     await user.click(screen.getByRole('button', { name: 'Add journal entry' }))
     await user.click(screen.getByRole('button', { name: 'Refresh synthesis' }))
 
-    expect(screen.getByTestId('objectives-count')).toHaveTextContent('3')
+    expect(screen.getByTestId('objectives-count')).toHaveTextContent('4')
     expect(screen.getByTestId('journal-count')).toHaveTextContent('1')
 
     const persistedState = localStorage.getItem('capclair-state-v1')

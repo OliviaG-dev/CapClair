@@ -1,5 +1,13 @@
-import type { AppState, Objective, QuestionnaireAnswers, Synthesis } from '../types/capclair.types'
+import type {
+  AppState,
+  Objective,
+  OnboardingGeneration,
+  QuestionnaireAnswers,
+  Synthesis,
+} from '../types/capclair.types'
 import aiCoachData from '../data/aiCoachData.json'
+import { buildObjectiveSentenceDrafts } from '../utils/buildObjectiveSentenceDrafts'
+import { mapObjectiveDraftsToObjectives } from '../utils/mapObjectiveDrafts'
 
 const nextQuarterDeadline = () => {
   const date = new Date()
@@ -7,10 +15,26 @@ const nextQuarterDeadline = () => {
   return date.toISOString().slice(0, 10)
 }
 
-const buildGoalTitle = (base: string, fallback: string) =>
-  `${base.trim().slice(0, 42) || fallback}`.replace(/\.$/, '')
+const actionLabels = aiCoachData.objectives.actionLabels as string[]
+const maxObjectiveCount = aiCoachData.objectives.maxCount as number
+
+const buildAnswerSources = (answers: QuestionnaireAnswers) => [
+  { text: answers.changeWish, actionLabel: actionLabels[0] },
+  { text: answers.blockingFactor, actionLabel: actionLabels[1] },
+  { text: answers.improvementFocus, actionLabel: actionLabels[2] },
+  { text: answers.energySource, actionLabel: actionLabels[3] },
+]
+
+const buildSynthesisSources = (synthesis: Synthesis) => [
+  { text: synthesis.wantsToChange, actionLabel: actionLabels[0] },
+  { text: synthesis.blockers, actionLabel: actionLabels[1] },
+  { text: synthesis.importantThemes[0], actionLabel: actionLabels[2] },
+  { text: synthesis.importantThemes[1], actionLabel: actionLabels[3] },
+]
 
 export function generateSynthesis(answers: QuestionnaireAnswers): Synthesis {
+  const sentenceDrafts = buildObjectiveSentenceDrafts(buildAnswerSources(answers), maxObjectiveCount)
+
   return {
     wantsToChange: answers.changeWish,
     blockers: answers.blockingFactor,
@@ -19,29 +43,42 @@ export function generateSynthesis(answers: QuestionnaireAnswers): Synthesis {
       answers.energySource,
       aiCoachData.synthesis.extraTheme,
     ],
-    suggestedGoals: [
-      `${aiCoachData.synthesis.goalPrefixes[0]} ${buildGoalTitle(answers.changeWish, aiCoachData.synthesis.goalFallbacks[0])}`,
-      `${aiCoachData.synthesis.goalPrefixes[1]} ${buildGoalTitle(answers.blockingFactor, aiCoachData.synthesis.goalFallbacks[1])}`,
-      `${aiCoachData.synthesis.goalPrefixes[2]} ${buildGoalTitle(answers.energySource, aiCoachData.synthesis.goalFallbacks[2])}`,
-    ],
+    suggestedGoals: sentenceDrafts.map((draft) => draft.sentence),
     firstAction: aiCoachData.synthesis.firstAction,
   }
 }
 
 export function generateObjectives(synthesis: Synthesis): Objective[] {
-  return synthesis.suggestedGoals.slice(0, 3).map((goal, index) => ({
+  const sentenceDrafts = buildObjectiveSentenceDrafts(buildSynthesisSources(synthesis), maxObjectiveCount)
+  const nextSteps = aiCoachData.objectives.nextSteps as string[]
+
+  return sentenceDrafts.map((draft, index) => ({
     id: `obj-${index + 1}-${Date.now()}`,
-    title: goal,
-    description: `${aiCoachData.objectives.descriptionPrefix} ${goal}`,
+    actionLabel: draft.actionLabel,
+    title: draft.sentence,
+    description: draft.sentence,
     deepReason: synthesis.wantsToChange,
     obstacles: [synthesis.blockers],
     motivation: `${aiCoachData.objectives.motivationPrefix} ${synthesis.importantThemes[0]}`,
-    nextSteps: [...aiCoachData.objectives.nextSteps],
+    nextSteps: [nextSteps[index % nextSteps.length]],
     status: index === 0 ? 'in_progress' : 'todo',
     difficulty: index === 0 ? 'medium' : 'easy',
     deadline: nextQuarterDeadline(),
     progressHistory: [],
   }))
+}
+
+export function resolveOnboardingGeneration(
+  answers: QuestionnaireAnswers,
+  generationOverride?: OnboardingGeneration | null,
+): { synthesis: Synthesis; objectives: Objective[] } {
+  const synthesis = generationOverride?.synthesis ?? generateSynthesis(answers)
+  const objectives =
+    generationOverride?.objectives && generationOverride.objectives.length > 0
+      ? mapObjectiveDraftsToObjectives(generationOverride.objectives)
+      : generateObjectives(synthesis)
+
+  return { synthesis, objectives }
 }
 
 export function buildWeeklyInsight(state: AppState): string {

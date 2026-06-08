@@ -1,15 +1,35 @@
 {
-  "quickActions": [
-    "Clarifier cet objectif",
-    "Decouper en etapes",
-    "Trouver mon obstacle principal",
-    "Me remotiver",
-    "Proposer une action simple",
-    "Voir autrement"
-  ],
+  "backLink": "Retour a mes objectifs",
+  "focusBadge": "Action prioritaire",
+  "sections": {
+    "deepReason": {
+      "badge": "Pourquoi",
+      "title": "Ce qui t'anime"
+    },
+    "obstacles": {
+      "badge": "Freins",
+      "title": "Ce qui peut freiner"
+    },
+    "motivation": {
+      "badge": "Levier",
+      "title": "Ce qui te motive"
+    },
+    "nextSteps": {
+      "badge": "Plan",
+      "title": "Tes prochaines etapes"
+    }
+  },
+  "difficultyLabels": {
+    "easy": "Facile",
+    "medium": "Moyen",
+    "hard": "Difficile"
+  },
+  "progressTitle": "Suivi et progres",
+  "notePlaceholder": "Qu'est-ce qui a avance aujourd'hui ?",
+  "addNoteButton": "Ajouter une note",
   "statusButtons": [
-    { "label": "Todo", "status": "todo" },
-    { "label": "In progress", "status": "in_progress" },
-    { "label": "Done", "status": "done" }
+    { "label": "A faire", "status": "todo" },
+    { "label": "En cours", "status": "in_progress" },
+    { "label": "Termine", "status": "done" }
   ]
 }

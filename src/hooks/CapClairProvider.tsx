@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { buildWeeklyInsight, generateObjectives, generateSynthesis } from '../services/aiCoachService'
+import { buildWeeklyInsight, resolveOnboardingGeneration } from '../services/aiCoachService'
 import { loadState, persistState } from '../services/storageService'
 import type { AppState } from '../types/capclair.types'
 import { CapClairContext, type CapClairContextValue } from './capclairContext'
@@ -15,20 +15,20 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       completeOnboarding: (answers, generationOverride) => {
-        const synthesis = generationOverride?.synthesis ?? generateSynthesis(answers)
+        const { synthesis, objectives } = resolveOnboardingGeneration(answers, generationOverride)
         setState({
           answers,
           synthesis,
-          objectives: generateObjectives(synthesis),
+          objectives,
           journal: [],
         })
       },
       refreshSynthesis: (answers, generationOverride) => {
-        const synthesis = generationOverride?.synthesis ?? generateSynthesis(answers)
+        const { synthesis, objectives } = resolveOnboardingGeneration(answers, generationOverride)
         setState((previous) => ({
           answers,
           synthesis,
-          objectives: generateObjectives(synthesis),
+          objectives,
           journal: previous.journal,
         }))
       },
