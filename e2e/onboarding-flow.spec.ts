@@ -17,7 +17,7 @@ test('completes onboarding and reaches synthesis page', async ({ page }) => {
 
   await expect(page).toHaveURL(/\/synthese$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Ce que ton parcours met en lumiere',
+    'Ce que ton parcours met en lumière',
   )
 })
 

@@ -102,9 +102,9 @@ describe('Onboarding page', () => {
     render(<Onboarding />)
 
     expect(
-      screen.getByRole('heading', { name: 'Ta situation a evolue ? Reprenons le fil' }),
+      screen.getByRole('heading', { name: 'Ta situation a évolué ? Reprenons le fil' }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/Tes objectifs seront regeneres/)).toBeInTheDocument()
+    expect(screen.getByText(/Tes objectifs seront régénérés/)).toBeInTheDocument()
     expect(screen.getByText('Question 1/3')).toBeInTheDocument()
     expect(
       screen.getByLabelText(

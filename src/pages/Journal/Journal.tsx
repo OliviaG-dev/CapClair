@@ -30,12 +30,12 @@ function Journal() {
           rows={4}
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          placeholder="Ecris une petite victoire, un ressenti ou un blocage."
+          placeholder="Écris une petite victoire, un ressenti ou un blocage."
         />
 
         <div className="range-grid">
           <label>
-            Humeur: {mood}/5
+            Humeur : {mood}/5
             <input
               type="range"
               min={1}
@@ -45,7 +45,7 @@ function Journal() {
             />
           </label>
           <label>
-            Energie: {energy}/5
+            Énergie : {energy}/5
             <input
               type="range"
               min={1}
@@ -73,7 +73,7 @@ function Journal() {
         {state.journal.map((entry) => (
           <li key={entry.id}>
             <strong>{new Date(entry.createdAt).toLocaleDateString()}</strong>
-            <span>Humeur {entry.mood}/5 - Energie {entry.energy}/5</span>
+            <span>Humeur {entry.mood}/5 — Énergie {entry.energy}/5</span>
             <p>{entry.note}</p>
           </li>
         ))}

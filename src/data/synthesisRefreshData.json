@@ -1,10 +1,10 @@
 {
-  "pillLabel": "Mise a jour",
-  "title": "Ta situation a evolue ? Reprenons le fil",
-  "subtitle": "Reponds a 3 questions ciblees pour mettre a jour ta synthese.",
-  "notice": "Tes objectifs seront regeneres a partir de ta nouvelle synthese. Ton journal reste intact.",
-  "submitButton": "Mettre a jour ma synthese",
-  "submittingButton": "Mise a jour...",
-  "synthesisButtonLabel": "Ma situation a change",
-  "synthesisButtonHint": "Relance un questionnaire court pour adapter ta synthese et tes objectifs."
+  "pillLabel": "Mise à jour",
+  "title": "Ta situation a évolué ? Reprenons le fil",
+  "subtitle": "Réponds à 3 questions ciblées pour mettre à jour ta synthèse.",
+  "notice": "Tes objectifs seront régénérés à partir de ta nouvelle synthèse. Ton journal reste intact.",
+  "submitButton": "Mettre à jour ma synthèse",
+  "submittingButton": "Mise à jour...",
+  "synthesisButtonLabel": "Ma situation a changé",
+  "synthesisButtonHint": "Relance un questionnaire court pour adapter ta synthèse et tes objectifs."
 }

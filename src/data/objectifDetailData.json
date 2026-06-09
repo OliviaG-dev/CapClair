@@ -1,5 +1,5 @@
 {
-  "backLink": "Retour a mes objectifs",
+  "backLink": "Retour à mes objectifs",
   "focusBadge": "Action prioritaire",
   "sections": {
     "deepReason": {
@@ -16,7 +16,7 @@
     },
     "nextSteps": {
       "badge": "Plan",
-      "title": "Tes prochaines etapes"
+      "title": "Tes prochaines étapes"
     }
   },
   "difficultyLabels": {
@@ -24,12 +24,12 @@
     "medium": "Moyen",
     "hard": "Difficile"
   },
-  "progressTitle": "Suivi et progres",
-  "notePlaceholder": "Qu'est-ce qui a avance aujourd'hui ?",
+  "progressTitle": "Suivi et progrès",
+  "notePlaceholder": "Qu'est-ce qui a avancé aujourd'hui ?",
   "addNoteButton": "Ajouter une note",
   "statusButtons": [
-    { "label": "A faire", "status": "todo" },
+    { "label": "À faire", "status": "todo" },
     { "label": "En cours", "status": "in_progress" },
-    { "label": "Termine", "status": "done" }
+    { "label": "Terminé", "status": "done" }
   ]
 }

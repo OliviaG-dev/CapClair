@@ -7,11 +7,11 @@
       "Renforcer"
     ],
     "goalFallbacks": [
-      "ma priorite",
+      "ma priorité",
       "mon obstacle principal",
-      "ma source d energie"
+      "ma source d'énergie"
     ],
-    "firstAction": "Bloquer 15 minutes aujourd hui pour definir une seule action simple"
+    "firstAction": "Bloquer 15 minutes aujourd'hui pour définir une seule action simple"
   },
   "objectives": {
     "maxCount": 12,
@@ -23,22 +23,22 @@
     ],
     "descriptionPrefix": "Objectif prioritaire pour avancer sans surcharge mentale:",
     "motivationPrefix": "Je veux avancer vers:",
-    "nextStepLabel": "Prochaine etape",
+    "nextStepLabel": "Prochaine étape",
     "statusLabels": {
-      "todo": "A faire",
+      "todo": "À faire",
       "in_progress": "En cours",
-      "done": "Termine"
+      "done": "Terminé"
     },
     "nextSteps": [
-      "Definir la version la plus simple de cet objectif",
+      "Définir la version la plus simple de cet objectif",
       "Planifier la prochaine action de moins de 20 minutes",
       "Faire un point rapide en fin de semaine"
     ]
   },
   "weeklyInsights": {
-    "empty": "Commence par une action tres simple pour transformer ton flou en elan concret.",
-    "doneSuffix": "objectif(s). Continue avec des actions petites et concretes.",
+    "empty": "Commence par une action très simple pour transformer ton flou en élan concret.",
+    "doneSuffix": "objectif(s). Continue avec des actions petites et concrètes.",
     "multiInProgress": "Tu avances sur plusieurs fronts. Cette semaine, concentre-toi sur un seul objectif prioritaire.",
-    "default": "Ton principal levier est la regularite. Garde une action quotidienne courte et realiste."
+    "default": "Ton principal levier est la régularité. Garde une action quotidienne courte et réaliste."
   }
 }

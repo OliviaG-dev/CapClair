@@ -5,10 +5,77 @@ import objectifDetailData from '../../data/objectifDetailData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
 import type { ObjectiveDifficulty, ObjectiveStatus } from '../../types/capclair.types'
 import { formatDeadline } from '../../utils/formatDeadline'
+import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './ObjectifDetail.css'
 
 const statusLabels = aiCoachData.objectives.statusLabels as Record<ObjectiveStatus, string>
 const difficultyLabels = objectifDetailData.difficultyLabels as Record<ObjectiveDifficulty, string>
+
+type ObjectifDetailBulletTextProps = {
+  text: string
+  singleClassName: string
+  listClassName?: string
+}
+
+function ObjectifDetailBulletText({
+  text,
+  singleClassName,
+  listClassName = 'objectif-detail-card-text-list',
+}: ObjectifDetailBulletTextProps) {
+  const sentences = splitTextIntoSentences(text)
+
+  if (sentences.length <= 1) {
+    return <p className={singleClassName}>{text}</p>
+  }
+
+  return (
+    <ul className={listClassName}>
+      {sentences.map((sentence, index) => (
+        <li key={`${sentence}-${index}`} className="objectif-detail-card-text-item">
+          <span className="objectif-detail-card-text-bullet" aria-hidden="true" />
+          <span className="objectif-detail-card-text-line">{sentence}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+type ObjectifDetailCardTextProps = {
+  text: string
+}
+
+function ObjectifDetailCardText({ text }: ObjectifDetailCardTextProps) {
+  return (
+    <ObjectifDetailBulletText text={text} singleClassName="objectif-detail-card-text" />
+  )
+}
+
+type ObjectifDetailObstaclesTextProps = {
+  obstacles: string[]
+}
+
+function ObjectifDetailObstaclesText({ obstacles }: ObjectifDetailObstaclesTextProps) {
+  const sentences = obstacles.flatMap((obstacle) => splitTextIntoSentences(obstacle))
+
+  if (sentences.length === 0) {
+    return null
+  }
+
+  if (sentences.length === 1) {
+    return <p className="objectif-detail-card-text">{sentences[0]}</p>
+  }
+
+  return (
+    <ul className="objectif-detail-card-text-list">
+      {sentences.map((sentence, index) => (
+        <li key={`${sentence}-${index}`} className="objectif-detail-card-text-item">
+          <span className="objectif-detail-card-text-bullet" aria-hidden="true" />
+          <span className="objectif-detail-card-text-line">{sentence}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 function ObjectifDetail() {
   const { id } = useParams()
@@ -53,23 +120,31 @@ function ObjectifDetail() {
             <span className="objectif-detail-action">{objective.actionLabel}</span>
           ) : null}
           <span className="objectif-detail-pill">
-            Difficulte: {difficultyLabels[objective.difficulty]}
+            Difficulté : {difficultyLabels[objective.difficulty]}
           </span>
           <span className="objectif-detail-pill">
-            Echeance: {formatDeadline(objective.deadline)}
+            Échéance : {formatDeadline(objective.deadline)}
           </span>
         </div>
 
         <h1>{objective.title}</h1>
         {objective.description !== objective.title ? (
-          <p className="objectif-detail-summary">{objective.description}</p>
+          <ObjectifDetailBulletText
+            text={objective.description}
+            singleClassName="objectif-detail-summary"
+            listClassName="objectif-detail-summary-list"
+          />
         ) : null}
       </header>
 
       {primaryStep ? (
         <article className="objectif-focus-card">
           <p className="objectif-focus-badge">{objectifDetailData.focusBadge}</p>
-          <p className="objectif-focus-text">{primaryStep}</p>
+          <ObjectifDetailBulletText
+            text={primaryStep}
+            singleClassName="objectif-focus-text"
+            listClassName="objectif-focus-text-list"
+          />
         </article>
       ) : null}
 
@@ -81,7 +156,7 @@ function ObjectifDetail() {
             </span>
             <h2>{objectifDetailData.sections.deepReason.title}</h2>
           </header>
-          <p className="objectif-detail-card-text">{objective.deepReason}</p>
+          <ObjectifDetailCardText text={objective.deepReason} />
         </article>
 
         <article className="objectif-detail-card objectif-detail-card-blockers">
@@ -91,16 +166,7 @@ function ObjectifDetail() {
             </span>
             <h2>{objectifDetailData.sections.obstacles.title}</h2>
           </header>
-          <ul className="objectif-detail-list">
-            {objective.obstacles.map((obstacle) => (
-              <li key={obstacle} className="objectif-detail-list-item">
-                <span className="objectif-detail-list-marker" aria-hidden="true">
-                  !
-                </span>
-                <span>{obstacle}</span>
-              </li>
-            ))}
-          </ul>
+          <ObjectifDetailObstaclesText obstacles={objective.obstacles} />
         </article>
 
         <article className="objectif-detail-card objectif-detail-card-motivation">
@@ -110,7 +176,7 @@ function ObjectifDetail() {
             </span>
             <h2>{objectifDetailData.sections.motivation.title}</h2>
           </header>
-          <p className="objectif-detail-card-text">{objective.motivation}</p>
+          <ObjectifDetailCardText text={objective.motivation} />
         </article>
       </div>
 

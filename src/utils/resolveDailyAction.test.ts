@@ -121,6 +121,6 @@ describe('resolveDailyAction', () => {
     })
 
     expect(action?.source).toBe('all_done')
-    expect(action?.text).toContain('termines')
+    expect(action?.text).toContain('terminés')
   })
 })

@@ -57,9 +57,9 @@ function Dashboard() {
 
       <div className="kpi-grid">
         <KpiCard label="Objectifs en cours" value={`${inProgressCount}`} />
-        <KpiCard label="Objectifs termines" value={`${doneCount}`} />
+        <KpiCard label="Objectifs terminés" value={`${doneCount}`} />
         <KpiCard label="Progression globale" value={`${progress}%`} />
-        <KpiCard label="Energie moyenne" value={`${averageEnergy}`} />
+        <KpiCard label="Énergie moyenne" value={`${averageEnergy}`} />
       </div>
 
       <article className="ai-summary">

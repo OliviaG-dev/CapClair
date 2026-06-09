@@ -33,7 +33,7 @@ function Synthese() {
     <section className="synthese">
       <header className="page-hero">
         <p className="chip chip-accent">Déclic clarté</p>
-        <h1>Ce que ton parcours met en lumiere</h1>
+        <h1>Ce que ton parcours met en lumière</h1>
         <p className="page-subtitle">
           Voici une synthèse bienveillante pour t’aider à transformer ton ressenti en plan concret.
         </p>
@@ -61,7 +61,7 @@ function Synthese() {
 
         <article className="synthese-card synthese-card-themes">
           <header className="synthese-card-header">
-            <span className="synthese-card-badge">Priorites</span>
+            <span className="synthese-card-badge">Priorités</span>
             <h2>Ce qui semble important pour toi</h2>
           </header>
           <div className="synthese-card-body">
@@ -101,7 +101,7 @@ function Synthese() {
       </div>
 
       <article className="first-action">
-        <h2>Premiere action simple a faire aujourd hui</h2>
+        <h2>Première action simple à faire aujourd&apos;hui</h2>
         <p>{state.synthesis.firstAction}</p>
       </article>
 

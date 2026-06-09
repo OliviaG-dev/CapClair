@@ -31,12 +31,12 @@ function ObjectiveCard({ objective }: ObjectiveCardProps) {
       ) : null}
 
       <div className="objective-meta">
-        <span>Difficulte: {objective.difficulty}</span>
-        <span>Echeance: {formatDeadline(objective.deadline)}</span>
+        <span>Difficulté : {objective.difficulty}</span>
+        <span>Échéance : {formatDeadline(objective.deadline)}</span>
       </div>
 
       <Link to={`/objectifs/${objective.id}`} className="objective-link">
-        Voir le detail
+        Voir le détail
       </Link>
     </article>
   )
