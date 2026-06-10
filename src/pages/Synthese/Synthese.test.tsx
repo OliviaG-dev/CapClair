@@ -25,7 +25,7 @@ describe('Synthese page', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('link', { name: 'Ma situation a change' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Ma situation a changé' })).toHaveAttribute(
       'href',
       '/onboarding?mode=refresh',
     )

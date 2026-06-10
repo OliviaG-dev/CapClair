@@ -22,17 +22,19 @@ CapClair est une application React qui aide à clarifier une situation personnel
 Le MVP propose un parcours simple et utile :
 
 1. **Onboarding guidé** — questions clés pour clarifier la situation, avec suggestions par catégories.
-2. **Synthèse IA** — thèmes, blocages, motivations et objectifs proposés (OpenAI + fallback local).
-3. **Dashboard** — vision globale des objectifs et progression.
-4. **Objectifs** — détail d'un objectif, statut, notes de progression.
+2. **Ma situation** (`/synthese`) — synthèse IA structurée : intentions, freins, priorités et pistes d'objectifs (OpenAI + fallback local).
+3. **Dashboard** — vision globale, KPIs et **action du jour** (prochaine micro-étape prioritaire).
+4. **Objectifs** — cartes avec statut, échéance et accès au détail enrichi (pourquoi, freins, levier, plan d'action).
 5. **Journal** — humeur, énergie et petites victoires.
 6. **Stats** — répartition des objectifs et tendances personnelles.
 
 ## Fonctionnalités principales
 
 - Questionnaire multi-étapes avec barre de progression et suggestions interactives.
-- Génération automatique d'une synthèse et de 3 premiers objectifs via API IA.
-- Suivi des objectifs (`todo`, `in_progress`, `done`).
+- Génération automatique d'une synthèse et de **3 à 5 objectifs SMART** via API IA (fallback local si l'API n'est pas configurée).
+- **Mise à jour de la situation** — questionnaire court pour régénérer synthèse et objectifs sans toucher au journal.
+- **Action du jour** sur le dashboard, dérivée de l'objectif en cours ou de la première action de la synthèse.
+- Suivi des objectifs (`todo`, `in_progress`, `done`) avec page détail (échéance, difficulté, notes de progression).
 - Historique de notes de progression par objectif.
 - Journal quotidien (humeur + énergie).
 - Persistance locale avec `localStorage`.
@@ -56,7 +58,7 @@ Le MVP propose un parcours simple et utile :
 Architecture organisée par responsabilité :
 
 - `src/app/` — point d'entrée applicatif et routing
-- `src/pages/` — pages (Onboarding, Synthèse, Dashboard, etc.)
+- `src/pages/` — pages (Onboarding, Ma situation, Dashboard, Objectifs, etc.)
 - `src/components/` — composants UI réutilisables
 - `src/hooks/` — hooks et provider de state global
 - `src/services/` — logique de génération, appels API et persistence
@@ -72,7 +74,7 @@ L'interface s'appuie sur un système de variables CSS (`--color-surface`, `--col
 - Bascule **Mode clair / Mode sombre** dans le header, à droite du menu.
 - Préférence mémorisée dans `localStorage` (`capclair-theme`).
 - Détection automatique de la préférence système au premier chargement.
-- Toutes les pages (Onboarding, Dashboard, Objectifs, Synthèse, Journal, Stats) adaptent leurs cartes et champs internes au thème actif.
+- Toutes les pages (Onboarding, Ma situation, Dashboard, Objectifs, Journal, Stats) adaptent leurs cartes et champs internes au thème actif.
 
 ## Installation
 

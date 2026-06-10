@@ -92,7 +92,7 @@ describe('Dashboard page', () => {
       '/objectifs/obj-1',
     )
     expect(screen.getByText('Objectifs en cours')).toBeInTheDocument()
-    expect(screen.getByText('Objectifs termines')).toBeInTheDocument()
+    expect(screen.getByText('Objectifs terminés')).toBeInTheDocument()
     expect(screen.getByText('Progression globale')).toBeInTheDocument()
     expect(screen.getByText('50%')).toBeInTheDocument()
     expect(screen.getByText('3.0')).toBeInTheDocument()
@@ -115,7 +115,7 @@ describe('Dashboard page', () => {
     )
 
     expect(screen.getByText('Faire une action simple')).toBeInTheDocument()
-    expect(screen.getByText('Point de depart de ta synthese')).toBeInTheDocument()
+    expect(screen.getByText('Point de départ de ta synthèse')).toBeInTheDocument()
   })
 
   it('redirects to onboarding when synthesis is missing', () => {

@@ -36,9 +36,9 @@ function Stats() {
       </header>
 
       <article className="bars">
-        <h2>Repartition des objectifs</h2>
+        <h2>Répartition des objectifs</h2>
         <div className="bar-row">
-          <span>Termines</span>
+          <span>Terminés</span>
           <div className="bar-track">
             <div className="bar-done" style={{ width: `${Math.round((doneCount / total) * 100)}%` }} />
           </div>
@@ -55,7 +55,7 @@ function Stats() {
           <strong>{inProgressCount}</strong>
         </div>
         <div className="bar-row">
-          <span>A lancer</span>
+          <span>À lancer</span>
           <div className="bar-track">
             <div className="bar-todo" style={{ width: `${Math.round((todoCount / total) * 100)}%` }} />
           </div>
@@ -64,9 +64,9 @@ function Stats() {
       </article>
 
       <article className="mood-energy">
-        <h2>Humeur et energie moyennes</h2>
-        <p>Humeur: {moodAverage.toFixed(1)}/5</p>
-        <p>Energie: {energyAverage.toFixed(1)}/5</p>
+        <h2>Humeur et énergie moyennes</h2>
+        <p>Humeur : {moodAverage.toFixed(1)}/5</p>
+        <p>Énergie : {energyAverage.toFixed(1)}/5</p>
       </article>
     </section>
   )

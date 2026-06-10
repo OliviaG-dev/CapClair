@@ -68,6 +68,15 @@
   color: var(--color-text);
 }
 
+.objectif-detail-summary-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  max-width: 68ch;
+}
+
 .objectif-focus-card {
   display: grid;
   gap: 0.45rem;
@@ -99,6 +108,20 @@
   font-size: clamp(1rem, 2vw, 1.12rem);
   font-weight: 600;
   line-height: 1.45;
+  color: var(--color-title);
+}
+
+.objectif-focus-text-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.objectif-focus-text-list .objectif-detail-card-text-line {
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  font-weight: 600;
   color: var(--color-title);
 }
 
@@ -176,6 +199,36 @@
 
 .objectif-detail-card-text {
   margin: 0;
+  color: var(--color-text);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.objectif-detail-card-text-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.objectif-detail-card-text-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.55rem;
+}
+
+.objectif-detail-card-text-bullet {
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: 0.58rem;
+  border-radius: 999px;
+  background: var(--objectif-accent, var(--color-primary));
+  flex-shrink: 0;
+}
+
+.objectif-detail-card-text-line {
   color: var(--color-text);
   font-size: 0.96rem;
   line-height: 1.6;

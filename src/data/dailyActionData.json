@@ -1,7 +1,7 @@
 {
-  "allDoneMessage": "Bravo — tous tes objectifs sont termines. Prends un moment pour celebrer ta progression.",
+  "allDoneMessage": "Bravo — tous tes objectifs sont terminés. Prends un moment pour célébrer ta progression.",
   "sourceLabels": {
-    "inProgressPrefix": "Prochaine etape de",
-    "synthesis": "Point de depart de ta synthese"
+    "inProgressPrefix": "Prochaine étape de",
+    "synthesis": "Point de départ de ta synthèse"
   }
 }

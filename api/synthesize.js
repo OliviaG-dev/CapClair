@@ -303,29 +303,29 @@ const extractContent = (messageContent) => {
   return ''
 }
 
-const buildPrompt = (answers) => `Tu es un coach de clarte personnelle bienveillant pour CapClair.
-Reponds UNIQUEMENT avec un JSON valide.
+const buildPrompt = (answers) => `Tu es un coach de clarté personnelle bienveillant pour CapClair.
+Réponds UNIQUEMENT avec un JSON valide.
 
-Contraintes generales:
-- francais simple et humain
-- concret, realiste, bienveillant
+Contraintes générales:
+- français simple et humain, avec les accents corrects
+- concret, réaliste, bienveillant
 - pas de jugement
-- base-toi uniquement sur les reponses utilisateur
+- base-toi uniquement sur les réponses utilisateur
 
-Pour la synthese:
-- wantsToChange: reformule ce que la personne veut faire evoluer (2-3 phrases max)
+Pour la synthèse:
+- wantsToChange: reformule ce que la personne veut faire évoluer (2-3 phrases max)
 - blockers: reformule les freins principaux (2-3 phrases max)
-- importantThemes: 3 priorites courtes
-- suggestedGoals: titres des objectifs generes (memes titres que objectives[].title)
+- importantThemes: 3 priorités courtes
+- suggestedGoals: titres des objectifs générés (mêmes titres que objectives[].title)
 - firstAction: une seule micro-action faisable aujourd'hui (< 20 min)
 
-Pour objectives (3 a 5 objectifs SMART):
-- title: une phrase actionnable, claire, commence de preference par un verbe
+Pour objectives (3 à 5 objectifs SMART):
+- title: une phrase actionnable, claire, commence de préférence par un verbe
 - description: une phrase qui explique pourquoi cet objectif compte maintenant
 - actionLabel: une valeur parmi "Clarifier", "Agir sur", "Prioriser", "Renforcer"
-- deepReason: lien avec le changement souhaite (changeWish)
-- obstacles: 1 a 3 freins concrets tires des reponses
-- motivation: une phrase de motivation liee aux priorites de la personne
+- deepReason: lien avec le changement souhaité (changeWish)
+- obstacles: 1 à 3 freins concrets tirés des réponses
+- motivation: une phrase de motivation liée aux priorités de la personne
 - nextSteps: 2 ou 3 micro-actions concretes (< 20 min chacune)
 - difficulty: "easy", "medium" ou "hard"
 
