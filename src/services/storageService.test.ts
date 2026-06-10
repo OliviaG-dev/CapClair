@@ -23,12 +23,31 @@ describe('storageService', () => {
       },
       objectives: [],
       journal: [],
+      handoffCompleted: true,
     }
 
     persistState(payload)
     const loaded = loadState()
 
     expect(loaded).toEqual(payload)
+  })
+
+  it('migrates legacy sessions with synthesis to completed handoff', () => {
+    const legacyPayload = {
+      answers: null,
+      synthesis: {
+        wantsToChange: 'Changer',
+        blockers: 'Blocage',
+        importantThemes: ['Theme'],
+        suggestedGoals: ['Goal'],
+        firstAction: 'Action',
+      },
+      objectives: [],
+      journal: [],
+    }
+
+    localStorage.setItem('capclair-state-v1', JSON.stringify(legacyPayload))
+    expect(loadState().handoffCompleted).toBe(true)
   })
 
   it('returns initial state and logs when JSON is invalid', () => {

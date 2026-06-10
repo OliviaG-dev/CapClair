@@ -33,6 +33,7 @@ const mockState: AppState = {
     },
   ],
   journal: [],
+  handoffCompleted: false,
 }
 
 const mockContext = {

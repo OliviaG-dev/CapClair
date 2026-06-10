@@ -32,7 +32,7 @@ function Dashboard() {
     <section className="dashboard">
       <header className="page-hero">
         <p className="chip chip-accent">Vue globale</p>
-        <h1>Dashboard</h1>
+        <h1>Aujourd&apos;hui</h1>
         <p className="page-subtitle">
           Regarde ce qui avance vraiment, puis choisis la prochaine action la plus simple.
         </p>

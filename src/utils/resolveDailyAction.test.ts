@@ -15,6 +15,7 @@ const baseState: AppState = {
   synthesis: baseSynthesis,
   objectives: [],
   journal: [],
+  handoffCompleted: true,
 }
 
 describe('resolveDailyAction', () => {

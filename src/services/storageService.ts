@@ -7,6 +7,7 @@ const initialState: AppState = {
   synthesis: null,
   objectives: [],
   journal: [],
+  handoffCompleted: false,
 }
 
 export function getInitialState(): AppState {
@@ -20,12 +21,17 @@ export function loadState(): AppState {
       return initialState
     }
 
-    const parsedValue = JSON.parse(rawValue) as AppState
+    const parsedValue = JSON.parse(rawValue) as Partial<AppState>
+    const hasLegacyCompletedSession =
+      parsedValue.synthesis != null &&
+      (parsedValue.handoffCompleted === undefined || parsedValue.handoffCompleted === null)
+
     return {
       answers: parsedValue.answers ?? null,
       synthesis: parsedValue.synthesis ?? null,
       objectives: parsedValue.objectives ?? [],
       journal: parsedValue.journal ?? [],
+      handoffCompleted: hasLegacyCompletedSession ? true : (parsedValue.handoffCompleted ?? false),
     }
   } catch (error) {
     console.error('Unable to read CapClair state from localStorage', error)

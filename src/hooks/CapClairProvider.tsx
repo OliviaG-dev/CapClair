@@ -2,6 +2,10 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { buildWeeklyInsight, resolveOnboardingGeneration } from '../services/aiCoachService'
 import { loadState, persistState } from '../services/storageService'
 import type { AppState } from '../types/capclair.types'
+import {
+  applyPrimaryObjectiveStatus,
+  reconcileObjectiveUpdate,
+} from '../utils/reconcileObjectiveUpdate'
 import { CapClairContext, type CapClairContextValue } from './capclairContext'
 
 export function CapClairProvider({ children }: { children: ReactNode }) {
@@ -21,6 +25,7 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           synthesis,
           objectives,
           journal: [],
+          handoffCompleted: false,
         })
       },
       refreshSynthesis: (answers, generationOverride) => {
@@ -30,14 +35,13 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           synthesis,
           objectives,
           journal: previous.journal,
+          handoffCompleted: false,
         }))
       },
       updateObjective: (updatedObjective) => {
         setState((previous) => ({
           ...previous,
-          objectives: previous.objectives.map((objective) =>
-            objective.id === updatedObjective.id ? updatedObjective : objective,
-          ),
+          objectives: reconcileObjectiveUpdate(previous.objectives, updatedObjective),
         }))
       },
       addProgressNote: (objectiveId, note, delta) => {
@@ -84,6 +88,13 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
             },
             ...previous.journal,
           ],
+        }))
+      },
+      completeHandoff: (primaryObjectiveId) => {
+        setState((previous) => ({
+          ...previous,
+          handoffCompleted: true,
+          objectives: applyPrimaryObjectiveStatus(previous.objectives, primaryObjectiveId),
         }))
       },
       weeklyInsight: buildWeeklyInsight(state),

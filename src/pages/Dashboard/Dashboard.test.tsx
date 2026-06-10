@@ -50,6 +50,7 @@ const mockState: AppState = {
       note: 'Bonne journee',
     },
   ],
+  handoffCompleted: true,
 }
 
 const mockContext = {
@@ -83,7 +84,7 @@ describe('Dashboard page', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: "Aujourd'hui" })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Action du jour' })).toBeInTheDocument()
     const dailyAction = screen.getByRole('article', { name: /action du jour/i })
     expect(within(dailyAction).getByText('Step A')).toBeInTheDocument()

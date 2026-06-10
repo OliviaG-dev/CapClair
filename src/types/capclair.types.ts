@@ -70,4 +70,5 @@ export type AppState = {
   synthesis: Synthesis | null
   objectives: Objective[]
   journal: JournalEntry[]
+  handoffCompleted: boolean
 }

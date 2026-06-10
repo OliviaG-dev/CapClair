@@ -99,6 +99,7 @@ describe('aiCoachService', () => {
       synthesis: null,
       objectives: [],
       journal: [],
+      handoffCompleted: false,
     }
 
     expect(buildWeeklyInsight(baseState)).toContain('Commence')

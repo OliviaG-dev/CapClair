@@ -14,7 +14,7 @@ function Objectifs() {
     <section className="objectifs">
       <header className="page-hero">
         <p className="chip chip-accent">Plan d’action</p>
-        <h1>Objectifs / Progression</h1>
+        <h1>Mon plan</h1>
         <p className="page-subtitle">
           Clarifie, découpe et fais avancer chaque objectif à ton rythme avec des pas mesurables.
         </p>

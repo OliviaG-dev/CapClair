@@ -26,6 +26,7 @@ const mockState: AppState = {
       note: 'J ai avance un peu aujourd hui',
     },
   ],
+  handoffCompleted: true,
 }
 
 const mockContext = {

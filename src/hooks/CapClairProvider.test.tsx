@@ -5,7 +5,8 @@ import { CapClairProvider } from './CapClairProvider'
 import { useCapClairState } from './useCapClairState'
 
 function ProviderHarness() {
-  const { state, completeOnboarding, refreshSynthesis, addJournalEntry } = useCapClairState()
+  const { state, completeOnboarding, refreshSynthesis, addJournalEntry, completeHandoff, updateObjective } =
+    useCapClairState()
 
   return (
     <div>
@@ -51,8 +52,34 @@ function ProviderHarness() {
       >
         Add journal entry
       </button>
+      <button
+        type="button"
+        onClick={() => {
+          const primaryId = state.objectives[0]?.id
+          if (primaryId) {
+            completeHandoff(primaryId)
+          }
+        }}
+      >
+        Complete handoff
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          const secondaryObjective = state.objectives[1]
+          if (secondaryObjective) {
+            updateObjective({ ...secondaryObjective, status: 'in_progress' })
+          }
+        }}
+      >
+        Switch primary objective
+      </button>
       <p data-testid="objectives-count">{state.objectives.length}</p>
       <p data-testid="journal-count">{state.journal.length}</p>
+      <p data-testid="handoff-completed">{String(state.handoffCompleted)}</p>
+      <p data-testid="primary-status">
+        {state.objectives.find((objective) => objective.status === 'in_progress')?.title ?? 'none'}
+      </p>
     </div>
   )
 }
@@ -77,6 +104,7 @@ describe('CapClairProvider', () => {
     await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
 
     expect(screen.getByTestId('objectives-count')).toHaveTextContent('4')
+    expect(screen.getByTestId('handoff-completed')).toHaveTextContent('false')
     const persistedAfterOnboarding = localStorage.getItem('capclair-state-v1')
     expect(persistedAfterOnboarding).not.toBeNull()
     expect(persistedAfterOnboarding).toContain('Retrouver mon cap')
@@ -119,5 +147,42 @@ describe('CapClairProvider', () => {
     expect(persistedState).not.toBeNull()
     expect(persistedState).toContain('Nouveau cap')
     expect(persistedState).toContain('Petite victoire du jour')
+  })
+
+  it('marks one objective in progress when handoff is completed', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CapClairProvider>
+        <ProviderHarness />
+      </CapClairProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
+    await user.click(screen.getByRole('button', { name: 'Complete handoff' }))
+
+    expect(screen.getByTestId('handoff-completed')).toHaveTextContent('true')
+    expect(screen.getByTestId('primary-status')).not.toHaveTextContent('none')
+  })
+
+  it('keeps a single in-progress objective when switching priority', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CapClairProvider>
+        <ProviderHarness />
+      </CapClairProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
+    await user.click(screen.getByRole('button', { name: 'Switch primary objective' }))
+
+    const inProgressCount = screen.getByTestId('primary-status').textContent
+    expect(inProgressCount).not.toBe('none')
+    expect(
+      JSON.parse(localStorage.getItem('capclair-state-v1') ?? '{}').objectives.filter(
+        (objective: { status: string }) => objective.status === 'in_progress',
+      ),
+    ).toHaveLength(1)
   })
 })
