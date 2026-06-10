@@ -1,0 +1,78 @@
+.objective-facts {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  width: 100%;
+  padding-top: 0.58rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
+}
+
+.objective-facts::after {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: color-mix(in srgb, var(--color-border) 70%, transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.objective-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.objective-fact-intensity {
+  padding-right: 0.85rem;
+}
+
+.objective-fact-deadline {
+  align-items: flex-end;
+  padding-left: 0.85rem;
+  text-align: right;
+}
+
+.objective-fact-label {
+  font-size: 0.58rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+}
+
+.objective-fact-intensity-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.objective-fact-intensity-value-easy {
+  color: var(--color-success);
+}
+
+.objective-fact-intensity-value-medium {
+  color: var(--color-warning);
+}
+
+.objective-fact-intensity-value-hard {
+  color: #c85f52;
+}
+
+[data-theme='dark'] .objective-fact-intensity-value-hard {
+  color: #f08a7d;
+}
+
+.objective-fact-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-title);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}

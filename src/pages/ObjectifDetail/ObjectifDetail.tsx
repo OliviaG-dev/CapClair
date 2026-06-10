@@ -2,14 +2,13 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import aiCoachData from '../../data/aiCoachData.json'
 import objectifDetailData from '../../data/objectifDetailData.json'
+import ObjectiveFacts from '../../components/ObjectiveFacts/ObjectiveFacts'
 import { useCapClairState } from '../../hooks/useCapClairState'
-import type { ObjectiveDifficulty, ObjectiveStatus } from '../../types/capclair.types'
-import { formatDeadline } from '../../utils/formatDeadline'
+import type { ObjectiveStatus } from '../../types/capclair.types'
 import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './ObjectifDetail.css'
 
 const statusLabels = aiCoachData.objectives.statusLabels as Record<ObjectiveStatus, string>
-const difficultyLabels = objectifDetailData.difficultyLabels as Record<ObjectiveDifficulty, string>
 
 type ObjectifDetailBulletTextProps = {
   text: string
@@ -119,13 +118,8 @@ function ObjectifDetail() {
           {objective.actionLabel ? (
             <span className="objectif-detail-action">{objective.actionLabel}</span>
           ) : null}
-          <span className="objectif-detail-pill">
-            Difficulté : {difficultyLabels[objective.difficulty]}
-          </span>
-          <span className="objectif-detail-pill">
-            Échéance : {formatDeadline(objective.deadline)}
-          </span>
         </div>
+        <ObjectiveFacts difficulty={objective.difficulty} deadline={objective.deadline} />
 
         <h1>{objective.title}</h1>
         {objective.description !== objective.title ? (
