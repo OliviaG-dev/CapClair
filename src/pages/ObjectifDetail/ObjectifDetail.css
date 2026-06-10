@@ -115,6 +115,75 @@
   color: var(--color-title);
 }
 
+.objectif-step-complete {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.objectif-step-complete input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-primary);
+}
+
+.objectif-completed-steps,
+.objectif-upcoming-steps {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.objectif-completed-steps h3,
+.objectif-upcoming-steps h3 {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-title);
+}
+
+.objectif-completed-steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.objectif-completed-step-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: start;
+  padding: 0.55rem 0.62rem;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-success) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-success) 20%, var(--color-border));
+}
+
+.objectif-completed-step-check {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.objectif-completed-step-copy {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.objectif-completed-step-copy span {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.objectif-completed-step-copy time {
+  color: var(--color-muted-text);
+  font-size: 0.78rem;
+}
+
 .objectif-detail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

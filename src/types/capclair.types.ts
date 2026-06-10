@@ -18,6 +18,20 @@ export type ProgressEntry = {
   delta: number
 }
 
+export type CompletedStep = {
+  id: string
+  text: string
+  completedAt: string
+}
+
+export type ActionCompletionLog = {
+  id: string
+  text: string
+  completedAt: string
+  objectiveId?: string
+  source: 'in_progress_step' | 'synthesis'
+}
+
 export type ObjectiveDraft = {
   title: string
   description: string
@@ -38,6 +52,7 @@ export type Objective = {
   obstacles: string[]
   motivation: string
   nextSteps: string[]
+  completedSteps: CompletedStep[]
   status: ObjectiveStatus
   difficulty: ObjectiveDifficulty
   deadline: string
@@ -71,4 +86,6 @@ export type AppState = {
   objectives: Objective[]
   journal: JournalEntry[]
   handoffCompleted: boolean
+  actionHistory: ActionCompletionLog[]
+  completedSynthesisFirstAction: boolean
 }

@@ -27,6 +27,8 @@ const mockState: AppState = {
     },
   ],
   handoffCompleted: true,
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
 
 const mockContext = {

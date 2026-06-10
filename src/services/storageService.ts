@@ -1,6 +1,22 @@
-import type { AppState } from '../types/capclair.types'
+import type { AppState, Objective } from '../types/capclair.types'
 
 const STORAGE_KEY = 'capclair-state-v1'
+
+const normalizeObjective = (objective: Partial<Objective>): Objective => ({
+  id: objective.id ?? crypto.randomUUID(),
+  title: objective.title ?? '',
+  actionLabel: objective.actionLabel,
+  description: objective.description ?? '',
+  deepReason: objective.deepReason ?? '',
+  obstacles: objective.obstacles ?? [],
+  motivation: objective.motivation ?? '',
+  nextSteps: objective.nextSteps ?? [],
+  completedSteps: objective.completedSteps ?? [],
+  status: objective.status ?? 'todo',
+  difficulty: objective.difficulty ?? 'medium',
+  deadline: objective.deadline ?? '',
+  progressHistory: objective.progressHistory ?? [],
+})
 
 const initialState: AppState = {
   answers: null,
@@ -8,6 +24,8 @@ const initialState: AppState = {
   objectives: [],
   journal: [],
   handoffCompleted: false,
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
 
 export function getInitialState(): AppState {
@@ -29,9 +47,13 @@ export function loadState(): AppState {
     return {
       answers: parsedValue.answers ?? null,
       synthesis: parsedValue.synthesis ?? null,
-      objectives: parsedValue.objectives ?? [],
+      objectives: (parsedValue.objectives ?? []).map((objective) =>
+        normalizeObjective(objective as Partial<Objective>),
+      ),
       journal: parsedValue.journal ?? [],
       handoffCompleted: hasLegacyCompletedSession ? true : (parsedValue.handoffCompleted ?? false),
+      actionHistory: parsedValue.actionHistory ?? [],
+      completedSynthesisFirstAction: parsedValue.completedSynthesisFirstAction ?? false,
     }
   } catch (error) {
     console.error('Unable to read CapClair state from localStorage', error)

@@ -3,6 +3,11 @@ import { buildWeeklyInsight, resolveOnboardingGeneration } from '../services/aiC
 import { loadState, persistState } from '../services/storageService'
 import type { AppState } from '../types/capclair.types'
 import {
+  applyDailyActionCompletion,
+  applyObjectiveStepCompletion,
+} from '../utils/completeDailyActionState'
+import { mergeObjectivesOnRefresh } from '../utils/mergeObjectivesOnRefresh'
+import {
   applyPrimaryObjectiveStatus,
   reconcileObjectiveUpdate,
 } from '../utils/reconcileObjectiveUpdate'
@@ -26,16 +31,26 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           objectives,
           journal: [],
           handoffCompleted: false,
+          actionHistory: [],
+          completedSynthesisFirstAction: false,
         })
       },
       refreshSynthesis: (answers, generationOverride) => {
-        const { synthesis, objectives } = resolveOnboardingGeneration(answers, generationOverride)
+        const { synthesis, objectives: generatedObjectives } = resolveOnboardingGeneration(
+          answers,
+          generationOverride,
+        )
         setState((previous) => ({
           answers,
           synthesis,
-          objectives,
+          objectives: mergeObjectivesOnRefresh(previous.objectives, generatedObjectives),
           journal: previous.journal,
-          handoffCompleted: false,
+          handoffCompleted: previous.handoffCompleted,
+          actionHistory: previous.actionHistory,
+          completedSynthesisFirstAction:
+            previous.synthesis?.firstAction === synthesis.firstAction
+              ? previous.completedSynthesisFirstAction
+              : false,
         }))
       },
       updateObjective: (updatedObjective) => {
@@ -96,6 +111,12 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           handoffCompleted: true,
           objectives: applyPrimaryObjectiveStatus(previous.objectives, primaryObjectiveId),
         }))
+      },
+      completeDailyAction: () => {
+        setState((previous) => applyDailyActionCompletion(previous))
+      },
+      completeObjectiveStep: (objectiveId) => {
+        setState((previous) => applyObjectiveStepCompletion(previous, objectiveId))
       },
       weeklyInsight: buildWeeklyInsight(state),
     }),

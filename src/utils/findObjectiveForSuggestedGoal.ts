@@ -1,6 +1,5 @@
 import type { Objective } from '../types/capclair.types'
-
-const normalizeText = (value: string): string => value.trim().toLowerCase()
+import { findSimilarObjective } from './findSimilarObjective'
 
 export function findObjectiveForSuggestedGoal(
   suggestedGoal: string,
@@ -11,24 +10,5 @@ export function findObjectiveForSuggestedGoal(
     return undefined
   }
 
-  const normalizedGoal = normalizeText(suggestedGoal)
-
-  const exactMatch = objectives.find(
-    (objective) => normalizeText(objective.title) === normalizedGoal,
-  )
-  if (exactMatch) {
-    return exactMatch
-  }
-
-  const objectiveAtIndex = objectives[index]
-  if (objectiveAtIndex) {
-    return objectiveAtIndex
-  }
-
-  return objectives.find((objective) => {
-    const normalizedTitle = normalizeText(objective.title)
-    return (
-      normalizedTitle.includes(normalizedGoal) || normalizedGoal.includes(normalizedTitle)
-    )
-  })
+  return findSimilarObjective(suggestedGoal, index, objectives)
 }

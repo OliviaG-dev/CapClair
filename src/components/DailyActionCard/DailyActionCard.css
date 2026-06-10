@@ -1,0 +1,74 @@
+.daily-action-complete {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.daily-action-complete input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-primary);
+}
+
+.daily-action-history {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.daily-action-history h3 {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-title);
+}
+
+.daily-action-history-groups {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.daily-action-history-date {
+  margin: 0 0 0.25rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+}
+
+.daily-action-history-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.daily-action-history-item {
+  position: relative;
+  padding-left: 1rem;
+  color: var(--color-text);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.daily-action-history-item::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.daily-action-history-empty {
+  margin: 0;
+  color: var(--color-muted-text);
+  font-size: 0.86rem;
+  font-style: italic;
+}

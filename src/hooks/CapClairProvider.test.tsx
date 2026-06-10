@@ -5,7 +5,7 @@ import { CapClairProvider } from './CapClairProvider'
 import { useCapClairState } from './useCapClairState'
 
 function ProviderHarness() {
-  const { state, completeOnboarding, refreshSynthesis, addJournalEntry, completeHandoff, updateObjective } =
+  const { state, completeOnboarding, refreshSynthesis, addJournalEntry, completeHandoff, updateObjective, completeDailyAction } =
     useCapClairState()
 
   return (
@@ -74,11 +74,18 @@ function ProviderHarness() {
       >
         Switch primary objective
       </button>
+      <button type="button" onClick={() => completeDailyAction()}>
+        Complete daily action
+      </button>
       <p data-testid="objectives-count">{state.objectives.length}</p>
       <p data-testid="journal-count">{state.journal.length}</p>
       <p data-testid="handoff-completed">{String(state.handoffCompleted)}</p>
       <p data-testid="primary-status">
         {state.objectives.find((objective) => objective.status === 'in_progress')?.title ?? 'none'}
+      </p>
+      <p data-testid="action-history-count">{state.actionHistory.length}</p>
+      <p data-testid="first-pending-step">
+        {state.objectives[0]?.nextSteps.find((step) => step.trim().length > 0) ?? 'none'}
       </p>
     </div>
   )
@@ -184,5 +191,50 @@ describe('CapClairProvider', () => {
         (objective: { status: string }) => objective.status === 'in_progress',
       ),
     ).toHaveLength(1)
+  })
+
+  it('advances the daily action and keeps action history on completion', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CapClairProvider>
+        <ProviderHarness />
+      </CapClairProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
+    await user.click(screen.getByRole('button', { name: 'Complete handoff' }))
+    const firstPendingStep = screen.getByTestId('first-pending-step').textContent
+
+    await user.click(screen.getByRole('button', { name: 'Complete daily action' }))
+
+    expect(screen.getByTestId('action-history-count')).toHaveTextContent('1')
+    expect(screen.getByTestId('first-pending-step').textContent).not.toBe(firstPendingStep)
+  })
+
+  it('preserves objective progress when refreshing synthesis', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CapClairProvider>
+        <ProviderHarness />
+      </CapClairProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Complete onboarding' }))
+    await user.click(screen.getByRole('button', { name: 'Complete handoff' }))
+    await user.click(screen.getByRole('button', { name: 'Complete daily action' }))
+
+    const persistedBeforeRefresh = JSON.parse(localStorage.getItem('capclair-state-v1') ?? '{}')
+    const completedStepsBeforeRefresh =
+      persistedBeforeRefresh.objectives[0]?.completedSteps?.length ?? 0
+
+    await user.click(screen.getByRole('button', { name: 'Refresh synthesis' }))
+
+    const persistedAfterRefresh = JSON.parse(localStorage.getItem('capclair-state-v1') ?? '{}')
+    expect(persistedAfterRefresh.objectives[0]?.completedSteps?.length ?? 0).toBe(
+      completedStepsBeforeRefresh,
+    )
+    expect(persistedAfterRefresh.actionHistory?.length ?? 0).toBeGreaterThan(0)
   })
 })

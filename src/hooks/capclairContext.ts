@@ -21,6 +21,8 @@ export type CapClairContextValue = {
     generationOverride?: OnboardingGeneration,
   ) => void
   completeHandoff: (primaryObjectiveId: string) => void
+  completeDailyAction: () => void
+  completeObjectiveStep: (objectiveId: string) => void
   weeklyInsight: string
 }
 

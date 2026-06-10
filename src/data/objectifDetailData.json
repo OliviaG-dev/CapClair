@@ -29,6 +29,10 @@
   "progressTitle": "Suivi et progrès",
   "notePlaceholder": "Qu'est-ce qui a avancé aujourd'hui ?",
   "addNoteButton": "Ajouter une note",
+  "stepCompleteLabel": "Marquer cette étape comme faite",
+  "completedStepsTitle": "Étapes terminées",
+  "currentStepBadge": "Étape en cours",
+  "upcomingStepsTitle": "Étapes à venir",
   "statusButtons": [
     { "label": "À faire", "status": "todo" },
     { "label": "En cours", "status": "in_progress" },

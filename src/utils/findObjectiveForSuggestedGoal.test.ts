@@ -10,6 +10,7 @@ const baseObjective: Objective = {
   obstacles: ['Flou'],
   motivation: 'Motivation',
   nextSteps: ['Etape 1'],
+  completedSteps: [],
   status: 'todo',
   difficulty: 'medium',
   deadline: '2026-12-31',

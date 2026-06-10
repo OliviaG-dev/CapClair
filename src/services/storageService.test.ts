@@ -24,6 +24,8 @@ describe('storageService', () => {
       objectives: [],
       journal: [],
       handoffCompleted: true,
+      actionHistory: [],
+      completedSynthesisFirstAction: false,
     }
 
     persistState(payload)
