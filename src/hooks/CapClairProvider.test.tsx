@@ -84,6 +84,7 @@ function ProviderHarness() {
         {state.objectives.find((objective) => objective.status === 'in_progress')?.title ?? 'none'}
       </p>
       <p data-testid="action-history-count">{state.actionHistory.length}</p>
+      <p data-testid="synthesis-source">{state.synthesisSource ?? 'none'}</p>
       <p data-testid="first-pending-step">
         {state.objectives[0]?.nextSteps.find((step) => step.trim().length > 0) ?? 'none'}
       </p>
@@ -112,6 +113,7 @@ describe('CapClairProvider', () => {
 
     expect(screen.getByTestId('objectives-count')).toHaveTextContent('4')
     expect(screen.getByTestId('handoff-completed')).toHaveTextContent('false')
+    expect(screen.getByTestId('synthesis-source')).toHaveTextContent('local')
     const persistedAfterOnboarding = localStorage.getItem('capclair-state-v1')
     expect(persistedAfterOnboarding).not.toBeNull()
     expect(persistedAfterOnboarding).toContain('Retrouver mon cap')

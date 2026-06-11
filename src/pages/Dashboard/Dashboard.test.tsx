@@ -53,6 +53,7 @@ const mockState: AppState = {
     },
   ],
   handoffCompleted: true,
+  synthesisSource: 'local',
   actionHistory: [],
   completedSynthesisFirstAction: false,
 }

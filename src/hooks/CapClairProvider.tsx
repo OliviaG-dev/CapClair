@@ -31,6 +31,7 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           objectives,
           journal: [],
           handoffCompleted: false,
+          synthesisSource: generationOverride ? 'ai' : 'local',
           actionHistory: [],
           completedSynthesisFirstAction: false,
         })
@@ -46,6 +47,7 @@ export function CapClairProvider({ children }: { children: ReactNode }) {
           objectives: mergeObjectivesOnRefresh(previous.objectives, generatedObjectives),
           journal: previous.journal,
           handoffCompleted: previous.handoffCompleted,
+          synthesisSource: generationOverride ? 'ai' : 'local',
           actionHistory: previous.actionHistory,
           completedSynthesisFirstAction:
             previous.synthesis?.firstAction === synthesis.firstAction

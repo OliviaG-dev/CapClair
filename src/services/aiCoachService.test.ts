@@ -100,6 +100,7 @@ describe('aiCoachService', () => {
       objectives: [],
       journal: [],
       handoffCompleted: false,
+      synthesisSource: null,
       actionHistory: [],
       completedSynthesisFirstAction: false,
     }

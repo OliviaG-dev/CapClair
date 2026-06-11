@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import onboardingConfig from '../../data/onboardingConfig.json'
+import onboardingIntroData from '../../data/onboardingIntroData.json'
 import suggestionsData from '../../data/onboardingSuggestions.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
@@ -237,16 +238,19 @@ function Onboarding() {
 
   return (
     <section className="onboarding">
-      <p className="pill">{isRefreshMode ? synthesisRefreshData.pillLabel : 'Onboarding'}</p>
+      <p className="pill">
+        {isRefreshMode ? synthesisRefreshData.pillLabel : onboardingIntroData.pillLabel}
+      </p>
       <h1>
-        {isRefreshMode
-          ? synthesisRefreshData.title
-          : 'Retrouve ton cap en répondant à quelques questions'}
+        {isRefreshMode ? synthesisRefreshData.title : onboardingIntroData.title}
       </h1>
+      {isRefreshMode ? null : (
+        <p className="onboarding-tagline">{onboardingIntroData.tagline}</p>
+      )}
       <p className="subtitle">
         {isRefreshMode
           ? synthesisRefreshData.subtitle
-          : `Progression: ${progress}% — plus tu décris ton vécu, plus la synthèse sera pertinente.`}
+          : `${onboardingIntroData.subtitle} Progression : ${progress}%.`}
       </p>
       {isRefreshMode ? <p className="refresh-notice">{synthesisRefreshData.notice}</p> : null}
       <div

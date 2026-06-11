@@ -1,0 +1,6 @@
+{
+  "aiLabel": "Synthèse IA",
+  "aiDescription": "Contenu généré par OpenAI à partir de tes réponses.",
+  "localLabel": "Mode local",
+  "localDescription": "Contenu généré localement — l'API n'était pas disponible."
+}

@@ -1,3 +1,5 @@
+export type SynthesisSource = 'ai' | 'local'
+
 export type ObjectiveStatus = 'todo' | 'in_progress' | 'done'
 
 export type ObjectiveDifficulty = 'easy' | 'medium' | 'hard'
@@ -86,6 +88,7 @@ export type AppState = {
   objectives: Objective[]
   journal: JournalEntry[]
   handoffCompleted: boolean
+  synthesisSource: SynthesisSource | null
   actionHistory: ActionCompletionLog[]
   completedSynthesisFirstAction: boolean
 }

@@ -35,6 +35,7 @@ const mockState: AppState = {
   ],
   journal: [],
   handoffCompleted: false,
+  synthesisSource: 'local',
   actionHistory: [],
   completedSynthesisFirstAction: false,
 }

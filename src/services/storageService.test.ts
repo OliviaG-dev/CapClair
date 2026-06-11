@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { AppState } from '../types/capclair.types'
 import { getInitialState, loadState, persistState } from './storageService'
 
 describe('storageService', () => {
@@ -12,7 +13,7 @@ describe('storageService', () => {
   })
 
   it('persists and loads state from localStorage', () => {
-    const payload = {
+    const payload: AppState = {
       answers: null,
       synthesis: {
         wantsToChange: 'Changer',
@@ -24,6 +25,7 @@ describe('storageService', () => {
       objectives: [],
       journal: [],
       handoffCompleted: true,
+      synthesisSource: 'local',
       actionHistory: [],
       completedSynthesisFirstAction: false,
     }
@@ -50,6 +52,7 @@ describe('storageService', () => {
 
     localStorage.setItem('capclair-state-v1', JSON.stringify(legacyPayload))
     expect(loadState().handoffCompleted).toBe(true)
+    expect(loadState().synthesisSource).toBe('local')
   })
 
   it('returns initial state and logs when JSON is invalid', () => {

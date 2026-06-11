@@ -16,6 +16,7 @@ const baseState: AppState = {
   objectives: [],
   journal: [],
   handoffCompleted: true,
+  synthesisSource: 'local',
   actionHistory: [],
   completedSynthesisFirstAction: false,
 }

@@ -24,6 +24,7 @@ const initialState: AppState = {
   objectives: [],
   journal: [],
   handoffCompleted: false,
+  synthesisSource: null,
   actionHistory: [],
   completedSynthesisFirstAction: false,
 }
@@ -43,6 +44,9 @@ export function loadState(): AppState {
     const hasLegacyCompletedSession =
       parsedValue.synthesis != null &&
       (parsedValue.handoffCompleted === undefined || parsedValue.handoffCompleted === null)
+    const hasLegacySynthesisWithoutSource =
+      parsedValue.synthesis != null &&
+      (parsedValue.synthesisSource === undefined || parsedValue.synthesisSource === null)
 
     return {
       answers: parsedValue.answers ?? null,
@@ -52,6 +56,9 @@ export function loadState(): AppState {
       ),
       journal: parsedValue.journal ?? [],
       handoffCompleted: hasLegacyCompletedSession ? true : (parsedValue.handoffCompleted ?? false),
+      synthesisSource: hasLegacySynthesisWithoutSource
+        ? 'local'
+        : (parsedValue.synthesisSource ?? null),
       actionHistory: parsedValue.actionHistory ?? [],
       completedSynthesisFirstAction: parsedValue.completedSynthesisFirstAction ?? false,
     }

@@ -65,6 +65,9 @@ describe('Onboarding page', () => {
       screen.getByRole('heading', { name: 'Retrouve ton cap en répondant à quelques questions' }),
     ).toBeInTheDocument()
     expect(
+      screen.getByText('En 10 minutes, tu clarifies ta situation. Ensuite, un pas par jour.'),
+    ).toBeInTheDocument()
+    expect(
       screen.getByLabelText('Qu’est-ce que tu aimerais changer en ce moment ?'),
     ).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Santé' })).toBeInTheDocument()

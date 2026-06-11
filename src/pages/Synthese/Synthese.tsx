@@ -1,4 +1,5 @@
 import { Link, Navigate } from 'react-router-dom'
+import SynthesisSourceBadge from '../../components/SynthesisSourceBadge/SynthesisSourceBadge'
 import handoffData from '../../data/handoffData.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
@@ -39,6 +40,7 @@ function Synthese() {
     <section className="synthese">
       <header className="page-hero">
         <p className="chip chip-accent">Déclic clarté</p>
+        {state.synthesisSource ? <SynthesisSourceBadge source={state.synthesisSource} /> : null}
         <h1>Ce que ton parcours met en lumière</h1>
         <p className="page-subtitle">
           Voici une synthèse bienveillante pour t’aider à transformer ton ressenti en plan concret.
