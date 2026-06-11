@@ -1,0 +1,115 @@
+.handoff {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.handoff-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1.05rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: linear-gradient(165deg, var(--color-surface) 0%, var(--color-surface-soft) 100%);
+  box-shadow: var(--color-shadow-soft);
+}
+
+.handoff-card h2 {
+  margin: 0;
+  font-size: clamp(1rem, 1.8vw, 1.12rem);
+  color: var(--color-title);
+}
+
+.handoff-action-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.handoff-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.handoff-confirm input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-primary);
+}
+
+.handoff-hint {
+  margin: 0;
+  color: var(--color-muted-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.handoff-objective-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.handoff-objective-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.65rem;
+  padding: 0.72rem 0.78rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.handoff-objective-option-selected {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface-soft));
+}
+
+.handoff-objective-option input {
+  margin-top: 0.25rem;
+  accent-color: var(--color-primary);
+}
+
+.handoff-objective-copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.handoff-objective-copy strong {
+  color: var(--color-title);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.handoff-objective-copy span {
+  color: var(--color-muted-text);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.handoff-submit {
+  justify-self: start;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 0.68rem 1rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.handoff-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.handoff-submit:not(:disabled):hover {
+  transform: translateY(-1px);
+}

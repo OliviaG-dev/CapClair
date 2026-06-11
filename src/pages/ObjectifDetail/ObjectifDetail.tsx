@@ -2,14 +2,15 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import aiCoachData from '../../data/aiCoachData.json'
 import objectifDetailData from '../../data/objectifDetailData.json'
+import ObjectiveFacts from '../../components/ObjectiveFacts/ObjectiveFacts'
 import { useCapClairState } from '../../hooks/useCapClairState'
-import type { ObjectiveDifficulty, ObjectiveStatus } from '../../types/capclair.types'
-import { formatDeadline } from '../../utils/formatDeadline'
+import type { ObjectiveStatus } from '../../types/capclair.types'
+import { findCurrentStep } from '../../utils/advanceObjectiveStep'
+import { formatActionDate } from '../../utils/formatActionDate'
 import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './ObjectifDetail.css'
 
 const statusLabels = aiCoachData.objectives.statusLabels as Record<ObjectiveStatus, string>
-const difficultyLabels = objectifDetailData.difficultyLabels as Record<ObjectiveDifficulty, string>
 
 type ObjectifDetailBulletTextProps = {
   text: string
@@ -79,7 +80,7 @@ function ObjectifDetailObstaclesText({ obstacles }: ObjectifDetailObstaclesTextP
 
 function ObjectifDetail() {
   const { id } = useParams()
-  const { state, updateObjective, addProgressNote } = useCapClairState()
+  const { state, updateObjective, addProgressNote, completeObjectiveStep } = useCapClairState()
   const [note, setNote] = useState('')
 
   const objective = useMemo(
@@ -95,8 +96,8 @@ function ObjectifDetail() {
     return <Navigate to="/objectifs" replace />
   }
 
-  const primaryStep = objective.nextSteps[0]
-  const remainingSteps = objective.nextSteps.slice(1)
+  const currentStep = findCurrentStep(objective.nextSteps)
+  const upcomingSteps = objective.nextSteps.filter((step) => step.trim().length > 0).slice(1)
 
   const handleStatusChange = (status: ObjectiveStatus) => {
     updateObjective({
@@ -119,13 +120,8 @@ function ObjectifDetail() {
           {objective.actionLabel ? (
             <span className="objectif-detail-action">{objective.actionLabel}</span>
           ) : null}
-          <span className="objectif-detail-pill">
-            Difficulté : {difficultyLabels[objective.difficulty]}
-          </span>
-          <span className="objectif-detail-pill">
-            Échéance : {formatDeadline(objective.deadline)}
-          </span>
         </div>
+        <ObjectiveFacts difficulty={objective.difficulty} deadline={objective.deadline} />
 
         <h1>{objective.title}</h1>
         {objective.description !== objective.title ? (
@@ -137,14 +133,25 @@ function ObjectifDetail() {
         ) : null}
       </header>
 
-      {primaryStep ? (
+      {currentStep ? (
         <article className="objectif-focus-card">
-          <p className="objectif-focus-badge">{objectifDetailData.focusBadge}</p>
+          <p className="objectif-focus-badge">{objectifDetailData.currentStepBadge}</p>
           <ObjectifDetailBulletText
-            text={primaryStep}
+            text={currentStep}
             singleClassName="objectif-focus-text"
             listClassName="objectif-focus-text-list"
           />
+          <label className="objectif-step-complete">
+            <input
+              type="checkbox"
+              onChange={(event) => {
+                if (event.target.checked) {
+                  completeObjectiveStep(objective.id)
+                }
+              }}
+            />
+            <span>{objectifDetailData.stepCompleteLabel}</span>
+          </label>
         </article>
       ) : null}
 
@@ -180,7 +187,7 @@ function ObjectifDetail() {
         </article>
       </div>
 
-      {objective.nextSteps.length > 0 ? (
+      {((objective.completedSteps ?? []).length > 0 || upcomingSteps.length > 0) ? (
         <article className="objectif-steps-card">
           <header className="objectif-detail-card-header">
             <span className="objectif-detail-card-badge">
@@ -188,25 +195,41 @@ function ObjectifDetail() {
             </span>
             <h2>{objectifDetailData.sections.nextSteps.title}</h2>
           </header>
-          <ol className="objectif-steps-list">
-            {remainingSteps.length > 0
-              ? remainingSteps.map((step, index) => (
-                  <li key={step} className="objectif-steps-item">
-                    <span className="objectif-steps-index" aria-hidden="true">
-                      {index + 2}
+
+          {(objective.completedSteps ?? []).length > 0 ? (
+            <section className="objectif-completed-steps">
+              <h3>{objectifDetailData.completedStepsTitle}</h3>
+              <ul className="objectif-completed-steps-list">
+                {(objective.completedSteps ?? []).map((step) => (
+                  <li key={step.id} className="objectif-completed-step-item">
+                    <span className="objectif-completed-step-check" aria-hidden="true">
+                      ✓
                     </span>
-                    <span className="objectif-steps-text">{step}</span>
+                    <div className="objectif-completed-step-copy">
+                      <span>{step.text}</span>
+                      <time dateTime={step.completedAt}>{formatActionDate(step.completedAt)}</time>
+                    </div>
                   </li>
-                ))
-              : objective.nextSteps.map((step, index) => (
-                  <li key={step} className="objectif-steps-item">
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {upcomingSteps.length > 0 ? (
+            <section className="objectif-upcoming-steps">
+              <h3>{objectifDetailData.upcomingStepsTitle}</h3>
+              <ol className="objectif-steps-list">
+                {upcomingSteps.map((step, index) => (
+                  <li key={`${step}-${index}`} className="objectif-steps-item">
                     <span className="objectif-steps-index" aria-hidden="true">
-                      {index + 1}
+                      {(objective.completedSteps ?? []).length + index + 2}
                     </span>
                     <span className="objectif-steps-text">{step}</span>
                   </li>
                 ))}
-          </ol>
+              </ol>
+            </section>
+          ) : null}
         </article>
       ) : null}
 

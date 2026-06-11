@@ -1,0 +1,16 @@
+{
+  "chipLabel": "Ton cap",
+  "title": "Voilà par quoi commencer",
+  "subtitle": "Confirme ta première action, puis choisis l'objectif prioritaire pour cette phase.",
+  "firstActionTitle": "Première action",
+  "firstActionConfirmLabel": "Je confirme cette première action pour aujourd'hui",
+  "priorityTitle": "Objectif prioritaire",
+  "priorityHint": "Les autres objectifs restent en attente. Tu pourras les activer plus tard.",
+  "submitButton": "Commencer avec cet objectif",
+  "synthesisContinueLabel": "Continuer — choisir mon cap",
+  "synthesisDashboardLabel": "Aller à Aujourd'hui",
+  "goalLinkLabel": "C'est devenu cet objectif →",
+  "monCapBannerLabel": "Mon cap",
+  "monCapFocusPrefix": "En cours :",
+  "monCapNoFocus": "Aucun objectif actif pour le moment."
+}

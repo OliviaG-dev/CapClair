@@ -15,6 +15,10 @@ const baseState: AppState = {
   synthesis: baseSynthesis,
   objectives: [],
   journal: [],
+  handoffCompleted: true,
+  synthesisSource: 'local',
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
 
 describe('resolveDailyAction', () => {
@@ -34,6 +38,7 @@ describe('resolveDailyAction', () => {
           obstacles: ['Obstacle'],
           motivation: 'Motivation',
           nextSteps: ['Planifier 20 minutes demain matin', 'Autre etape'],
+          completedSteps: [],
           status: 'in_progress',
           difficulty: 'medium',
           deadline: '2026-12-31',
@@ -62,6 +67,7 @@ describe('resolveDailyAction', () => {
           obstacles: ['Obstacle'],
           motivation: 'Motivation',
           nextSteps: ['Etape ignoree'],
+          completedSteps: [],
           status: 'todo',
           difficulty: 'medium',
           deadline: '2026-12-31',
@@ -88,6 +94,7 @@ describe('resolveDailyAction', () => {
           obstacles: ['Obstacle'],
           motivation: 'Motivation',
           nextSteps: ['', '   '],
+          completedSteps: [],
           status: 'in_progress',
           difficulty: 'medium',
           deadline: '2026-12-31',
@@ -112,6 +119,7 @@ describe('resolveDailyAction', () => {
           obstacles: ['Obstacle'],
           motivation: 'Motivation',
           nextSteps: ['Etape'],
+          completedSteps: [],
           status: 'done',
           difficulty: 'medium',
           deadline: '2026-12-31',
@@ -122,5 +130,15 @@ describe('resolveDailyAction', () => {
 
     expect(action?.source).toBe('all_done')
     expect(action?.text).toContain('terminés')
+  })
+
+  it('skips synthesis firstAction once it has been completed', () => {
+    const action = resolveDailyAction({
+      ...baseState,
+      objectives: [],
+      completedSynthesisFirstAction: true,
+    })
+
+    expect(action).toBeNull()
   })
 })

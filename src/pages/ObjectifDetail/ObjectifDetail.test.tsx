@@ -26,6 +26,7 @@ const mockState: AppState = {
       obstacles: ['Le flou'],
       motivation: 'Avancer pas a pas',
       nextSteps: ['Definir une priorite'],
+      completedSteps: [],
       status: 'todo',
       difficulty: 'medium',
       deadline: '2026-12-31',
@@ -33,12 +34,19 @@ const mockState: AppState = {
     },
   ],
   journal: [],
+  handoffCompleted: false,
+  synthesisSource: 'local',
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
+
+const completeObjectiveStepMock = vi.fn()
 
 const mockContext = {
   state: mockState,
   updateObjective: updateObjectiveMock,
   addProgressNote: addProgressNoteMock,
+  completeObjectiveStep: completeObjectiveStepMock,
 }
 
 vi.mock('../../hooks/useCapClairState', () => ({
@@ -73,7 +81,7 @@ describe('ObjectifDetail page', () => {
 
     expect(screen.getByRole('heading', { name: 'Clarifier ma direction' })).toBeInTheDocument()
     expect(screen.getByText('Description test')).toBeInTheDocument()
-    expect(screen.getByText('Action prioritaire')).toBeInTheDocument()
+    expect(screen.getByText('Étape en cours')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Terminé' })).toBeInTheDocument()
   })
 

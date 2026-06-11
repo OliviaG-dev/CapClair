@@ -1,5 +1,8 @@
 {
   "allDoneMessage": "Bravo — tous tes objectifs sont terminés. Prends un moment pour célébrer ta progression.",
+  "completeLabel": "J'ai fait cette action",
+  "historyTitle": "Actions réalisées",
+  "historyEmpty": "Aucune action cochée pour le moment.",
   "sourceLabels": {
     "inProgressPrefix": "Prochaine étape de",
     "synthesis": "Point de départ de ta synthèse"

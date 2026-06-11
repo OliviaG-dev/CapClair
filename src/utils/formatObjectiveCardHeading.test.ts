@@ -10,6 +10,7 @@ const baseObjective: Objective = {
   obstacles: ['Ecrans'],
   motivation: 'Repos',
   nextSteps: ['Agir'],
+  completedSteps: [],
   status: 'in_progress',
   difficulty: 'medium',
   deadline: '2026-12-01',

@@ -1,0 +1,40 @@
+.synthesis-source-badge {
+  display: grid;
+  gap: 0.2rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.synthesis-source-badge-ai {
+  background: color-mix(in srgb, var(--color-ai-soft) 55%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+}
+
+.synthesis-source-badge-local {
+  background: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface-soft));
+  border-color: color-mix(in srgb, var(--color-warning) 35%, var(--color-border));
+}
+
+.synthesis-source-badge-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.synthesis-source-badge-ai .synthesis-source-badge-label {
+  color: var(--color-primary-dark);
+}
+
+.synthesis-source-badge-local .synthesis-source-badge-label {
+  color: color-mix(in srgb, var(--color-warning) 75%, var(--color-title));
+}
+
+.synthesis-source-badge-description {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--color-muted-text);
+}

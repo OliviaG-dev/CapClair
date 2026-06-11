@@ -40,7 +40,7 @@ export function resolveDailyAction(state: AppState): DailyAction | null {
 
   const firstAction = state.synthesis.firstAction.trim()
 
-  if (firstAction.length > 0) {
+  if (firstAction.length > 0 && !state.completedSynthesisFirstAction) {
     return {
       text: firstAction,
       source: 'synthesis',

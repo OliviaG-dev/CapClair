@@ -28,6 +28,7 @@ export function mapObjectiveDraftsToObjectives(drafts: ObjectiveDraft[]): Object
     obstacles: draft.obstacles.map(sanitizeText).filter(Boolean),
     motivation: sanitizeText(draft.motivation),
     nextSteps: draft.nextSteps.map(sanitizeText).filter(Boolean),
+    completedSteps: [],
     status: index === 0 ? 'in_progress' : 'todo',
     difficulty: sanitizeDifficulty(draft.difficulty),
     deadline: nextQuarterDeadline(),

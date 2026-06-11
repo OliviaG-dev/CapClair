@@ -1,0 +1,63 @@
+.mon-cap-banner {
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-primary) 6%, var(--color-surface)) 0%,
+    var(--color-surface) 100%
+  );
+}
+
+.mon-cap-banner-inner {
+  display: grid;
+  gap: 0.2rem;
+  max-width: var(--layout-max-width, 960px);
+  margin: 0 auto;
+  padding: 0.55rem 1rem 0.65rem;
+}
+
+.mon-cap-banner-label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.mon-cap-banner-summary {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.mon-cap-banner-focus {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--color-muted-text);
+}
+
+.mon-cap-banner-focus-muted {
+  font-style: italic;
+}
+
+.mon-cap-banner-link {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mon-cap-banner-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .mon-cap-banner-inner {
+    padding-inline: 0.85rem;
+  }
+
+  .mon-cap-banner-summary {
+    font-size: 0.84rem;
+  }
+}

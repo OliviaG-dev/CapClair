@@ -22,6 +22,7 @@ const mockState: AppState = {
       obstacles: ['Obstacle A'],
       motivation: 'Motivation A',
       nextSteps: ['Step A'],
+      completedSteps: [],
       status: 'in_progress',
       difficulty: 'medium',
       deadline: '2026-12-31',
@@ -35,6 +36,7 @@ const mockState: AppState = {
       obstacles: ['Obstacle B'],
       motivation: 'Motivation B',
       nextSteps: ['Step B'],
+      completedSteps: [],
       status: 'done',
       difficulty: 'easy',
       deadline: '2026-12-31',
@@ -50,11 +52,18 @@ const mockState: AppState = {
       note: 'Bonne journee',
     },
   ],
+  handoffCompleted: true,
+  synthesisSource: 'local',
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
+
+const completeDailyActionMock = vi.fn()
 
 const mockContext = {
   state: mockState,
   weeklyInsight: 'Concentre-toi sur un seul objectif prioritaire.',
+  completeDailyAction: completeDailyActionMock,
 }
 
 vi.mock('../../hooks/useCapClairState', () => ({
@@ -83,7 +92,7 @@ describe('Dashboard page', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: "Aujourd'hui" })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Action du jour' })).toBeInTheDocument()
     const dailyAction = screen.getByRole('article', { name: /action du jour/i })
     expect(within(dailyAction).getByText('Step A')).toBeInTheDocument()
@@ -97,6 +106,7 @@ describe('Dashboard page', () => {
     expect(screen.getByText('50%')).toBeInTheDocument()
     expect(screen.getByText('3.0')).toBeInTheDocument()
     expect(screen.getByText('Concentre-toi sur un seul objectif prioritaire.')).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: "J'ai fait cette action" })).toBeInTheDocument()
   })
 
   it('falls back to synthesis firstAction when no objective is in progress', () => {

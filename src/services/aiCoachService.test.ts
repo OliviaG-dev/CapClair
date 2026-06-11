@@ -99,6 +99,10 @@ describe('aiCoachService', () => {
       synthesis: null,
       objectives: [],
       journal: [],
+      handoffCompleted: false,
+      synthesisSource: null,
+      actionHistory: [],
+      completedSynthesisFirstAction: false,
     }
 
     expect(buildWeeklyInsight(baseState)).toContain('Commence')
@@ -114,6 +118,7 @@ describe('aiCoachService', () => {
           obstacles: ['O'],
           motivation: 'M',
           nextSteps: ['N'],
+          completedSteps: [],
           status: 'done',
           difficulty: 'easy',
           deadline: '2026-12-01',

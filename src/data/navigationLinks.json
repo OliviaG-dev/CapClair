@@ -1,8 +1,8 @@
 [
   { "to": "/onboarding", "label": "Onboarding", "requiresIncompleteOnboarding": true },
   { "to": "/synthese", "label": "Ma situation" },
-  { "to": "/dashboard", "label": "Dashboard" },
-  { "to": "/objectifs", "label": "Objectifs" },
+  { "to": "/dashboard", "label": "Aujourd'hui" },
+  { "to": "/objectifs", "label": "Mon plan" },
   { "to": "/journal", "label": "Journal" },
   { "to": "/stats", "label": "Stats" }
 ]

@@ -61,6 +61,7 @@ export function generateObjectives(synthesis: Synthesis): Objective[] {
     obstacles: [synthesis.blockers],
     motivation: `${aiCoachData.objectives.motivationPrefix} ${synthesis.importantThemes[0]}`,
     nextSteps: [nextSteps[index % nextSteps.length]],
+    completedSteps: [],
     status: index === 0 ? 'in_progress' : 'todo',
     difficulty: index === 0 ? 'medium' : 'easy',
     deadline: nextQuarterDeadline(),

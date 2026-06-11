@@ -26,6 +26,10 @@ const mockState: AppState = {
       note: 'J ai avance un peu aujourd hui',
     },
   ],
+  handoffCompleted: true,
+  synthesisSource: 'local',
+  actionHistory: [],
+  completedSynthesisFirstAction: false,
 }
 
 const mockContext = {

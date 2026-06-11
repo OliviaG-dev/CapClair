@@ -213,6 +213,27 @@
   line-height: 1.5;
 }
 
+.synthese-goal-item {
+  align-items: start;
+}
+
+.synthese-goal-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.synthese-goal-link {
+  width: fit-content;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+
+.synthese-goal-link:hover {
+  text-decoration: underline;
+}
+
 .first-action {
   display: grid;
   gap: 0.55rem;

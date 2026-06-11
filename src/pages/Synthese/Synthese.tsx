@@ -1,6 +1,9 @@
 import { Link, Navigate } from 'react-router-dom'
+import SynthesisSourceBadge from '../../components/SynthesisSourceBadge/SynthesisSourceBadge'
+import handoffData from '../../data/handoffData.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
+import { findObjectiveForSuggestedGoal } from '../../utils/findObjectiveForSuggestedGoal'
 import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './Synthese.css'
 
@@ -24,6 +27,10 @@ function SynthesisCardText({ text }: SynthesisCardTextProps) {
 
 function Synthese() {
   const { state } = useCapClairState()
+  const continuePath = state.handoffCompleted ? '/dashboard' : '/handoff'
+  const continueLabel = state.handoffCompleted
+    ? handoffData.synthesisDashboardLabel
+    : handoffData.synthesisContinueLabel
 
   if (!state.synthesis) {
     return <Navigate to="/onboarding" replace />
@@ -33,6 +40,7 @@ function Synthese() {
     <section className="synthese">
       <header className="page-hero">
         <p className="chip chip-accent">Déclic clarté</p>
+        {state.synthesisSource ? <SynthesisSourceBadge source={state.synthesisSource} /> : null}
         <h1>Ce que ton parcours met en lumière</h1>
         <p className="page-subtitle">
           Voici une synthèse bienveillante pour t’aider à transformer ton ressenti en plan concret.
@@ -87,14 +95,32 @@ function Synthese() {
           </header>
           <div className="synthese-card-body">
             <ul className="synthese-list">
-              {state.synthesis.suggestedGoals.map((goal, index) => (
-                <li key={`${goal}-${index}`} className="synthese-list-item">
-                  <span className="synthese-list-index" aria-hidden="true">
-                    {index + 1}
-                  </span>
-                  <span className="synthese-list-text">{goal}</span>
-                </li>
-              ))}
+              {state.synthesis.suggestedGoals.map((goal, index) => {
+                const matchedObjective = findObjectiveForSuggestedGoal(
+                  goal,
+                  index,
+                  state.objectives,
+                )
+
+                return (
+                  <li key={`${goal}-${index}`} className="synthese-list-item synthese-goal-item">
+                    <span className="synthese-list-index" aria-hidden="true">
+                      {index + 1}
+                    </span>
+                    <div className="synthese-goal-copy">
+                      <span className="synthese-list-text">{goal}</span>
+                      {matchedObjective ? (
+                        <Link
+                          to={`/objectifs/${matchedObjective.id}`}
+                          className="synthese-goal-link"
+                        >
+                          {handoffData.goalLinkLabel}
+                        </Link>
+                      ) : null}
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </article>
@@ -105,8 +131,8 @@ function Synthese() {
         <p>{state.synthesis.firstAction}</p>
       </article>
 
-      <Link to="/dashboard" className="primary-link">
-        Aller au dashboard
+      <Link to={continuePath} className="primary-link">
+        {continueLabel}
       </Link>
 
       <aside className="synthese-refresh">

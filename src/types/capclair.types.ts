@@ -1,3 +1,5 @@
+export type SynthesisSource = 'ai' | 'local'
+
 export type ObjectiveStatus = 'todo' | 'in_progress' | 'done'
 
 export type ObjectiveDifficulty = 'easy' | 'medium' | 'hard'
@@ -16,6 +18,20 @@ export type ProgressEntry = {
   createdAt: string
   note: string
   delta: number
+}
+
+export type CompletedStep = {
+  id: string
+  text: string
+  completedAt: string
+}
+
+export type ActionCompletionLog = {
+  id: string
+  text: string
+  completedAt: string
+  objectiveId?: string
+  source: 'in_progress_step' | 'synthesis'
 }
 
 export type ObjectiveDraft = {
@@ -38,6 +54,7 @@ export type Objective = {
   obstacles: string[]
   motivation: string
   nextSteps: string[]
+  completedSteps: CompletedStep[]
   status: ObjectiveStatus
   difficulty: ObjectiveDifficulty
   deadline: string
@@ -70,4 +87,8 @@ export type AppState = {
   synthesis: Synthesis | null
   objectives: Objective[]
   journal: JournalEntry[]
+  handoffCompleted: boolean
+  synthesisSource: SynthesisSource | null
+  actionHistory: ActionCompletionLog[]
+  completedSynthesisFirstAction: boolean
 }

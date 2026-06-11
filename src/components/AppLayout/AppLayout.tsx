@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import BrandLogo from '../BrandLogo/BrandLogo'
+import MonCapBanner from '../MonCapBanner/MonCapBanner'
 import navigationLinks from '../../data/navigationLinks.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
 import './AppLayout.css'
@@ -83,8 +84,14 @@ function ThemeToggleButton({ className, theme, onToggle }: ThemeToggleButtonProp
 
 function AppLayout() {
   const { state } = useCapClairState()
+  const location = useLocation()
   const [theme, setTheme] = useState<'light' | 'dark'>(() => resolveInitialTheme())
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const showMonCapBanner =
+    state.synthesis != null &&
+    state.handoffCompleted &&
+    location.pathname !== '/onboarding' &&
+    location.pathname !== '/handoff'
   const visibleNavigationLinks = useMemo(
     () =>
       (navigationLinks as NavigationLink[]).filter((link) => {
@@ -188,7 +195,9 @@ function AppLayout() {
       <header className="layout-header">
         <div className="layout-header-inner">
           <BrandLogo />
-          <p className="layout-helper-text">Un pas clair aujourd’hui vaut mieux qu’un grand plan flou.</p>
+          {showMonCapBanner ? null : (
+            <p className="layout-helper-text">Un pas clair aujourd’hui vaut mieux qu’un grand plan flou.</p>
+          )}
           <div className="layout-header-actions">
             <ThemeToggleButton
               className="theme-toggle-btn-mobile"
@@ -233,6 +242,9 @@ function AppLayout() {
           />
         </div>
       </header>
+      {showMonCapBanner ? (
+        <MonCapBanner synthesis={state.synthesis!} objectives={state.objectives} />
+      ) : null}
       {isMobileMenuOpen ? (
         <button
           type="button"

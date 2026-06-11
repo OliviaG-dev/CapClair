@@ -1,7 +1,7 @@
-const deadlineFormatter = new Intl.DateTimeFormat('fr-FR', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
+const shortDeadlineFormatter = new Intl.DateTimeFormat('fr-FR', {
+  day: '2-digit',
+  month: '2-digit',
+  year: '2-digit',
 })
 
 export function formatDeadline(deadline: string): string {
@@ -15,5 +15,5 @@ export function formatDeadline(deadline: string): string {
     return deadline
   }
 
-  return deadlineFormatter.format(parsed)
+  return shortDeadlineFormatter.format(parsed)
 }

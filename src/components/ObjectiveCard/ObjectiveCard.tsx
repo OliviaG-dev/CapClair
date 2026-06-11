@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import aiCoachData from '../../data/aiCoachData.json'
+import ObjectiveFacts from '../ObjectiveFacts/ObjectiveFacts'
 import type { Objective, ObjectiveStatus } from '../../types/capclair.types'
-import { formatDeadline } from '../../utils/formatDeadline'
 import './ObjectiveCard.css'
 
 type ObjectiveCardProps = {
@@ -31,8 +31,7 @@ function ObjectiveCard({ objective }: ObjectiveCardProps) {
       ) : null}
 
       <div className="objective-meta">
-        <span>Difficulté : {objective.difficulty}</span>
-        <span>Échéance : {formatDeadline(objective.deadline)}</span>
+        <ObjectiveFacts difficulty={objective.difficulty} deadline={objective.deadline} />
       </div>
 
       <Link to={`/objectifs/${objective.id}`} className="objective-link">
