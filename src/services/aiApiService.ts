@@ -78,12 +78,28 @@ export async function generateOnboardingFromApi(
       body: JSON.stringify({ answers, turnstileToken }),
     })
 
+    const rawBody = await response.text()
+
     if (!response.ok) {
+      let errorDetail = ''
+      try {
+        const parsedError = JSON.parse(rawBody) as { error?: unknown }
+        if (typeof parsedError.error === 'string') {
+          errorDetail = parsedError.error
+        }
+      } catch {
+        errorDetail = rawBody.slice(0, 120)
+      }
+
+      console.warn(
+        `[CapClair] Synthèse IA indisponible (${response.status}${errorDetail ? `: ${errorDetail}` : ''})`,
+      )
       return null
     }
 
-    const payload = (await response.json()) as ApiSynthesisResponse
+    const payload = JSON.parse(rawBody) as ApiSynthesisResponse
     if (!isValidSynthesis(payload.synthesis)) {
+      console.warn('[CapClair] Réponse API reçue mais format de synthèse invalide')
       return null
     }
 
