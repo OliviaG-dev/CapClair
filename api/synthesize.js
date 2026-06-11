@@ -36,6 +36,20 @@ const safeEqual = (left, right) => {
   return crypto.timingSafeEqual(leftBuffer, rightBuffer)
 }
 
+const addOriginCandidate = (origins, value) => {
+  if (!isNonEmptyString(value)) {
+    return
+  }
+
+  const trimmed = value.trim()
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    origins.add(trimmed)
+    return
+  }
+
+  origins.add(`https://${trimmed}`)
+}
+
 const getAllowedOrigins = () => {
   const configuredOrigins = (process.env.SYNTHESIZE_ALLOWED_ORIGINS || '')
     .split(',')
@@ -46,11 +60,27 @@ const getAllowedOrigins = () => {
     return configuredOrigins
   }
 
-  const fallbackOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173']
-  if (process.env.VERCEL_URL) {
-    fallbackOrigins.push(`https://${process.env.VERCEL_URL}`)
+  const fallbackOrigins = new Set([
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+  ])
+
+  addOriginCandidate(fallbackOrigins, process.env.VERCEL_URL)
+  addOriginCandidate(fallbackOrigins, process.env.VERCEL_BRANCH_URL)
+  addOriginCandidate(fallbackOrigins, process.env.VERCEL_PROJECT_PRODUCTION_URL)
+
+  return [...fallbackOrigins]
+}
+
+const isVercelAppOrigin = (origin) => {
+  try {
+    const { hostname, protocol } = new URL(origin)
+    return protocol === 'https:' && hostname.endsWith('.vercel.app')
+  } catch {
+    return false
   }
-  return fallbackOrigins
 }
 
 const isRequestOriginAllowed = (req) => {
@@ -60,7 +90,15 @@ const isRequestOriginAllowed = (req) => {
   }
 
   const allowedOrigins = getAllowedOrigins()
-  return allowedOrigins.includes(origin)
+  if (allowedOrigins.includes(origin)) {
+    return true
+  }
+
+  if (process.env.VERCEL === '1' && isVercelAppOrigin(origin)) {
+    return true
+  }
+
+  return false
 }
 
 const isRequestAuthorized = (req) => {
