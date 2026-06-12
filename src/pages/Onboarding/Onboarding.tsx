@@ -209,12 +209,17 @@ function Onboarding() {
       setIsSubmitting(true)
 
       try {
-        const generation = await generateOnboardingFromApi(answers, turnstileToken)
+        const apiResult = await generateOnboardingFromApi(answers, turnstileToken)
+
+        if (!apiResult.ok) {
+          setTurnstileError(apiResult.error)
+          return
+        }
 
         if (isRefreshMode) {
-          refreshSynthesis(answers, generation ?? undefined)
+          refreshSynthesis(answers, apiResult.generation)
         } else {
-          completeOnboarding(answers, generation ?? undefined)
+          completeOnboarding(answers, apiResult.generation)
         }
 
         navigate('/synthese')

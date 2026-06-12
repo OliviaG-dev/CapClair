@@ -56,10 +56,6 @@ const getAllowedOrigins = () => {
     .map((entry) => entry.trim())
     .filter(Boolean)
 
-  if (configuredOrigins.length > 0) {
-    return configuredOrigins
-  }
-
   const fallbackOrigins = new Set([
     'http://localhost:5173',
     'http://127.0.0.1:5173',
@@ -71,7 +67,25 @@ const getAllowedOrigins = () => {
   addOriginCandidate(fallbackOrigins, process.env.VERCEL_BRANCH_URL)
   addOriginCandidate(fallbackOrigins, process.env.VERCEL_PROJECT_PRODUCTION_URL)
 
+  for (const origin of configuredOrigins) {
+    fallbackOrigins.add(origin)
+  }
+
   return [...fallbackOrigins]
+}
+
+const isSameSiteOrigin = (req, origin) => {
+  const host = req.headers.host
+  if (!isNonEmptyString(host) || !isNonEmptyString(origin)) {
+    return false
+  }
+
+  try {
+    const originUrl = new URL(origin)
+    return originUrl.host === host
+  } catch {
+    return false
+  }
 }
 
 const isVercelAppOrigin = (origin) => {
@@ -91,6 +105,10 @@ const isRequestOriginAllowed = (req) => {
 
   const allowedOrigins = getAllowedOrigins()
   if (allowedOrigins.includes(origin)) {
+    return true
+  }
+
+  if (isSameSiteOrigin(req, origin)) {
     return true
   }
 
@@ -267,7 +285,8 @@ const verifyTurnstileToken = async (req, token) => {
     return {
       ok: false,
       statusCode: 403,
-      message: 'Missing Turnstile token',
+      message:
+        'Missing Turnstile token. Set VITE_TURNSTILE_SITE_KEY at build time or remove TURNSTILE_SECRET_KEY.',
     }
   }
 
@@ -298,10 +317,13 @@ const verifyTurnstileToken = async (req, token) => {
     const action = payload?.action
     const success = payload?.success === true
     if (!success || (isNonEmptyString(TURNSTILE_EXPECTED_ACTION) && action !== TURNSTILE_EXPECTED_ACTION)) {
+      const errorCodes = Array.isArray(payload?.['error-codes']) ? payload['error-codes'].join(', ') : ''
       return {
         ok: false,
         statusCode: 403,
-        message: 'Invalid Turnstile token',
+        message: errorCodes
+          ? `Invalid Turnstile token (${errorCodes}). Check domain in Cloudflare Turnstile settings.`
+          : 'Invalid Turnstile token. Check domain in Cloudflare Turnstile settings.',
       }
     }
 
