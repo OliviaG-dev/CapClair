@@ -27,11 +27,6 @@ function SynthesisCardText({ text }: SynthesisCardTextProps) {
 
 function Synthese() {
   const { state } = useCapClairState()
-  const continuePath = state.handoffCompleted ? '/dashboard' : '/handoff'
-  const continueLabel = state.handoffCompleted
-    ? handoffData.synthesisDashboardLabel
-    : handoffData.synthesisContinueLabel
-
   if (!state.synthesis) {
     return <Navigate to="/onboarding" replace />
   }
@@ -131,14 +126,27 @@ function Synthese() {
         <p>{state.synthesis.firstAction}</p>
       </article>
 
-      <Link to={continuePath} className="primary-link">
-        {continueLabel}
-      </Link>
+      {!state.handoffCompleted ? (
+        <Link to="/handoff" className="primary-link">
+          {handoffData.synthesisContinueLabel}
+        </Link>
+      ) : null}
 
-      <aside className="synthese-refresh">
-        <p>{synthesisRefreshData.synthesisButtonHint}</p>
-        <Link to="/onboarding?mode=refresh" className="secondary-link">
-          {synthesisRefreshData.synthesisButtonLabel}
+      <aside className="synthese-refresh" aria-labelledby="synthese-refresh-title">
+        <div className="synthese-refresh-main">
+          <span className="synthese-refresh-icon" aria-hidden="true">
+            ↻
+          </span>
+          <div className="synthese-refresh-copy">
+            <span className="synthese-refresh-badge">{synthesisRefreshData.pillLabel}</span>
+            <p id="synthese-refresh-title" className="synthese-refresh-title">
+              {synthesisRefreshData.synthesisButtonLabel}
+            </p>
+            <p className="synthese-refresh-hint">{synthesisRefreshData.synthesisButtonHint}</p>
+          </div>
+        </div>
+        <Link to="/onboarding?mode=refresh" className="synthese-refresh-link">
+          {synthesisRefreshData.submitButton}
         </Link>
       </aside>
     </section>
