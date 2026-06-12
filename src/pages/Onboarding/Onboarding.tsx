@@ -5,6 +5,7 @@ import onboardingIntroData from '../../data/onboardingIntroData.json'
 import suggestionsData from '../../data/onboardingSuggestions.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
+import { useTurnstileSiteKey } from '../../hooks/useTurnstileSiteKey'
 import {
   generateOnboardingFromApi,
   isSynthesisConfigError,
@@ -59,7 +60,7 @@ const emptyAnswers: QuestionnaireAnswers = {
 }
 
 function Onboarding() {
-  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim()
+  const turnstileSiteKey = useTurnstileSiteKey()
   const turnstileEnabled = Boolean(turnstileSiteKey)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
