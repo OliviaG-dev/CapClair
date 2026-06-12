@@ -286,7 +286,7 @@ const verifyTurnstileToken = async (req, token) => {
       ok: false,
       statusCode: 403,
       message:
-        'Missing Turnstile token. Set VITE_TURNSTILE_SITE_KEY at build time or remove TURNSTILE_SECRET_KEY.',
+        'Missing Turnstile token. Set TURNSTILE_SITE_KEY or VITE_TURNSTILE_SITE_KEY on Vercel, or remove TURNSTILE_SECRET_KEY.',
     }
   }
 
