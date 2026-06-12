@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/synthesize.js": {
+      "maxDuration": 10
+    }
+  }
+}

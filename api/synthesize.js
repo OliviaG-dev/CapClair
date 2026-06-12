@@ -8,7 +8,16 @@ const toPositiveNumber = (value, fallback) => {
   return fallback
 }
 
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini'
+const INCLUDE_OBJECTIVES = process.env.SYNTHESIZE_INCLUDE_OBJECTIVES === 'true'
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini'
+const OPENAI_TIMEOUT_MS = toPositiveNumber(
+  process.env.SYNTHESIZE_OPENAI_TIMEOUT_MS,
+  INCLUDE_OBJECTIVES ? 28000 : 7500,
+)
+const OPENAI_MAX_TOKENS = toPositiveNumber(
+  process.env.SYNTHESIZE_OPENAI_MAX_TOKENS,
+  INCLUDE_OBJECTIVES ? 2200 : 1200,
+)
 const MAX_ANSWER_LENGTH = toPositiveNumber(process.env.SYNTHESIZE_MAX_ANSWER_LENGTH, 700)
 const RATE_LIMIT_WINDOW_MS = toPositiveNumber(
   process.env.SYNTHESIZE_RATE_LIMIT_WINDOW_MS,
@@ -363,22 +372,9 @@ const extractContent = (messageContent) => {
   return ''
 }
 
-const buildPrompt = (answers) => `Tu es un coach de clarté personnelle bienveillant pour CapClair.
-Réponds UNIQUEMENT avec un JSON valide.
-
-Contraintes générales:
-- français simple et humain, avec les accents corrects
-- concret, réaliste, bienveillant
-- pas de jugement
-- base-toi uniquement sur les réponses utilisateur
-
-Pour la synthèse:
-- wantsToChange: reformule ce que la personne veut faire évoluer (2-3 phrases max)
-- blockers: reformule les freins principaux (2-3 phrases max)
-- importantThemes: 3 priorités courtes
-- suggestedGoals: titres des objectifs générés (mêmes titres que objectives[].title)
-- firstAction: une seule micro-action faisable aujourd'hui (< 20 min)
-
+const buildPrompt = (answers, includeObjectives) => {
+  const objectivesSection = includeObjectives
+    ? `
 Pour objectives (3 à 5 objectifs SMART):
 - title: une phrase actionnable, claire, commence de préférence par un verbe
 - description: une phrase qui explique pourquoi cet objectif compte maintenant
@@ -410,7 +406,39 @@ Schema JSON attendu:
       "difficulty": "easy|medium|hard"
     }
   ]
-}
+}`
+    : `
+Schema JSON attendu:
+{
+  "synthesis": {
+    "wantsToChange": "string",
+    "blockers": "string",
+    "importantThemes": ["string", "string", "string"],
+    "suggestedGoals": ["string", "string", "string"],
+    "firstAction": "string"
+  }
+}`
+
+  const suggestedGoalsHint = includeObjectives
+    ? '- suggestedGoals: titres des objectifs générés (mêmes titres que objectives[].title)'
+    : '- suggestedGoals: 3 titres concrets de pistes d\'objectifs'
+
+  return `Tu es un coach de clarté personnelle bienveillant pour CapClair.
+Réponds UNIQUEMENT avec un JSON valide.
+
+Contraintes générales:
+- français simple et humain, avec les accents corrects
+- concret, réaliste, bienveillant
+- pas de jugement
+- base-toi uniquement sur les réponses utilisateur
+
+Pour la synthèse:
+- wantsToChange: reformule ce que la personne veut faire évoluer (2-3 phrases max)
+- blockers: reformule les freins principaux (2-3 phrases max)
+- importantThemes: 3 priorités courtes
+${suggestedGoalsHint}
+- firstAction: une seule micro-action faisable aujourd'hui (< 20 min)
+${objectivesSection}
 
 Reponses utilisateur:
 - changeWish: ${answers.changeWish}
@@ -420,6 +448,30 @@ Reponses utilisateur:
 - energySource: ${answers.energySource}
 - progressVision: ${answers.progressVision}
 `
+}
+
+const SYNTHESIS_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    wantsToChange: { type: 'string' },
+    blockers: { type: 'string' },
+    importantThemes: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 3,
+      maxItems: 3,
+    },
+    suggestedGoals: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 3,
+      maxItems: 5,
+    },
+    firstAction: { type: 'string' },
+  },
+  required: ['wantsToChange', 'blockers', 'importantThemes', 'suggestedGoals', 'firstAction'],
+}
 
 const OBJECTIVE_ITEM_SCHEMA = {
   type: 'object',
@@ -462,6 +514,34 @@ const OBJECTIVE_ITEM_SCHEMA = {
   ],
 }
 
+const buildResponseSchema = (includeObjectives) => {
+  if (!includeObjectives) {
+    return {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        synthesis: SYNTHESIS_SCHEMA,
+      },
+      required: ['synthesis'],
+    }
+  }
+
+  return {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      synthesis: SYNTHESIS_SCHEMA,
+      objectives: {
+        type: 'array',
+        items: OBJECTIVE_ITEM_SCHEMA,
+        minItems: 3,
+        maxItems: 5,
+      },
+    },
+    required: ['synthesis', 'objectives'],
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -498,7 +578,7 @@ export default async function handler(req, res) {
   }
 
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 12000)
+  const timeout = setTimeout(() => controller.abort(), OPENAI_TIMEOUT_MS)
 
   try {
     const openAiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -509,59 +589,20 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: DEFAULT_MODEL,
-        temperature: 0.7,
+        temperature: 0.6,
+        max_tokens: OPENAI_MAX_TOKENS,
         response_format: {
           type: 'json_schema',
           json_schema: {
             name: 'capclair_synthesis',
             strict: true,
-            schema: {
-              type: 'object',
-              additionalProperties: false,
-              properties: {
-                synthesis: {
-                  type: 'object',
-                  additionalProperties: false,
-                  properties: {
-                    wantsToChange: { type: 'string' },
-                    blockers: { type: 'string' },
-                    importantThemes: {
-                      type: 'array',
-                      items: { type: 'string' },
-                      minItems: 3,
-                      maxItems: 3,
-                    },
-                    suggestedGoals: {
-                      type: 'array',
-                      items: { type: 'string' },
-                      minItems: 3,
-                      maxItems: 5,
-                    },
-                    firstAction: { type: 'string' },
-                  },
-                  required: [
-                    'wantsToChange',
-                    'blockers',
-                    'importantThemes',
-                    'suggestedGoals',
-                    'firstAction',
-                  ],
-                },
-                objectives: {
-                  type: 'array',
-                  items: OBJECTIVE_ITEM_SCHEMA,
-                  minItems: 3,
-                  maxItems: 5,
-                },
-              },
-              required: ['synthesis', 'objectives'],
-            },
+            schema: buildResponseSchema(INCLUDE_OBJECTIVES),
           },
         },
         messages: [
           {
             role: 'user',
-            content: buildPrompt(answers),
+            content: buildPrompt(answers, INCLUDE_OBJECTIVES),
           },
         ],
       }),
@@ -583,7 +624,9 @@ export default async function handler(req, res) {
     return res.status(200).json(result)
   } catch (error) {
     if (error?.name === 'AbortError') {
-      return res.status(504).json({ error: 'AI request timeout' })
+      return res.status(504).json({
+        error: 'AI request timeout. On Vercel Hobby, keep SYNTHESIZE_INCLUDE_OBJECTIVES unset or set to false.',
+      })
     }
     return res.status(500).json({ error: 'Unexpected synthesis error' })
   } finally {
