@@ -58,10 +58,20 @@ const isValidObjectives = (value: unknown): value is ObjectiveDraft[] =>
   value.length <= 5 &&
   value.every(isValidObjectiveDraft)
 
+export type OnboardingApiResult =
+  | { ok: true; generation: OnboardingGeneration }
+  | { ok: false; error: string; status: number }
+
+const CONFIG_ERROR_STATUSES = new Set([401, 403])
+
+export function isSynthesisConfigError(status: number): boolean {
+  return CONFIG_ERROR_STATUSES.has(status)
+}
+
 export async function generateOnboardingFromApi(
   answers: QuestionnaireAnswers,
   turnstileToken?: string,
-): Promise<OnboardingGeneration | null> {
+): Promise<OnboardingApiResult> {
   try {
     const apiKey = import.meta.env.VITE_SYNTHESIZE_API_KEY?.trim()
     const headers: HeadersInit = {
@@ -81,26 +91,30 @@ export async function generateOnboardingFromApi(
     const rawBody = await response.text()
 
     if (!response.ok) {
-      let errorDetail = ''
+      let errorDetail = 'Synthèse IA indisponible'
       try {
         const parsedError = JSON.parse(rawBody) as { error?: unknown }
         if (typeof parsedError.error === 'string') {
           errorDetail = parsedError.error
         }
       } catch {
-        errorDetail = rawBody.slice(0, 120)
+        if (rawBody.trim()) {
+          errorDetail = rawBody.slice(0, 120)
+        }
       }
 
-      console.warn(
-        `[CapClair] Synthèse IA indisponible (${response.status}${errorDetail ? `: ${errorDetail}` : ''})`,
-      )
-      return null
+      console.warn(`[CapClair] Synthèse IA indisponible (${response.status}: ${errorDetail})`)
+      return { ok: false, error: errorDetail, status: response.status }
     }
 
     const payload = JSON.parse(rawBody) as ApiSynthesisResponse
     if (!isValidSynthesis(payload.synthesis)) {
       console.warn('[CapClair] Réponse API reçue mais format de synthèse invalide')
-      return null
+      return {
+        ok: false,
+        error: 'Réponse API invalide',
+        status: response.status,
+      }
     }
 
     const generation: OnboardingGeneration = {
@@ -111,9 +125,9 @@ export async function generateOnboardingFromApi(
       generation.objectives = payload.objectives
     }
 
-    return generation
+    return { ok: true, generation }
   } catch (error) {
     console.error('Unable to generate onboarding synthesis from API', error)
-    return null
+    return { ok: false, error: 'Erreur réseau', status: 0 }
   }
 }
