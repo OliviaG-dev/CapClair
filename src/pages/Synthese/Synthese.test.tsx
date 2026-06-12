@@ -59,19 +59,36 @@ describe('Synthese page', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('link', { name: 'Ma situation a changé' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Mettre à jour ma synthèse' })).toHaveAttribute(
       'href',
       '/onboarding?mode=refresh',
     )
+    expect(screen.getByText('Ma situation a changé')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: "C'est devenu cet objectif →" })).toHaveAttribute(
       'href',
       '/objectifs/obj-1',
     )
-    expect(screen.getByRole('link', { name: 'Continuer — choisir mon cap' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Changer mon cap' })).toHaveAttribute(
       'href',
       '/handoff',
     )
     expect(screen.getByText('Synthèse IA')).toBeInTheDocument()
+  })
+
+  it('hides handoff CTA when handoff is already completed', () => {
+    mockContext.state = {
+      ...mockContext.state,
+      handoffCompleted: true,
+    }
+
+    render(
+      <MemoryRouter>
+        <Synthese />
+      </MemoryRouter>,
+    )
+
+    expect(screen.queryByRole('link', { name: 'Changer mon cap' })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Mettre à jour ma synthèse' })).toBeInTheDocument()
   })
 
   it('shows local mode badge when synthesis used fallback', () => {
