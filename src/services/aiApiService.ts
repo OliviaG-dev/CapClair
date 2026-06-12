@@ -62,6 +62,12 @@ export type OnboardingApiResult =
   | { ok: true; generation: OnboardingGeneration }
   | { ok: false; error: string; status: number }
 
+const CONFIG_ERROR_STATUSES = new Set([401, 403])
+
+export function isSynthesisConfigError(status: number): boolean {
+  return CONFIG_ERROR_STATUSES.has(status)
+}
+
 export async function generateOnboardingFromApi(
   answers: QuestionnaireAnswers,
   turnstileToken?: string,

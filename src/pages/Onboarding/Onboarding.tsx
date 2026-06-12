@@ -5,7 +5,10 @@ import onboardingIntroData from '../../data/onboardingIntroData.json'
 import suggestionsData from '../../data/onboardingSuggestions.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
-import { generateOnboardingFromApi } from '../../services/aiApiService'
+import {
+  generateOnboardingFromApi,
+  isSynthesisConfigError,
+} from '../../services/aiApiService'
 import type { QuestionnaireAnswers } from '../../types/capclair.types'
 import {
   buildInitialAnswers,
@@ -211,15 +214,17 @@ function Onboarding() {
       try {
         const apiResult = await generateOnboardingFromApi(answers, turnstileToken)
 
-        if (!apiResult.ok) {
+        if (!apiResult.ok && isSynthesisConfigError(apiResult.status)) {
           setTurnstileError(apiResult.error)
           return
         }
 
+        const generationOverride = apiResult.ok ? apiResult.generation : undefined
+
         if (isRefreshMode) {
-          refreshSynthesis(answers, apiResult.generation)
+          refreshSynthesis(answers, generationOverride)
         } else {
-          completeOnboarding(answers, apiResult.generation)
+          completeOnboarding(answers, generationOverride)
         }
 
         navigate('/synthese')
