@@ -1,0 +1,37 @@
+{
+  "periods": [
+    { "id": "7d", "label": "7 jours" },
+    { "id": "30d", "label": "30 jours" },
+    { "id": "all", "label": "Tout" }
+  ],
+  "kpi": {
+    "progress": "Progression globale",
+    "actions": "Actions validées",
+    "journal": "Entrées journal",
+    "streak": "Jours actifs"
+  },
+  "sections": {
+    "insightTitle": "Lecture de ta dynamique",
+    "objectivesTitle": "Répartition des objectifs",
+    "objectivesHint": "Survole un segment pour voir le détail.",
+    "wellbeingTitle": "Bien-être",
+    "wellbeingHint": "Moyennes et tendance sur la période sélectionnée.",
+    "trendTitle": "Tendance journal",
+    "activityTitle": "Rythme d'activité",
+    "activityHint": "Entrées journal et actions validées par jour."
+  },
+  "objectiveLabels": {
+    "done": "Terminés",
+    "inProgress": "En cours",
+    "todo": "À lancer"
+  },
+  "wellbeingLabels": {
+    "mood": "Humeur",
+    "energy": "Énergie"
+  },
+  "empty": {
+    "journalTrend": "Ajoute des entrées dans ton journal pour voir la tendance.",
+    "activity": "Aucune activité enregistrée sur cette période.",
+    "wellbeing": "Pas encore de données bien-être sur cette période."
+  }
+}
