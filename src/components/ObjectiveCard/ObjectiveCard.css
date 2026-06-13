@@ -40,12 +40,23 @@
 
 .objective-card-focus {
   margin: 0;
-  font-size: clamp(1rem, 2.2vw, 1.08rem);
+  font-size: clamp(1.05rem, 2.3vw, 1.16rem);
   font-weight: 600;
-  line-height: 1.5;
-  color: var(--color-title);
+  line-height: 1.42;
+  letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--color-primary-dark) 18%, var(--color-title));
   text-wrap: pretty;
   overflow-wrap: break-word;
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--color-surface) 80%, transparent);
+}
+
+.objective-card:hover .objective-card-focus {
+  color: var(--color-title);
+}
+
+[data-theme='dark'] .objective-card-focus {
+  color: color-mix(in srgb, var(--color-primary-soft) 22%, var(--color-title));
+  text-shadow: none;
 }
 
 .objective-card-summary {
