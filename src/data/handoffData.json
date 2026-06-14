@@ -9,6 +9,12 @@
   "submitButton": "Commencer avec cet objectif",
   "synthesisContinueLabel": "Changer mon cap",
   "goalLinkLabel": "C'est devenu cet objectif →",
+  "goalsPaginationPrevious": "Précédent",
+  "goalsPaginationNext": "Suivant",
+  "goalsPaginationStatus": "Page {current} sur {total}",
+  "goalsPaginationPreviousLabel": "Page précédente",
+  "goalsPaginationNextLabel": "Page suivante",
+  "goalsPaginationPageLabel": "Aller à la page {page}",
   "monCapBannerLabel": "Mon cap",
   "monCapFocusPrefix": "En cours :",
   "monCapNoFocus": "Aucun objectif actif pour le moment."
