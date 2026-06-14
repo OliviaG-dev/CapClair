@@ -243,7 +243,7 @@ function AppLayout() {
         </div>
       </header>
       {showMonCapBanner ? (
-        <MonCapBanner synthesis={state.synthesis!} objectives={state.objectives} />
+        <MonCapBanner objectives={state.objectives} />
       ) : null}
       {isMobileMenuOpen ? (
         <button

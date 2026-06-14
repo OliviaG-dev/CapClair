@@ -1,9 +1,10 @@
 import { Link, Navigate } from 'react-router-dom'
+import { useMemo, useState } from 'react'
 import SynthesisSourceBadge from '../../components/SynthesisSourceBadge/SynthesisSourceBadge'
 import handoffData from '../../data/handoffData.json'
 import synthesisRefreshData from '../../data/synthesisRefreshData.json'
 import { useCapClairState } from '../../hooks/useCapClairState'
-import { findObjectiveForSuggestedGoal } from '../../utils/findObjectiveForSuggestedGoal'
+import { paginateList, SYNTHESE_GOALS_PAGE_SIZE } from '../../utils/paginateList'
 import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
 import './Synthese.css'
 
@@ -22,6 +23,133 @@ function SynthesisCardText({ text }: SynthesisCardTextProps) {
         </p>
       ))}
     </div>
+  )
+}
+
+type SyntheseGoalsCardProps = {
+  goals: string[]
+}
+
+type PaginationChevronProps = {
+  direction: 'previous' | 'next'
+}
+
+function PaginationChevron({ direction }: PaginationChevronProps) {
+  return (
+    <svg
+      className="synthese-goals-pagination-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        d={direction === 'previous' ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function formatGoalsPaginationStatus(current: number, total: number): string {
+  return handoffData.goalsPaginationStatus
+    .replace('{current}', String(current))
+    .replace('{total}', String(total))
+}
+
+function SyntheseGoalsCard({ goals }: SyntheseGoalsCardProps) {
+  const goalsKey = useMemo(() => goals.join('\u0000'), [goals])
+  const [pageByGoals, setPageByGoals] = useState<Record<string, number>>({})
+  const totalPages = Math.max(1, Math.ceil(goals.length / SYNTHESE_GOALS_PAGE_SIZE))
+  const storedPage = pageByGoals[goalsKey] ?? 1
+  const currentPage = Math.min(Math.max(1, storedPage), totalPages)
+  const pagination = useMemo(
+    () => paginateList(goals, currentPage, SYNTHESE_GOALS_PAGE_SIZE),
+    [goals, currentPage],
+  )
+
+  const setPage = (updater: number | ((page: number) => number)) => {
+    setPageByGoals((previous) => {
+      const nextPage =
+        typeof updater === 'function' ? updater(currentPage) : updater
+      const safePage = Math.min(Math.max(1, nextPage), totalPages)
+
+      return {
+        ...previous,
+        [goalsKey]: safePage,
+      }
+    })
+  }
+
+  const showPagination = pagination.totalPages > 1
+
+  return (
+    <article className="synthese-card synthese-card-goals">
+      <header className="synthese-card-header">
+        <span className="synthese-card-badge">Pistes</span>
+        <h2>
+          Tes premières <span className="synthese-card-title-keep">pistes d&apos;objectifs</span>
+        </h2>
+      </header>
+      <div className="synthese-card-body synthese-card-body-goals">
+        <ul className="synthese-list">
+          {pagination.items.map((goal, index) => {
+            const globalIndex = pagination.startIndex + index
+
+            return (
+              <li key={`${goal}-${globalIndex}`} className="synthese-list-item synthese-goal-item">
+                <span className="synthese-list-index" aria-hidden="true">
+                  {globalIndex + 1}
+                </span>
+                <div className="synthese-goal-copy">
+                  <span className="synthese-list-text">{goal}</span>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+
+        {showPagination ? (
+          <nav className="synthese-goals-pagination" aria-label="Pagination des pistes d'objectifs">
+            <button
+              type="button"
+              className="synthese-goals-pagination-nav"
+              disabled={!pagination.hasPrevious}
+              aria-label={handoffData.goalsPaginationPreviousLabel}
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+            >
+              <PaginationChevron direction="previous" />
+            </button>
+
+            <span
+              className="synthese-goals-pagination-status"
+              aria-label={formatGoalsPaginationStatus(
+                pagination.currentPage,
+                pagination.totalPages,
+              )}
+            >
+              <span className="synthese-goals-pagination-current">{pagination.currentPage}</span>
+              <span className="synthese-goals-pagination-separator" aria-hidden="true">
+                /
+              </span>
+              <span className="synthese-goals-pagination-total">{pagination.totalPages}</span>
+            </span>
+
+            <button
+              type="button"
+              className="synthese-goals-pagination-nav"
+              disabled={!pagination.hasNext}
+              aria-label={handoffData.goalsPaginationNextLabel}
+              onClick={() => setPage((current) => Math.min(pagination.totalPages, current + 1))}
+            >
+              <PaginationChevron direction="next" />
+            </button>
+          </nav>
+        ) : null}
+      </div>
+    </article>
   )
 }
 
@@ -81,44 +209,7 @@ function Synthese() {
           </div>
         </article>
 
-        <article className="synthese-card synthese-card-goals">
-          <header className="synthese-card-header">
-            <span className="synthese-card-badge">Pistes</span>
-            <h2>
-              Tes premières <span className="synthese-card-title-keep">pistes d&apos;objectifs</span>
-            </h2>
-          </header>
-          <div className="synthese-card-body">
-            <ul className="synthese-list">
-              {state.synthesis.suggestedGoals.map((goal, index) => {
-                const matchedObjective = findObjectiveForSuggestedGoal(
-                  goal,
-                  index,
-                  state.objectives,
-                )
-
-                return (
-                  <li key={`${goal}-${index}`} className="synthese-list-item synthese-goal-item">
-                    <span className="synthese-list-index" aria-hidden="true">
-                      {index + 1}
-                    </span>
-                    <div className="synthese-goal-copy">
-                      <span className="synthese-list-text">{goal}</span>
-                      {matchedObjective ? (
-                        <Link
-                          to={`/objectifs/${matchedObjective.id}`}
-                          className="synthese-goal-link"
-                        >
-                          {handoffData.goalLinkLabel}
-                        </Link>
-                      ) : null}
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </article>
+        <SyntheseGoalsCard goals={state.synthesis.suggestedGoals} />
       </div>
 
       <article className="first-action">

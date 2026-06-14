@@ -1,30 +1,32 @@
 import { Link } from 'react-router-dom'
 import handoffData from '../../data/handoffData.json'
-import type { Objective, Synthesis } from '../../types/capclair.types'
-import { splitTextIntoSentences } from '../../utils/splitTextIntoSentences'
+import type { Objective } from '../../types/capclair.types'
 import './MonCapBanner.css'
 
 type MonCapBannerProps = {
-  synthesis: Synthesis
   objectives: Objective[]
 }
 
-function MonCapBanner({ synthesis, objectives }: MonCapBannerProps) {
-  const summarySentence = splitTextIntoSentences(synthesis.wantsToChange)[0] ?? synthesis.wantsToChange
+function MonCapBanner({ objectives }: MonCapBannerProps) {
   const activeObjective = objectives.find((objective) => objective.status === 'in_progress')
 
   return (
     <aside className="mon-cap-banner" aria-label={handoffData.monCapBannerLabel}>
       <div className="mon-cap-banner-inner">
-        <p className="mon-cap-banner-label">{handoffData.monCapBannerLabel}</p>
-        <p className="mon-cap-banner-summary">{summarySentence}</p>
+        <p className="mon-cap-banner-label">
+          <span className="mon-cap-banner-label-icon" aria-hidden="true">
+            ◆
+          </span>
+          <span className="mon-cap-banner-label-text">{handoffData.monCapBannerLabel}</span>
+        </p>
+
         {activeObjective ? (
-          <p className="mon-cap-banner-focus">
-            {handoffData.monCapFocusPrefix}{' '}
+          <div className="mon-cap-banner-focus-wrap">
+            <span className="mon-cap-banner-focus-prefix">{handoffData.monCapFocusPrefix}</span>
             <Link to={`/objectifs/${activeObjective.id}`} className="mon-cap-banner-link">
               {activeObjective.title}
             </Link>
-          </p>
+          </div>
         ) : (
           <p className="mon-cap-banner-focus mon-cap-banner-focus-muted">
             {handoffData.monCapNoFocus}

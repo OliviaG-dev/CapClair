@@ -1,63 +1,169 @@
 .mon-cap-banner {
+  --mon-cap-accent: var(--color-primary-dark);
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0.72rem 1.15rem 0.78rem;
+  box-sizing: border-box;
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
   border-bottom: 1px solid var(--color-border);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-primary) 6%, var(--color-surface)) 0%,
-    var(--color-surface) 100%
-  );
+  background: transparent;
+  box-shadow: none;
+  overflow-x: clip;
 }
 
 .mon-cap-banner-inner {
-  display: grid;
-  gap: 0.2rem;
-  max-width: var(--layout-max-width, 960px);
-  margin: 0 auto;
-  padding: 0.55rem 1rem 0.65rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .mon-cap-banner-label {
+  --mon-cap-label-accent: var(--color-primary-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-primary);
+  flex-shrink: 0;
+  padding: 0.32rem 0.72rem 0.32rem 0.38rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mon-cap-label-accent) 30%, var(--color-border));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--mon-cap-label-accent) 12%, var(--color-surface)) 0%,
+    var(--color-surface) 72%
+  );
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--mon-cap-label-accent) 12%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-surface) 70%, transparent);
 }
 
-.mon-cap-banner-summary {
-  margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: var(--color-text);
+.mon-cap-banner-label-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.55rem;
+  line-height: 1;
+  color: var(--mon-cap-label-accent);
+  background: color-mix(in srgb, var(--mon-cap-label-accent) 16%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--mon-cap-label-accent) 28%, var(--color-border));
+  transform: translateY(0.5px);
+}
+
+.mon-cap-banner-label-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mon-cap-label-accent);
+}
+
+.mon-cap-banner-focus-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.55rem;
+  min-width: 0;
+  max-width: min(100%, 36rem);
+  padding-left: 0.85rem;
+  border-left: 1px dashed color-mix(in srgb, var(--mon-cap-accent) 24%, var(--color-border));
+}
+
+.mon-cap-banner-focus-prefix {
+  flex-shrink: 0;
+  padding: 0.18rem 0.48rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--mon-cap-accent) 70%, var(--color-muted-text));
+  background: color-mix(in srgb, var(--mon-cap-accent) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--mon-cap-accent) 20%, var(--color-border));
 }
 
 .mon-cap-banner-focus {
   margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.4;
+  min-width: 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
   color: var(--color-muted-text);
+  text-align: right;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
 .mon-cap-banner-focus-muted {
   font-style: italic;
+  padding-left: 0.85rem;
+  border-left: 1px dashed color-mix(in srgb, var(--mon-cap-accent) 24%, var(--color-border));
 }
 
 .mon-cap-banner-link {
-  color: var(--color-primary-dark);
+  min-width: 0;
+  color: var(--color-title);
+  font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.35;
   text-decoration: none;
+  transition:
+    color 0.16s ease,
+    transform 0.16s ease;
 }
 
 .mon-cap-banner-link:hover {
-  text-decoration: underline;
+  color: var(--color-primary-dark);
+  transform: translateX(2px);
 }
 
-@media (max-width: 640px) {
-  .mon-cap-banner-inner {
-    padding-inline: 0.85rem;
+.mon-cap-banner-link:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 720px) {
+  .mon-cap-banner {
+    padding-inline: 0.86rem;
   }
 
-  .mon-cap-banner-summary {
+  .mon-cap-banner-inner {
+    gap: 0.55rem;
+  }
+
+  .mon-cap-banner-focus-wrap {
+    padding-left: 0.55rem;
+    gap: 0.35rem 0.45rem;
+  }
+
+  .mon-cap-banner-focus-prefix {
+    font-size: 0.62rem;
+  }
+
+  .mon-cap-banner-link {
     font-size: 0.84rem;
+  }
+
+  .mon-cap-banner-focus {
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mon-cap-banner-link {
+    transition: none;
+  }
+
+  .mon-cap-banner-link:hover {
+    transform: none;
   }
 }
